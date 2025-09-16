@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { auth, db } = require("./firebase");
+const { doc, setDoc } = require("firebase/firestore");
 const { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword 
@@ -22,8 +23,10 @@ app.post("/register", async (req, res) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
     const uid = userCredential.user.uid;
 
+    const userDocRef = doc(db, "usuarios", uid);
+    
 
-    await db.collection("usuarios").doc(uid).set({
+    await setDoc(userDocRef, {
       nome,
       email,
       tipo,
