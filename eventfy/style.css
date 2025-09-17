@@ -1,44 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 html, body {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #A7C7E7;
 }
 
 .cardPrincipal {
-    background-color: #A7C7E7;
-    height: 95%;
-    width: 80%;
-    border-radius: 102px;
-    padding: 2rem;
+  background-color: #f6f6f6;
+  width: 90%;
+  max-width: 1000px;
+  border-radius: 102px;
+  padding: 4rem 2rem;
+  min-height: 70vh;
 }
+
 .logoHeader {
-    width: 230px; 
-    height: auto; 
-    object-fit: contain; 
+  width: 230px;
+  height: auto;
+  object-fit: contain;
 }
 
 .headerLogin {
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    margin-bottom: 2rem; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
 }
+
 .headerText {
-    font-size: 96px;
-    font-weight: 700; 
-    margin-left: -20px; 
+  font-size: 96px;
+  font-weight: 700;
+  margin-left: -20px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 30px;
+  padding: 0 3rem; 
+}
+
+.inputFormulario {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputFormulario label {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.inputFormulario input {
+  padding: 8px 10px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.inputFormulario:first-child {
+  grid-column: 1 / -1;
+}
+
+#nome {
+  width: 100%;
 }
