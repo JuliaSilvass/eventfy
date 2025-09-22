@@ -1,5 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
+  const telefoneInput = document.getElementById("telefone");
+
+  telefoneInput.addEventListener("input", (e) => {
+    let valorLimpo = e.target.value.replace(/\D/g, "");
+    let valorFormatado = "";
+
+    if (valorLimpo.length > 0) {
+      valorFormatado = `(${valorLimpo.substring(0, 2)}`;
+    }
+    if (valorLimpo.length > 2) {
+      valorFormatado += `) ${valorLimpo.substring(2, 7)}`;
+    }
+    if (valorLimpo.length > 7) {
+      valorFormatado += `-${valorLimpo.substring(7, 11)}`;
+    }
+    
+    e.target.value = valorFormatado;
+  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -16,6 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         tipo: 'cliente'
       };
 
+      console.log("Formulário válido. Enviando dados:", dadosUsuario);
+      alert("Validação passou! (Simulação de envio)");
     }
   });
 });
@@ -30,27 +50,20 @@ function validarFormulario() {
   const dataNasc = document.getElementById("datanasc");
   const telefone = document.getElementById("telefone");
 
-  //Nome
   if (nome.value.trim().length < 3) {
     mostrarErro(nome, "O nome deve ter pelo menos 3 caracteres.");
     valido = false;
   }
-
-  //Email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.value)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
     mostrarErro(email, "Digite um e-mail válido.");
     valido = false;
   }
-
-  //CPF
   if (!validarCPF(cpf.value)) {
     mostrarErro(cpf, "Digite um CPF válido.");
     valido = false;
   }
-
-  //Senha
-  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+  
+  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   if (!senhaRegex.test(senha.value)) {
     mostrarErro(
       senha,
@@ -59,28 +72,20 @@ function validarFormulario() {
     valido = false;
   }
 
-  //Confirmação de senha
   if (senha.value !== confSenha.value) {
     mostrarErro(confSenha, "As senhas não coincidem.");
     valido = false;
   }
-
-  //Data de nascimento
-  if (!validarIdade(dataNasc.value, 12)) {
-    mostrarErro(dataNasc, "É necessário ter pelo menos 12 anos.");
+  if (!validarIdade(dataNasc.value, 18)) {
+    mostrarErro(dataNasc, "É necessário ter pelo menos 18 anos.");
     valido = false;
   }
-
-  //Telefone
-  const telRegex = /^\d{10,11}$/;
-  if (!telRegex.test(telefone.value.replace(/\D/g, ""))) {
+  if (!/^\d{10,11}$/.test(telefone.value.replace(/\D/g, ""))) {
     mostrarErro(telefone, "Digite um telefone válido (com DDD).");
     valido = false;
   }
-
   return valido;
 }
-
 
 function validarCPF(cpf) {
   cpf = cpf.replace(/\D/g, "");
@@ -113,12 +118,17 @@ function validarIdade(dataStr, idadeMinima) {
 function mostrarErro(campo, mensagem) {
   const erro = document.createElement("span");
   erro.className = "erro";
-  erro.style.color = "red";
-  erro.style.fontSize = "0.85em";
   erro.textContent = mensagem;
   campo.parentNode.appendChild(erro);
+  setTimeout(() => {
+    erro.classList.add('fade-out');
+    erro.addEventListener('transitionend', () => {
+      erro.remove();
+    });
+  }, 5000);
 }
 
 function removerTodosErros() {
-  document.querySelectorAll(".erro").forEach((el) => el.remove());
+  const mensagensErro = document.querySelectorAll(".erro");
+  mensagensErro.forEach((erro) => erro.remove());
 }
