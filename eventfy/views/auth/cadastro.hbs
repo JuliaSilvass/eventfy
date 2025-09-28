@@ -4,7 +4,11 @@
     <p class="headerText">Eventfy</p>
   </div>
 
-  <form action="/cadastro" method="post">
+  <div class="roleSelectionContainer">
+    <button type="button" class="roleButton active" id="btnOrganizador">Sou Organizador</button>
+    <button type="button" class="roleButton" id="btnFornecedor">Sou Fornecedor</button>
+  </div>
+  <form>
     <div class="inputFormulario">
       <label for="nome">Nome Completo:</label>
       <input type="text" id="nome" name="nome">
@@ -15,9 +19,14 @@
       <input type="text" id="email" name="email">
     </div>
 
-    <div class="inputFormulario">
+    <div class="inputFormulario field-organizer">
       <label for="cpf">CPF:</label>
-      <input type="text" id="cpf" name="cpf">
+      <input type="text" id="cpf" name="cpf" maxlength="14">
+    </div>
+ 
+    <div class="inputFormulario field-supplier" style="display: none;">
+      <label for="cnpj">CNPJ:</label>
+      <input type="text" id="cnpj" name="cnpj" maxlength="18">
     </div>
 
     <div class="inputFormulario">
@@ -25,7 +34,7 @@
       <input type="password" id="senha" name="senha">
     </div>
 
-    <div class="inputFormulario">
+    <div class="inputFormulario field-organizer">
       <label for="datanasc">Data de Nascimento:</label>
       <input type="date" id="datanasc" name="datanasc">
     </div>
@@ -47,4 +56,4 @@
   </form>
 </div>
 
-<script src="js/cadastroFornecedor.js"></script>
+<script src="/js/cadastro.js"></script>
