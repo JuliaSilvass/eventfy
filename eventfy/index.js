@@ -35,6 +35,14 @@ app.post("/cadastro", (req, res) => {
   res.send("Cadastro recebido!");
 });
 
+app.get("/login", (req, res) => {
+  res.render("auth/login");
+});
+
+app.post("/login", (req, res) => {
+  console.log(req.body); 
+  res.send("Login Realizado!");
+});
 
 app.listen(3000, () => {
   console.log(`Servidor rodando em http://localhost:3000`);
