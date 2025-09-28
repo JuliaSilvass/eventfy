@@ -107,8 +107,26 @@ document.addEventListener("DOMContentLoaded", () => {
         dadosUsuario.cnpj = document.getElementById("cnpj").value.replace(/\D/g, "");
       }
 
-      console.log("Formulário válido. Enviando dados:", dadosUsuario);
-      alert("Validação passou! (Simulação de envio)");
+    try {
+            const response = await fetch('/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(dadosUsuario),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+              throw new Error(result.erro || `Erro ${response.status}`);
+            }
+
+            alert("Cadastro realizado com sucesso!");
+            form.reset();
+
+          } catch (error) {
+            console.error("Falha ao cadastrar:", error);
+            alert(`Não foi possível realizar o cadastro: ${error.message}`);
+          }
     }
   });
 });
