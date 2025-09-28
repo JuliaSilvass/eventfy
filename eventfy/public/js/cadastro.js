@@ -29,6 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const telefoneInput = document.getElementById("telefone");
   const cnpjInput = document.getElementById("cnpj");
   const cpfInput = document.getElementById("cpf");
+  const nomeInput = document.getElementById("nome");
+
+  nomeInput.addEventListener("input", (e) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+  });
 
   telefoneInput.addEventListener("input", (e) => {
     let valorLimpo = e.target.value.replace(/\D/g, "");
@@ -102,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// --- FUNÇÃO DE VALIDAÇÃO GERAL ---
 function validarFormulario() {
   let valido = true;
   const isOrganizador = document.getElementById('btnOrganizador').classList.contains('active');
@@ -112,7 +118,12 @@ function validarFormulario() {
   const confSenha = document.getElementById("confsenha");
   const telefone = document.getElementById("telefone");
 
-  if (nome.value.trim().length < 3) { valido = false; mostrarErro(nome, "O nome deve ter pelo menos 3 caracteres."); }
+  const nomeRegex = /^[a-zA-Z\s]{3,}$/;
+  if (!nomeRegex.test(nome.value.trim())) {
+    mostrarErro(nome, "O nome deve ter pelo menos 3 caracteres e conter apenas letras.");
+    valido = false;
+  }
+
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { valido = false; mostrarErro(email, "Digite um e-mail válido."); }
   
   const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
@@ -125,7 +136,16 @@ function validarFormulario() {
     const cpf = document.getElementById("cpf");
     const dataNasc = document.getElementById("datanasc");
     if (!validarCPF(cpf.value)) { valido = false; mostrarErro(cpf, "Digite um CPF válido."); }
-    if (!validarIdade(dataNasc.value, 18)) { valido = false; mostrarErro(dataNasc, "É necessário ter pelo menos 18 anos."); }
+    
+    const resultadoIdade = validarIdade(dataNasc.value, 18);
+    if (resultadoIdade !== 'VALIDO') {
+      valido = false;
+      if (resultadoIdade === 'MENOR_DE_IDADE') {
+        mostrarErro(dataNasc, "É necessário ter pelo menos 18 anos.");
+      } else {
+        mostrarErro(dataNasc, "Por favor, insira uma data de nascimento válida.");
+      }
+    }
   } else {
     const cnpj = document.getElementById("cnpj");
     if (!validarCNPJ(cnpj.value)) { valido = false; mostrarErro(cnpj, "Digite um CNPJ válido."); }
@@ -135,6 +155,7 @@ function validarFormulario() {
 }
 
 
+// --- FUNÇÕES AUXILIARES ---
 function validarCPF(cpf) {
   cpf = cpf.replace(/\D/g, "");
   if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
@@ -180,20 +201,32 @@ function validarCNPJ(cnpj) {
 }
 
 function validarIdade(dataStr, idadeMinima) {
-  if (!dataStr) return false;
+  if (!dataStr) return 'DATA_INVALIDA';
   const hoje = new Date();
   const nascimento = new Date(dataStr);
+  
+  if (nascimento > hoje || isNaN(nascimento.getTime())) return 'DATA_INVALIDA';
+
   let idade = hoje.getFullYear() - nascimento.getFullYear();
   const m = hoje.getMonth() - nascimento.getMonth();
-  if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) { idade--; }
-  return idade >= idadeMinima;
+  if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+    idade--;
+  }
+  
+  if (idade < idadeMinima) return 'MENOR_DE_IDADE';
+  if (idade > 130) return 'IDADE_EXCESSIVA';
+
+  return 'VALIDO';
 }
 
 function mostrarErro(campo, mensagem) {
+  const containerDoCampo = campo.closest('.inputFormulario');
+
   const erro = document.createElement("span");
   erro.className = "erro";
   erro.textContent = mensagem;
-  campo.parentNode.appendChild(erro);
+  containerDoCampo.appendChild(erro);
+  
   setTimeout(() => {
     erro.classList.add('fade-out');
     erro.addEventListener('transitionend', () => { erro.remove(); });
