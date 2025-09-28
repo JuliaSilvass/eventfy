@@ -144,3 +144,27 @@ form {
     transform: translateY(0);
   }
 }
+
+.roleSelectionContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.roleButton {
+  padding: 10px 20px;
+  border: 2px solid #A7C7E7;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #A7C7E7;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.roleButton.active {
+  background-color: #A7C7E7;
+  color: white;
+}
