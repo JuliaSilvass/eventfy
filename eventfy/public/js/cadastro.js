@@ -50,13 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-   if (cpfInput) {
+  if (cpfInput) {
     cpfInput.addEventListener("input", (e) => {
-      let value = e.target.value.replace(/\D/g, ""); // Remove tudo que não é número
+      let value = e.target.value.replace(/\D/g, "");
       value = value.replace(/(\d{3})(\d)/, "$1.$2");
       value = value.replace(/(\d{3})(\d)/, "$1.$2");
       value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-
       e.target.value = value;
     });
   }
@@ -118,7 +117,7 @@ function validarFormulario() {
     if (!validarIdade(dataNasc.value, 18)) { valido = false; mostrarErro(dataNasc, "É necessário ter pelo menos 18 anos."); }
   } else {
     const cnpj = document.getElementById("cnpj");
-    if (cnpj.value.replace(/\D/g, '').length !== 14) { valido = false; mostrarErro(cnpj, "Digite um CNPJ válido."); }
+    if (!validarCNPJ(cnpj.value)) { valido = false; mostrarErro(cnpj, "Digite um CNPJ válido."); }
   }
 
   return valido;
@@ -141,6 +140,40 @@ function validarCPF(cpf) {
   if (resto !== parseInt(cpf.substring(10, 11))) return false;
   return true;
 }
+
+function validarCNPJ(cnpj) {
+  cnpj = cnpj.replace(/[^\d]+/g, '');
+
+  if (cnpj.length != 14) return false;
+
+  if (/^(\d)\1+$/.test(cnpj)) return false;
+
+  let tamanho = cnpj.length - 2;
+  let numeros = cnpj.substring(0, tamanho);
+  let digitos = cnpj.substring(tamanho);
+  let soma = 0;
+  let pos = tamanho - 7;
+  for (let i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2) pos = 9;
+  }
+  let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+  if (resultado != digitos.charAt(0)) return false;
+
+  tamanho = tamanho + 1;
+  numeros = cnpj.substring(0, tamanho);
+  soma = 0;
+  pos = tamanho - 7;
+  for (let i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2) pos = 9;
+  }
+  resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+  if (resultado != digitos.charAt(1)) return false;
+
+  return true;
+}
+
 
 function validarIdade(dataStr, idadeMinima) {
   if (!dataStr) return false;
