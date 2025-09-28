@@ -72,6 +72,70 @@ form {
   width: 100%;
 }
 
+.inputLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputLogin label {
+  align-self: flex-start;
+  margin-left: 10%;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.inputLogin input {
+  width: 80%;      
+  height: 50px;   
+  padding: 0 40px 0 12px;
+  font-size: 16px;
+  border: 1px solid #000;
+  border-radius: 6px;
+}
+
+.inputLogin .containerSenha {
+  position: relative;
+  width: 80%;
+}
+
+.inputLogin .containerSenha input {
+  width: 100%;
+  height: 50px;
+  padding: 0 40px 0 12px;
+}
+
+.inputLogin .alternarSenha {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+}
+
+.inputFormulario .containerSenha {
+  position: relative;
+  width: 100%;
+}
+
+.inputFormulario .containerSenha input {
+  width: 100%;
+  /* ✨✨✨ CORREÇÃO APLICADA AQUI ✨✨✨ */
+  padding: 8px 40px 8px 12px;
+}
+
+.inputFormulario .alternarSenha {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+}
+
 .inputFormulario:first-child {
   grid-column: 1 / -1;
 }
@@ -85,7 +149,8 @@ form {
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 4rem;
+  margin-top: 3rem;
+  padding-bottom: 1.5rem;
 }
 
 .botao {
@@ -117,6 +182,7 @@ form {
   background-color: #A7C7E7;
   color: white;
 }
+
 .erro {
   display: block;
   padding: 10px 15px;
@@ -169,28 +235,20 @@ form {
   color: white;
 }
 
-.containerSenha {
-  position: relative;
-  width: 100%;
-}
-
-.containerSenha input {
-  padding-right: 40px;
-}
-
-.alternarSenha {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 20px;
-  height: auto;
-}
 .larguraTotal {
   grid-column: 1 / -1;
 }
+
 .containerLink {
   text-align: center;
   margin-top: 1.5rem;
+}
+
+.espacamentoLogin {
+  margin-top: 6rem;
+}
+
+.botaoLogin {
+  width: 80%;
+  max-width: 300px;
 }
