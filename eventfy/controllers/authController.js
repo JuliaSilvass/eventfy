@@ -6,19 +6,30 @@ const {
 } = require("firebase/auth");
 
 exports.register = async (req, res) => {
-  const { email, senha, nome, tipo } = req.body;
+  const { email, senha, nome, tipo, telefone, cpf, cnpj, dataNasc } = req.body;
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
     const uid = userCredential.user.uid;
     const userDocRef = doc(db, "usuarios", uid);
-    
-    await setDoc(userDocRef, {
+
+    // Monta objeto dinâmico
+    const dadosUsuario = {  
       nome,
       email,
       tipo,
+      telefone,
       dataCadastro: new Date()
-    });
+    };
+
+    if (tipo === "organizador") {
+      dadosUsuario.cpf = cpf;
+      dadosUsuario.dataNasc = dataNasc;
+    } else if (tipo === "fornecedor") {
+      dadosUsuario.cnpj = cnpj;
+    }
+
+    await setDoc(userDocRef, dadosUsuario);
 
     res.status(201).json({ uid, email });
   } catch (error) {
