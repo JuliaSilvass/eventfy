@@ -168,3 +168,22 @@ form {
   background-color: #A7C7E7;
   color: white;
 }
+
+.containerSenha {
+  position: relative;
+  width: 100%;
+}
+
+.containerSenha input {
+  padding-right: 40px;
+}
+
+.alternarSenha {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: auto;
+}

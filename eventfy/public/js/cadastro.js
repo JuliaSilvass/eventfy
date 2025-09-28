@@ -59,7 +59,19 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.value = value;
     });
   }
+  
+  // --- LÓGICA PARA MOSTRAR/OCULTAR SENHA ---
+  const iconesAlternarSenha = document.querySelectorAll(".alternarSenha");
 
+  iconesAlternarSenha.forEach(icone => {
+    icone.addEventListener("click", function() {
+      const campoSenha = this.previousElementSibling;
+      const ehSenhaVisivel = campoSenha.type === "password";
+      
+      campoSenha.type = ehSenhaVisivel ? "text" : "password";
+      this.src = ehSenhaVisivel ? '/assets/olho-fechar.svg' : '/assets/olho-mostrar.svg';
+    });
+  });
 
   // --- ENVIO DO FORMULÁRIO ---
   form.addEventListener("submit", async (e) => {
@@ -90,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// --- FUNÇÃO DE VALIDAÇÃO GERAL ---
 function validarFormulario() {
   let valido = true;
   const isOrganizador = document.getElementById('btnOrganizador').classList.contains('active');
@@ -124,7 +135,6 @@ function validarFormulario() {
 }
 
 
-// --- FUNÇÕES AUXILIARES ---
 function validarCPF(cpf) {
   cpf = cpf.replace(/\D/g, "");
   if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
@@ -143,11 +153,8 @@ function validarCPF(cpf) {
 
 function validarCNPJ(cnpj) {
   cnpj = cnpj.replace(/[^\d]+/g, '');
-
   if (cnpj.length != 14) return false;
-
   if (/^(\d)\1+$/.test(cnpj)) return false;
-
   let tamanho = cnpj.length - 2;
   let numeros = cnpj.substring(0, tamanho);
   let digitos = cnpj.substring(tamanho);
@@ -159,7 +166,6 @@ function validarCNPJ(cnpj) {
   }
   let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
   if (resultado != digitos.charAt(0)) return false;
-
   tamanho = tamanho + 1;
   numeros = cnpj.substring(0, tamanho);
   soma = 0;
@@ -170,10 +176,8 @@ function validarCNPJ(cnpj) {
   }
   resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
   if (resultado != digitos.charAt(1)) return false;
-
   return true;
 }
-
 
 function validarIdade(dataStr, idadeMinima) {
   if (!dataStr) return false;
