@@ -8,21 +8,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const camposOrganizador = document.querySelectorAll('.field-organizer');
   const camposFornecedor = document.querySelectorAll('.field-supplier');
 
-  btnOrganizador.addEventListener('click', () => {
-    btnOrganizador.classList.add('active');
-    btnFornecedor.classList.remove('active');
-    
-    camposOrganizador.forEach(campo => campo.style.display = 'flex');
-    camposFornecedor.forEach(campo => campo.style.display = 'none');
-  });
+  function alternarPerfil(perfilVisivel) {
+    form.reset();
+    removerTodosErros();
 
-  btnFornecedor.addEventListener('click', () => {
-    btnFornecedor.classList.add('active');
-    btnOrganizador.classList.remove('active');
+    if (perfilVisivel === 'organizador') {
+      btnOrganizador.classList.add('active');
+      btnFornecedor.classList.remove('active');
+      
+      camposOrganizador.forEach(campo => campo.style.display = 'flex');
+      camposFornecedor.forEach(campo => campo.style.display = 'none');
+    } else {
+      btnFornecedor.classList.add('active');
+      btnOrganizador.classList.remove('active');
+  
+      camposFornecedor.forEach(campo => campo.style.display = 'flex');
+      camposOrganizador.forEach(campo => campo.style.display = 'none');
+    }
+  }
 
-    camposFornecedor.forEach(campo => campo.style.display = 'flex');
-    camposOrganizador.forEach(campo => campo.style.display = 'none');
-  });
+  btnOrganizador.addEventListener('click', () => alternarPerfil('organizador'));
+  btnFornecedor.addEventListener('click', () => alternarPerfil('fornecedor'));
 
 
   // --- LÓGICA DAS MÁSCARAS DE INPUT ---
@@ -71,10 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
   iconesAlternarSenha.forEach(icone => {
     icone.addEventListener("click", function() {
       const campoSenha = this.previousElementSibling;
-      const ehSenhaVisivel = campoSenha.type === "password";
+      const ehSenhaOculta = campoSenha.type === "password";
       
-      campoSenha.type = ehSenhaVisivel ? "text" : "password";
-      this.src = ehSenhaVisivel ? '/assets/olho-fechar.svg' : '/assets/olho-mostrar.svg';
+      campoSenha.type = ehSenhaOculta ? "text" : "password";
+      this.src = ehSenhaOculta ? '/assets/olho-fechar.svg' : '/assets/olho-mostrar.svg';
     });
   });
 
@@ -221,7 +227,6 @@ function validarIdade(dataStr, idadeMinima) {
 
 function mostrarErro(campo, mensagem) {
   const containerDoCampo = campo.closest('.inputFormulario');
-
   const erro = document.createElement("span");
   erro.className = "erro";
   erro.textContent = mensagem;
