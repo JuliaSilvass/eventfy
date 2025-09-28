@@ -22,6 +22,7 @@ exports.register = async (req, res) => {
 
     res.status(201).json({ uid, email });
   } catch (error) {
+    // Podemos adicionar uma tradução de erros aqui também no futuro
     res.status(400).json({ erro: error.message });
   }
 };
@@ -33,7 +34,9 @@ exports.login = async (req, res) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, senha);
     const token = await userCredential.user.getIdToken();
     res.json({ token });
-  } catch (error) {
-    res.status(400).json({ erro: error.message });
+  } 
+  catch (error) {
+    let mensagemErro = "Email ou senha inválidos.";
+    res.status(400).json({ erro: mensagemErro });
   }
 };
