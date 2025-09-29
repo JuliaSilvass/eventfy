@@ -21,7 +21,7 @@ app.use(express.json());
 
 // Rotas
 app.get("/", (req, res) => {
-  res.send("Fazer a tela inicial do app né, esqueci asuhshauhuasshuuh");
+  res.render("home");
 });
 
 app.use('/', authRoutes);
