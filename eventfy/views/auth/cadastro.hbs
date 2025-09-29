@@ -58,7 +58,14 @@
 
     <div class="botoesContainer">
       <button type="submit" class="botao botaoConfirmar">Confirmar</button>
-      <button type="button" class="botao botaoCancelar">Cancelar</button>
+      <button type="button" class="botao botaoCancelar" id="cancelarBtn">Cancelar</button>
+
+      <script>
+        document.getElementById("cancelarBtn").addEventListener("click", () => {
+        window.location.href = "/";
+        });
+      </script>
+
     </div>
   </form>
 </div>
