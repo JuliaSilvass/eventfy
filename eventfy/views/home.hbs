@@ -1,11 +1,30 @@
-{{#if user}}
-  <p>Bem-vindo, {{user.email}}</p>
-  <button id="logoutBtn">Sair</button>
-{{else}}
-  <p>Você não está logado</p>
-  <a href="/login">Login</a>
-  <a href="/cadastro">Cadastro</a>
-{{/if}}
+<div class="cardPrincipal">
+  <div class="headerLogin">
+    <img src="/assets/logo.PNG" alt="Logo Eventfy" class="logoHeader">
+    <p class="headerText">Eventfy</p>
+  </div>
+
+  {{#if user}}
+    <div style="text-align:center; margin-top: 3rem;">
+      <h2 style="font-size: 2rem; font-weight: 700;">Bem-vindo, {{user.email}} 👋</h2>
+      <p style="margin-top:1rem; font-size:1.2rem;">
+        Aqui você pode anunciar seu serviço para eventos ou organizar seus próprios eventos!
+      </p>
+      <button id="logoutBtn" class="botao botaoConfirmar" style="margin-top: 2rem;">Sair</button>
+    </div>
+  {{else}}
+    <div style="text-align:center; margin-top: 3rem;">
+      <h2 style="font-size: 2rem; font-weight: 700;">Bem-vindo ao Eventfy</h2>
+      <p style="margin-top:1rem; font-size:1.2rem;">
+        Aqui você pode anunciar seu serviço para eventos ou organizar seus próprios eventos!
+      </p>
+      <div class="botoesContainer" style="margin-top: 2rem;">
+        <a href="/login" class="botao botaoConfirmar">Login</a>
+        <a href="/cadastro" class="botao botaoCancelar">Cadastro</a>
+      </div>
+    </div>
+  {{/if}}
+</div>
 
 <script>
 document.getElementById("logoutBtn")?.addEventListener("click", async () => {
