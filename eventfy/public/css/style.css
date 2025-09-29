@@ -20,12 +20,14 @@ body {
 }
 
 .cardPrincipal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   background-color: #f6f6f6;
   width: 90%;
   max-width: 1000px;
   border-radius: 102px;
   padding: 4rem 2rem;
-  height: 91vh; 
 }
 
 .logoHeader {
@@ -240,8 +242,14 @@ form {
 }
 
 .containerLink {
+  position: absolute;     
+  bottom: 40px;           
+  left: 50%;              
+  transform: translateX(-50%); 
+  width: auto;            
+  max-width: none;        
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 0;         
 }
 
 .espacamentoLogin {
@@ -251,4 +259,66 @@ form {
 .botaoLogin {
   width: 80%;
   max-width: 300px;
+}
+
+/* ===================== AJUSTE DE RESPONSIVIDADE ===================== */
+
+@media (max-width: 768px) {
+  .cardPrincipal {
+    padding: 3rem 1.5rem; /* menor padding */
+    height: auto;         /* deixa o card ajustar a altura */
+    max-height: 95vh;     /* evita estourar a tela */
+    overflow-y: auto;     /* scroll interno se necessário */
+  }
+
+  .headerText {
+    font-size: 60px;      /* reduz o tamanho do título */
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .logoHeader {
+    width: 180px;         /* reduz logo */
+  }
+
+  form {
+    padding: 0 1rem;      /* diminui padding do form */
+  }
+
+  .inputLogin input,
+.inputLogin .containerSenha,
+.inputFormulario input,
+.inputFormulario .containerSenha {
+  width: 80%;         /* mantém a largura grande em telas maiores */
+  max-width: 400px;   /* evita que ultrapasse o card */
+}
+
+.botaoLogin,
+.botaoConfirmar,
+.botaoCancelar {
+  width: auto;        /* mantém o tamanho natural dos botões em telas grandes */
+  min-width: 150px;   /* tamanho mínimo confortável */
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .inputLogin input,
+  .inputLogin .containerSenha,
+  .inputFormulario input,
+  .inputFormulario .containerSenha {
+    width: 100%;      /* ocupa toda largura disponível dentro do card */
+    max-width: 100%;
+  }
+
+  .botaoLogin,
+  .botaoConfirmar,
+  .botaoCancelar {
+    width: 100%;      /* ocupa toda largura disponível dentro do card */
+  }
+
+  .botoesContainer {
+    flex-direction: column;  /* empilha botões */
+    gap: 10px;
+  }
+}
 }
