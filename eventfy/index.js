@@ -10,7 +10,7 @@ const authRoutes = require('./routes/authRoutes');
 const app = express();
 //tem que gerar essa chave lá no firebase
 //o caminho é: configurações > contas de serviço.
-const serviceAccount = require('./serviceAccountKey.json');
+const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 if (!admin.apps.length) {
   admin.initializeApp({
