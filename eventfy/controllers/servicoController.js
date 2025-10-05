@@ -17,7 +17,7 @@ exports.getServicoForm = async (req, res) => {
     const userData = userDoc.data();
     const user = { ...req.user, tipo: userData.tipo };
 
-    res.render("servicos/cadastrar", { user });
+    res.render("servicos/cadastrarServico", { user });
 
   } catch (error) {
     console.error("Erro ao buscar dados do usuário:", error);

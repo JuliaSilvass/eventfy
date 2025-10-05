@@ -58,8 +58,8 @@ const checkAuth = async (req, res, next) => {
 };
 
 // Rotas
-app.get("/", (req, res) => {
-  res.render("home");
+app.get("/", checkAuth, (req, res) => {
+  res.render("home", { user: req.user });
 });
 
 app.use('/', authRoutes);

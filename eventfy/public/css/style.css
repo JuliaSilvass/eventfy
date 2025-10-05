@@ -27,7 +27,6 @@ body {
   padding: 4rem 2rem;
 }
 
-/*CABEÇALHO*/
 .headerLogin { 
   display: flex; 
   justify-content: center; 
@@ -43,79 +42,168 @@ body {
   margin-left: -20px; 
 }
 
-/*FORMULÁRIO GERAL*/
 form { 
   display: grid; 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr; 
   gap: 20px 30px; 
   padding: 0 3rem; 
 }
 .inputFormulario:first-child, .larguraTotal{ 
-  grid-column: 1 / -1;
- }
-.inputFormulario, .inputLogin { 
-  display: flex; 
-  flex-direction: column; 
+  grid-column: 1 / -1; 
 }
-.inputFormulario label, .inputLogin label { 
+.inputFormulario, .inputLogin {
+  display: flex;
+  flex-direction: column;
+   }
+.inputFormulario label, .inputLogin label {
   margin-bottom: 6px; 
   font-weight: 600; 
 }
-
-/*ESTILO BASE PARA OS INPUTS*/
-.inputFormulario input, .inputLogin input {
-  border: 1px solid #000;
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box;
+.inputFormulario input, .inputLogin input { 
+  border: 1px solid #000; 
+  border-radius: 6px; 
+  width: 100%; 
+  box-sizing: border-box; 
+  background-color: transparent; 
 }
-
-.containerSenha {
-  position: relative;
+.containerSenha { 
+  position: relative; 
 }
-
-.containerSenha input {
-  padding-right: 45px !important;
+.containerSenha input { 
+  padding-right: 45px !important; 
 }
-
-.alternarSenha {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
+.alternarSenha { 
+  position: absolute; 
+  right: 15px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  cursor: pointer; 
+  width: 22px; 
+  height: 22px; 
 }
-
-/*ESTILOS ESPECÍFICOS POR PAGINA*/
-
-/*TELA DE CADASTRO */
 .inputFormulario input {
   height: 45px;
   font-size: 14px;
-  padding-left: 15px;
+  padding-left: 15px; 
 }
-
-/*TELA DE LOGIN */
-.inputLogin {
+.inputLogin { 
   align-items: center; 
 }
-
-
-.inputLogin > label,
-.inputLogin > input,
+.inputLogin > label, 
+.inputLogin > input, 
 .inputLogin > .containerSenha {
   width: 80%;
 }
-
 .inputLogin input {
-  height: 50px;
-  font-size: 16px;
-  padding-left: 15px;
+  height: 50px; 
+  font-size: 16px; 
+  padding-left: 15px; 
 }
 
-/* --- BOTÕES E OUTROS ELEMENTOS --- */
+.pagina-servico {
+  width: 70%;
+  margin: 0 15%;
+}
+
+.titulo-pagina {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: left;
+  padding: 0 3rem;
+}
+
+.inputFormulario textarea, .inputFormulario select { 
+  padding: 8px 10px; 
+  border: 1px solid black; 
+  border-radius: 12px; 
+  background-color: transparent; 
+  font-family: 'Montserrat', sans-serif; 
+  font-size: 14px; 
+  width: 100%; 
+}
+#nome-servico, #preco { 
+  background-color: #f7f5f3; 
+}
+.inputFormulario textarea { 
+  resize: vertical; 
+  min-height: 120px; 
+}
+.inputFormulario select { 
+  height: 45px; 
+}
+.area-upload { 
+  border: 2px dashed #ccc; 
+  border-radius: 12px; 
+  padding: 2rem; 
+  text-align: center; 
+  cursor: pointer; 
+  background-color: #fafafa; 
+}
+.area-upload p { 
+  margin: 0 0 1rem 0; 
+  color: #aaa; 
+}
+.dias-semana { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 1rem; 
+  flex-wrap: wrap; 
+}
+.dia-bolinha {
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: 600; 
+  cursor: pointer; 
+  border: 1px solid black; 
+  background-color: transparent; 
+  transition: all 0.2s ease; 
+}
+.dia-bolinha.ativo { 
+  background-color: #A7C7E7; 
+  color: white; 
+  border-color: #A7C7E7; 
+}
+.bloco-horario-dia { 
+  background-color: #ececec; 
+  border-radius: 12px; 
+  padding: 1rem; 
+  margin-bottom: 10px; 
+}
+.bloco-horario-dia-titulo { 
+  font-weight: 600; 
+  margin-bottom: 1rem; 
+  text-transform: capitalize; 
+}
+.intervalo-tempo { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  margin-bottom: 10px; 
+}
+.intervalo-tempo span { 
+  font-weight: 500;
+}
+.intervalo-tempo input[type="time"] {
+   border: 1px solid #ccc; 
+   border-radius: 8px; 
+   padding: 5px; 
+   width: auto; 
+  }
+.btn-adicionar-horario { 
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  font-size: 1.8rem; 
+  line-height: 1; 
+  color: #28a745; 
+  padding: 0 5px; 
+}
+
 .botoesContainer { 
   grid-column: 1 / -1; 
   display: flex; 
@@ -173,7 +261,7 @@ form {
   color: #000000; 
   border: 2px solid #A7C7E7; 
 }
-.botaoConfirmar:hover {
+.botaoConfirmar:hover { 
   filter: brightness(0.9); 
 }
 .botaoCancelar:hover { 
@@ -186,19 +274,20 @@ form {
   margin-top: 6px; 
   background-color: #e74c3c; 
   color: white !important;  
-  border-radius: 5px;
-   font-size: 14px; 
-   font-weight: 500; }
-
+  border-radius: 5px; 
+  font-size: 14px; 
+  font-weight: 500; 
+}
 
 @media (max-width: 768px) {
   body { 
     padding: 1rem 0.5rem; 
     align-items: flex-start; 
   }
-  .cardPrincipal { 
+  .cardPrincipal, .pagina-servico { 
     padding: 2rem 1rem; 
     border-radius: 30px; 
+    width: 100%; margin: 0; 
   }
   .headerText { 
     font-size: 48px; 
@@ -211,11 +300,14 @@ form {
     grid-template-columns: 1fr; 
     padding: 0; 
   }
-
   .inputLogin > label, 
   .inputLogin > input, 
   .inputLogin > .containerSenha, 
   .botaoLogin { 
-    width: 100%;
-    margin-left: 0; }
+    width: 100%; margin-left: 0; 
+  }
+  
+  .titulo-pagina {
+    padding: 0;
+  }
 }

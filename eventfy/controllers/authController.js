@@ -59,3 +59,8 @@ exports.login = async (req, res) => {
     res.status(400).json({ erro: mensagemErro });
   }
 };
+
+exports.logout = (req, res) => {
+  res.clearCookie('authToken');
+  res.status(200).json({ message: "Logout realizado com sucesso" });
+};
