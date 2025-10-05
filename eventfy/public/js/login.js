@@ -29,11 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) {
         throw new Error(result.erro || 'Email ou senha incorretos.');
       }
-      if (result.token) {
-        localStorage.setItem('authToken', result.token);     
-        alert("Login realizado com sucesso!");
-        window.location.href = '/'; 
-      }
+
+        window.location.href = '/dashboard';
+
 
     } catch (error) {
       console.error("Falha no login:", error);
