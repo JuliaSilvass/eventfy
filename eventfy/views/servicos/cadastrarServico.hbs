@@ -1,4 +1,3 @@
-{{!-- ✨ ALTERAÇÃO AQUI: Muda o fundo apenas para esta página ✨ --}}
 <style>
   body {
     background-color: #f7f5f3;
@@ -8,63 +7,61 @@
 <div class="pagina-servico">
   <h1 class="titulo-pagina">Criar Serviço</h1>
 
-  <form id="form-servico">
+  <form id="form-servico" enctype="multipart/form-data">
+    
     <div class="inputFormulario larguraTotal">
-      <label for="nome-servico">Nome do Serviço</label>
-      <input type="text" id="nome-servico" name="nomeServico" placeholder="Ex: Fotografia de Casamento">
+        <label for="nome-servico">Nome do Serviço</label>
+        <input type="text" id="nome-servico" name="nomeServico" placeholder="Ex: Fotografia de Casamento">
     </div>
-
     <div class="inputFormulario">
-      <label for="categoria">Categoria</label>
-      <select id="categoria" name="categoria">
-        <option value="" disabled selected>Selecione uma categoria</option>
-        <option value="fotografia">Fotografia e Vídeo</option>
-        <option value="buffet">Buffet e Alimentação</option>
-        <option value="decoracao">Decoração</option>
-        <option value="musica">Música e Entretenimento</option>
-        <option value="local">Local e Espaço</option>
-        <option value="outro">Outro</option>
-      </select>
+        <label for="categoria">Categoria</label>
+        <select id="categoria" name="categoria">
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <option value="fotografia">Fotografia e Vídeo</option>
+            <option value="buffet">Buffet e Alimentação</option>
+            <option value="decoracao">Decoração</option>
+            <option value="musica">Música e Entretenimento</option>
+            <option value="local">Local e Espaço</option>
+            <option value="outro">Outro</option>
+        </select>
     </div>
-
     <div class="inputFormulario">
-      <label for="preco">Preço (R$)</label>
-      <input type="number" id="preco" name="preco" placeholder="1500.00" step="0.01">
+        <label for="preco">Preço (R$)</label>
+        <input type="number" id="preco" name="preco" placeholder="1500.00" step="0.01">
     </div>
-
     <div class="inputFormulario larguraTotal">
-      <label for="descricao">Descrição</label>
-      <textarea id="descricao" name="descricao" rows="5" placeholder="Descreva os detalhes do seu serviço..."></textarea>
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="5" placeholder="Descreva os detalhes do seu serviço..."></textarea>
     </div>
-
+    
     <div class="inputFormulario larguraTotal">
-      <label>Fotos do seu trabalho</label>
-      <div class="area-upload">
+      <label>Fotos do seu trabalho (até 5 imagens)</label>
+      <div class="area-upload" id="area-upload">
         <p>Arraste e solte as imagens aqui ou clique para selecionar</p>
-        <button type="button" class="botao botaoCancelar">Selecionar Arquivos</button>
       </div>
+      <input type="file" id="input-arquivo" multiple accept="image/*" style="display: none;">
+      
+      <div id="previa-imagens" class="previa-imagens-container"></div>
     </div>
 
     <div class="inputFormulario larguraTotal">
-      <label>Dias e Horários Disponíveis</label>
-      <div class="container-disponibilidade">
-        <div class="dias-semana">
-          <div class="dia-bolinha" data-dia="dom">DOM</div>
-          <div class="dia-bolinha" data-dia="seg">SEG</div>
-          <div class="dia-bolinha" data-dia="ter">TER</div>
-          <div class="dia-bolinha" data-dia="qua">QUA</div>
-          <div class="dia-bolinha" data-dia="qui">QUI</div>
-          <div class="dia-bolinha" data-dia="sex">SEX</div>
-          <div class="dia-bolinha" data-dia="sab">SAB</div>
+        <label>Dias e Horários Disponíveis</label>
+        <div class="container-disponibilidade">
+            <div class="dias-semana">
+                <div class="dia-bolinha" data-dia="dom">DOM</div>
+                <div class="dia-bolinha" data-dia="seg">SEG</div>
+                <div class="dia-bolinha" data-dia="ter">TER</div>
+                <div class="dia-bolinha" data-dia="qua">QUA</div>
+                <div class="dia-bolinha" data-dia="qui">QUI</div>
+                <div class="dia-bolinha" data-dia="sex">SEX</div>
+                <div class="dia-bolinha" data-dia="sab">SAB</div>
+            </div>
+            <div id="container-horarios"></div>
         </div>
-        <div id="container-horarios">
-        </div>
-      </div>
     </div>
-
     <div class="botoesContainer">
-      <button type="submit" class="botao botaoConfirmar">Salvar Serviço</button>
-      <a href="/dashboard" class="botao botaoCancelar">Cancelar</a>
+        <button type="submit" class="botao botaoConfirmar">Salvar Serviço</button>
+        <a href="/dashboard" class="botao botaoCancelar">Cancelar</a>
     </div>
   </form>
 </div>
