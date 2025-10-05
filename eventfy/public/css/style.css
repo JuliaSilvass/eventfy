@@ -6,319 +6,216 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
+html {
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  background: #A7C7E7;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #A7C7E7;
+  min-height: 100vh;
+  padding: 2rem 1rem;
 }
 
 .cardPrincipal {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   background-color: #f6f6f6;
-  width: 90%;
+  width: 100%;
   max-width: 1000px;
   border-radius: 102px;
   padding: 4rem 2rem;
 }
 
-.logoHeader {
-  width: 230px;
-  height: auto;
-  object-fit: contain;
+/*CABEÇALHO*/
+.headerLogin { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin-bottom: 2rem; 
+}
+.logoHeader { 
+  width: 230px; 
+}
+.headerText { 
+  font-size: 96px; 
+  font-weight: 700; 
+  margin-left: -20px; 
 }
 
-.headerLogin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.headerText {
-  font-size: 96px;
-  font-weight: 700;
-  margin-left: -20px;
-}
-
-form {
-  display: grid;
+/*FORMULÁRIO GERAL*/
+form { 
+  display: grid; 
   grid-template-columns: 1fr 1fr;
-  gap: 20px 30px;
+  gap: 20px 30px; 
   padding: 0 3rem; 
 }
-
-.inputFormulario {
-  display: flex;
-  flex-direction: column;
+.inputFormulario:first-child, .larguraTotal{ 
+  grid-column: 1 / -1;
+ }
+.inputFormulario, .inputLogin { 
+  display: flex; 
+  flex-direction: column; 
+}
+.inputFormulario label, .inputLogin label { 
+  margin-bottom: 6px; 
+  font-weight: 600; 
 }
 
-.inputFormulario label {
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-
-.inputFormulario input {
-  padding: 8px 10px;
+/*ESTILO BASE PARA OS INPUTS*/
+.inputFormulario input, .inputLogin input {
   border: 1px solid #000;
   border-radius: 6px;
-  font-size: 14px;
   width: 100%;
+  box-sizing: border-box;
 }
 
+.containerSenha {
+  position: relative;
+}
+
+.containerSenha input {
+  padding-right: 45px !important;
+}
+
+.alternarSenha {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+}
+
+/*ESTILOS ESPECÍFICOS POR PAGINA*/
+
+/*TELA DE CADASTRO */
+.inputFormulario input {
+  height: 45px;
+  font-size: 14px;
+  padding-left: 15px;
+}
+
+/*TELA DE LOGIN */
 .inputLogin {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: center; 
 }
 
-.inputLogin label {
-  align-self: flex-start;
-  margin-left: 10%;
-  margin-bottom: 6px;
-  font-weight: 600;
+
+.inputLogin > label,
+.inputLogin > input,
+.inputLogin > .containerSenha {
+  width: 80%;
 }
 
 .inputLogin input {
-  width: 80%;      
-  height: 50px;   
-  padding: 0 40px 0 12px;
-  font-size: 16px;
-  border: 1px solid #000;
-  border-radius: 6px;
-}
-
-.inputLogin .containerSenha {
-  position: relative;
-  width: 80%;
-}
-
-.inputLogin .containerSenha input {
-  width: 100%;
   height: 50px;
-  padding: 0 40px 0 12px;
-}
-
-.inputLogin .alternarSenha {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
-}
-
-.inputFormulario .containerSenha {
-  position: relative;
-  width: 100%;
-}
-
-.inputFormulario .containerSenha input {
-  width: 100%;
-  /* ✨✨✨ CORREÇÃO APLICADA AQUI ✨✨✨ */
-  padding: 8px 40px 8px 12px;
-}
-
-.inputFormulario .alternarSenha {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
-}
-
-.inputFormulario:first-child {
-  grid-column: 1 / -1;
-}
-
-#nome {
-  width: 100%;
-}
-
-.botoesContainer {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 3rem;
-  padding-bottom: 1.5rem;
-}
-
-.botao {
-  padding: 12px 32px;
   font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 700;
+  padding-left: 15px;
 }
 
-.botaoConfirmar {
-  background-color: #A7C7E7;
-  color: #000000;
+/* --- BOTÕES E OUTROS ELEMENTOS --- */
+.botoesContainer { 
+  grid-column: 1 / -1; 
+  display: flex; 
+  justify-content: center; 
+  gap: 20px; 
+  margin-top: 3rem; 
+  padding-bottom: 1.5rem; 
 }
-
-.botaoCancelar {
-  background-color: transparent;
-  color: #000000;
-  border: 2px solid #A7C7E7;
+.botao { 
+  padding: 12px 32px; 
+  font-size: 16px; 
+  border: none; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+  font-weight: 700; 
+  text-decoration: none; 
+  text-align: center; 
 }
-
+.botaoLogin { 
+  width: 80%; 
+  max-width: 300px; 
+}
+.containerLink { 
+  text-align: center; 
+  margin-top: 1.5rem; 
+}
+.roleSelectionContainer { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  margin-bottom: 2rem; 
+}
+.roleButton { 
+  padding: 10px 20px; 
+  border: 2px solid #A7C7E7; 
+  border-radius: 8px; 
+  background-color: transparent; 
+  color: #A7C7E7; 
+  font-weight: 700; 
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+}
+.roleButton.active { 
+  background-color: #A7C7E7; 
+  color: white; 
+}
+.botaoConfirmar { 
+  background-color: #A7C7E7; 
+  color: #000000; 
+}
+.botaoCancelar { 
+  background-color: transparent; 
+  color: #000000; 
+  border: 2px solid #A7C7E7; 
+}
 .botaoConfirmar:hover {
-  filter: brightness(0.9);
+  filter: brightness(0.9); 
 }
-
-.botaoCancelar:hover {
-  background-color: #A7C7E7;
-  color: white;
+.botaoCancelar:hover { 
+  background-color: #A7C7E7; 
+  color: white; 
 }
-
-.erro {
-  display: block;
-  padding: 10px 15px;
-  margin-top: 6px;
-  background-color: #e74c3c;
-  color: white !important; 
+.erro { 
+  display: block; 
+  padding: 10px 15px; 
+  margin-top: 6px; 
+  background-color: #e74c3c; 
+  color: white !important;  
   border-radius: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: opacity 0.5s ease-out;
-  animation: fadeInDown 0.3s ease-out forwards;
-}
+   font-size: 14px; 
+   font-weight: 500; }
 
-.erro.fade-out {
-  opacity: 0;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.roleSelectionContainer {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 2rem;
-}
-
-.roleButton {
-  padding: 10px 20px;
-  border: 2px solid #A7C7E7;
-  border-radius: 8px;
-  background-color: transparent;
-  color: #A7C7E7;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.roleButton.active {
-  background-color: #A7C7E7;
-  color: white;
-}
-
-.larguraTotal {
-  grid-column: 1 / -1;
-}
-
-.containerLink {
-  position: absolute;     
-  bottom: 40px;           
-  left: 50%;              
-  transform: translateX(-50%); 
-  width: auto;            
-  max-width: none;        
-  text-align: center;
-  margin-top: 0;         
-}
-
-.espacamentoLogin {
-  margin-top: 6rem;
-}
-
-.botaoLogin {
-  width: 80%;
-  max-width: 300px;
-}
-
-/* ===================== AJUSTE DE RESPONSIVIDADE ===================== */
 
 @media (max-width: 768px) {
-  .cardPrincipal {
-    padding: 3rem 1.5rem; /* menor padding */
-    height: auto;         /* deixa o card ajustar a altura */
-    max-height: 95vh;     /* evita estourar a tela */
-    overflow-y: auto;     /* scroll interno se necessário */
+  body { 
+    padding: 1rem 0.5rem; 
+    align-items: flex-start; 
+  }
+  .cardPrincipal { 
+    padding: 2rem 1rem; 
+    border-radius: 30px; 
+  }
+  .headerText { 
+    font-size: 48px; 
+    margin-left: -5px; 
+  }
+  .logoHeader { 
+    width: 120px; 
+  }
+  form { 
+    grid-template-columns: 1fr; 
+    padding: 0; 
   }
 
-  .headerText {
-    font-size: 60px;      /* reduz o tamanho do título */
-    margin-left: 0;
-    text-align: center;
-  }
-
-  .logoHeader {
-    width: 180px;         /* reduz logo */
-  }
-
-  form {
-    padding: 0 1rem;      /* diminui padding do form */
-  }
-
-  .inputLogin input,
-.inputLogin .containerSenha,
-.inputFormulario input,
-.inputFormulario .containerSenha {
-  width: 80%;         /* mantém a largura grande em telas maiores */
-  max-width: 400px;   /* evita que ultrapasse o card */
-}
-
-.botaoLogin,
-.botaoConfirmar,
-.botaoCancelar {
-  width: auto;        /* mantém o tamanho natural dos botões em telas grandes */
-  min-width: 150px;   /* tamanho mínimo confortável */
-}
-
-/* RESPONSIVIDADE */
-@media (max-width: 768px) {
-  .inputLogin input,
-  .inputLogin .containerSenha,
-  .inputFormulario input,
-  .inputFormulario .containerSenha {
-    width: 100%;      /* ocupa toda largura disponível dentro do card */
-    max-width: 100%;
-  }
-
-  .botaoLogin,
-  .botaoConfirmar,
-  .botaoCancelar {
-    width: 100%;      /* ocupa toda largura disponível dentro do card */
-  }
-
-  .botoesContainer {
-    flex-direction: column;  /* empilha botões */
-    gap: 10px;
-  }
-}
+  .inputLogin > label, 
+  .inputLogin > input, 
+  .inputLogin > .containerSenha, 
+  .botaoLogin { 
+    width: 100%;
+    margin-left: 0; }
 }
