@@ -5,11 +5,14 @@ const exphbs = require("express-handlebars");
 const path = require("path");
 require("dotenv").config();
 const admin = require('firebase-admin');
+
 const authRoutes = require('./routes/authRoutes');
+const servicoRoutes = require('./routes/servicoRoutes');
 
 const app = express();
 //tem que gerar essa chave lá no firebase
 //o caminho é: configurações > contas de serviço.
+//se precisar de ajuda pra fazer essa merda funcionar, chama no led zeppelin
 const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 if (!admin.apps.length) {
@@ -19,9 +22,17 @@ if (!admin.apps.length) {
 }
 
 // Handlebars 
-app.engine("hbs", exphbs.engine({ extname: "hbs", defaultLayout: "main" }));
+const hbs = exphbs.create({
+  extname: "hbs",
+  defaultLayout: "main",
+  helpers: {
+    eq: (a, b) => a === b,
+  }
+});
+app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
+
 
 // Middleware
 app.use(express.static(path.join(__dirname, "public")));
@@ -57,10 +68,10 @@ app.get("/cadastro", (req, res) => {
  res.render("auth/cadastro");
 });
 
-//app.post("/cadastro", (req, res) => {
-//  console.log(req.body); 
-//  res.send("Cadastro recebido!");
-//});
+app.post("/cadastro", (req, res) => {
+  console.log(req.body); 
+  res.send("Cadastro recebido!");
+});
 
 app.get("/login", (req, res) => {
   res.render("auth/login");
@@ -72,6 +83,8 @@ app.get("/dashboard", checkAuth, (req, res) => {
   }
   res.render("dashboard", { user: req.user });
 });
+
+app.use('/servicos', checkAuth, servicoRoutes);
 
 app.listen(3000, () => {
   console.log(`Servidor rodando em http://localhost:3000`);
