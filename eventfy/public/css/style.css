@@ -6,6 +6,7 @@
   box-sizing: border-box;
 }
 
+<<<<<<< HEAD
 html, body {
   height: 100%;
   width: 100%;
@@ -25,11 +26,30 @@ body {
   justify-content: flex-start;
   background-color: #f6f6f6;
   width: 90%;
+=======
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background: #A7C7E7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.cardPrincipal {
+  background-color: #f6f6f6;
+  width: 100%;
+>>>>>>> dfb333c2c8b9a75014e2b5fdda7ab8c04300381f
   max-width: 1000px;
   border-radius: 102px;
   padding: 4rem 2rem;
 }
 
+<<<<<<< HEAD
 .logoHeader {
   width: 230px;
   height: auto;
@@ -321,4 +341,372 @@ form {
     gap: 10px;
   }
 }
+=======
+.headerLogin { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin-bottom: 2rem; 
+}
+.logoHeader { 
+  width: 230px; 
+}
+.headerText { 
+  font-size: 96px; 
+  font-weight: 700; 
+  margin-left: -20px; 
+}
+
+form { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px 30px; 
+  padding: 0 3rem; 
+}
+.inputFormulario:first-child, .larguraTotal{ 
+  grid-column: 1 / -1; 
+}
+.inputFormulario, .inputLogin {
+  display: flex;
+  flex-direction: column;
+   }
+.inputFormulario label, .inputLogin label {
+  margin-bottom: 6px; 
+  font-weight: 600; 
+}
+.inputFormulario input, .inputLogin input { 
+  border: 1px solid #000; 
+  border-radius: 6px; 
+  width: 100%; 
+  box-sizing: border-box; 
+  background-color: transparent; 
+}
+.containerSenha { 
+  position: relative; 
+}
+.containerSenha input { 
+  padding-right: 45px !important; 
+}
+.alternarSenha { 
+  position: absolute; 
+  right: 15px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  cursor: pointer; 
+  width: 22px; 
+  height: 22px; 
+}
+.inputFormulario input {
+  height: 45px;
+  font-size: 14px;
+  padding-left: 15px; 
+}
+.inputLogin { 
+  align-items: center; 
+}
+.inputLogin > label, 
+.inputLogin > input, 
+.inputLogin > .containerSenha {
+  width: 80%;
+}
+.inputLogin input {
+  height: 50px; 
+  font-size: 16px; 
+  padding-left: 15px; 
+}
+
+.pagina-servico {
+  width: 70%;
+  margin: 0 15%;
+}
+
+.titulo-pagina {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: left;
+  padding: 0 3rem;
+}
+
+.inputFormulario textarea, .inputFormulario select { 
+  padding: 8px 10px; 
+  border: 1px solid black; 
+  border-radius: 12px; 
+  background-color: transparent; 
+  font-family: 'Montserrat', sans-serif; 
+  font-size: 14px; 
+  width: 100%; 
+}
+#nome-servico, #preco { 
+  background-color: #f7f5f3; 
+}
+.inputFormulario textarea { 
+  resize: vertical; 
+  min-height: 120px; 
+}
+.inputFormulario select { 
+  height: 45px; 
+}
+.area-upload { 
+  border: 2px dashed #ccc; 
+  border-radius: 12px; 
+  padding: 2rem; 
+  text-align: center; 
+  cursor: pointer; 
+  background-color: #fafafa; 
+}
+.area-upload p { 
+  margin: 0 0 1rem 0; 
+  color: #aaa; 
+}
+.dias-semana { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 1rem; 
+  flex-wrap: wrap; 
+}
+.dia-bolinha {
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: 600; 
+  cursor: pointer; 
+  border: 1px solid black; 
+  background-color: transparent; 
+  transition: all 0.2s ease; 
+}
+.dia-bolinha.ativo { 
+  background-color: #A7C7E7; 
+  color: white; 
+  border-color: #A7C7E7; 
+}
+.bloco-horario-dia { 
+  background-color: #ececec; 
+  border-radius: 12px; 
+  padding: 1rem; 
+  margin-bottom: 10px; 
+}
+.bloco-horario-dia-titulo { 
+  font-weight: 600; 
+  margin-bottom: 1rem; 
+  text-transform: capitalize; 
+}
+.intervalo-tempo { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  margin-bottom: 10px; 
+}
+.intervalo-tempo span { 
+  font-weight: 500;
+}
+.intervalo-tempo input[type="time"] {
+   border: 1px solid #ccc; 
+   border-radius: 8px; 
+   padding: 5px; 
+   width: auto; 
+  }
+
+.botoesContainer { 
+  grid-column: 1 / -1; 
+  display: flex; 
+  justify-content: center; 
+  gap: 20px; 
+  margin-top: 3rem; 
+  padding-bottom: 1.5rem; 
+}
+.botao { 
+  padding: 12px 32px; 
+  font-size: 16px; 
+  border: none; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+  font-weight: 700; 
+  text-decoration: none; 
+  text-align: center; 
+}
+.botaoLogin { 
+  width: 80%; 
+  max-width: 300px; 
+}
+.containerLink { 
+  text-align: center; 
+  margin-top: 1.5rem; 
+}
+.roleSelectionContainer { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  margin-bottom: 2rem; 
+}
+.roleButton { 
+  padding: 10px 20px; 
+  border: 2px solid #A7C7E7; 
+  border-radius: 8px; 
+  background-color: transparent; 
+  color: #A7C7E7; 
+  font-weight: 700; 
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+}
+.roleButton.active { 
+  background-color: #A7C7E7; 
+  color: white; 
+}
+.botaoConfirmar { 
+  background-color: #A7C7E7; 
+  color: #000000; 
+}
+.botaoCancelar { 
+  background-color: transparent; 
+  color: #000000; 
+  border: 2px solid #A7C7E7; 
+}
+.botaoConfirmar:hover { 
+  filter: brightness(0.9); 
+}
+.botaoCancelar:hover { 
+  background-color: #A7C7E7; 
+  color: white; 
+}
+.erro { 
+  display: block; 
+  padding: 10px 15px; 
+  margin-top: 6px; 
+  background-color: #e74c3c; 
+  color: white !important;  
+  border-radius: 5px; 
+  font-size: 14px; 
+  font-weight: 500; 
+}
+
+@media (max-width: 768px) {
+  body { 
+    padding: 1rem 0.5rem; 
+    align-items: flex-start; 
+  }
+  .cardPrincipal, .pagina-servico { 
+    padding: 2rem 1rem; 
+    border-radius: 30px; 
+    width: 100%; margin: 0; 
+  }
+  .headerText { 
+    font-size: 48px; 
+    margin-left: -5px; 
+  }
+  .logoHeader { 
+    width: 120px; 
+  }
+  form { 
+    grid-template-columns: 1fr; 
+    padding: 0; 
+  }
+  .inputLogin > label, 
+  .inputLogin > input, 
+  .inputLogin > .containerSenha, 
+  .botaoLogin { 
+    width: 100%; margin-left: 0; 
+  }
+  
+  .titulo-pagina {
+    padding: 0;
+  }
+}
+
+.controles-intervalo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-adicionar-horario { 
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  font-size: 2rem; 
+  line-height: 1; 
+  color: #A7C7E7; 
+  padding: 0 5px; 
+}
+
+.btn-remover-horario {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-remover-horario img {
+  width: 30px;
+  height: 30px;
+  display: block; 
+}
+
+.btn-remover-horario:hover {
+  opacity: 0.7;
+}
+
+.erro-servico {
+  color: #e74c3c;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.area-upload.drag-over {
+  border-color: #A7C7E7;
+  background-color: #f0f8ff;
+}
+
+.previa-imagens-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 1rem;
+}
+
+.previa-item {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.previa-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.remover-imagem-btn {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 24px;
+  height: 24px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+
+.remover-imagem-btn:hover {
+  transform: scale(1.1);
+  background-color: #c0392b;
+>>>>>>> dfb333c2c8b9a75014e2b5fdda7ab8c04300381f
 }

@@ -65,7 +65,7 @@ app.get("/", checkAuth, (req, res) => {
 app.use('/', authRoutes);
 
 app.get("/cadastro", (req, res) => {
-  res.render("auth/cadastro");
+ res.render("auth/cadastro");
 });
 
 app.post("/cadastro", (req, res) => {

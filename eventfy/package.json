@@ -20,6 +20,10 @@
     "firebase": "^12.3.0",
     "firebase-admin": "^13.5.0",
     "handlebars": "^4.7.8",
+<<<<<<< HEAD
+=======
+    "multer": "^2.0.2",
+>>>>>>> dfb333c2c8b9a75014e2b5fdda7ab8c04300381f
     "nodemon": "^3.1.10"
   }
 }

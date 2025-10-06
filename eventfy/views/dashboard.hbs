@@ -1,0 +1,39 @@
+<div class="cardPrincipal">
+  <div class="headerLogin">
+    <img src="/assets/logo.PNG" alt="Logo Eventfy" class="logoHeader">
+    <p class="headerText">Eventfy</p>
+  </div>
+
+  {{#if user}}
+    <div style="text-align:center; margin-top: 3rem;">
+      <h2 style="font-size: 2rem; font-weight: 700;">Login com sucesso! 👋</h2>
+      <h3 style="font-size: 1.5rem; font-weight: 400; margin-top: 1rem;">Bem-vindo, {{user.email}}</h3>
+      
+      <p style="margin-top: 2rem; font-size: 1.1rem;">
+        Esta é sua área logada. A sessão será mantida por 3 dias.
+      </p>
+
+      <button id="logoutBtn" class="botao botaoCancelar" style="margin-top: 3rem;">Sair</button>
+    </div>
+  {{else}}
+     <div style="text-align:center; margin-top: 3rem;">
+        <h2 style="font-size: 2rem; font-weight: 700;">Acesso Negado</h2>
+        <p style="margin-top:1rem; font-size:1.2rem;">
+            Você precisa estar logado para ver esta página.
+        </p>
+        <div class="botoesContainer" style="margin-top: 2rem;">
+            <a href="/login" class="botao botaoConfirmar">Fazer Login</a>
+        </div>
+    </div>
+  {{/if}}
+</div>
+
+<script>
+  const logoutButton = document.getElementById("logoutBtn");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", async () => {
+      await fetch("/logout", { method: "POST" });
+      window.location.href = "/login";
+    });
+  }
+</script>
