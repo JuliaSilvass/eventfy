@@ -44,10 +44,23 @@ exports.login = async (req, res) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, senha);
     const token = await userCredential.user.getIdToken();
-    res.json({ token });
+
+    res.cookie('authToken', token, {
+    httpOnly: true, 
+    secure: true,
+    maxAge: 3 * 24 * 60 * 60 * 1000 // Validade de 7 dias
+    });
+    
+    res.status(200).json({ message: "Login realizado com sucesso" });
+
   } 
   catch (error) {
     let mensagemErro = "Email ou senha inválidos.";
     res.status(400).json({ erro: mensagemErro });
   }
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie('authToken');
+  res.status(200).json({ message: "Logout realizado com sucesso" });
 };

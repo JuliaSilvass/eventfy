@@ -151,3 +151,7 @@ yarn-error.log
 
 # Sistema
 .DS_Store
+
+
+serviceAccountKey.json
+eventfy/serviceAccountKey.json
