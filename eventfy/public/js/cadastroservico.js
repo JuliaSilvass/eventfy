@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Montagem dos dados para envio
     const formData = new FormData();
-    formData.append('titulo', titulo.value);
+    formData.append('nomeServico', titulo.value);
     formData.append('categoria', categoria.value);
     formData.append('preco', parseFloat(preco.value));
     formData.append('descricao', descricao.value);
@@ -257,17 +257,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     formData.append('disponibilidade', JSON.stringify(disponibilidade));
 
-    try {
-      console.log("Enviando para o backend (via FormData):");
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-      
-      alert("Simulação: Serviço pronto para ser enviado! Validações passaram.");
+try {
+    // Pega o botão para dar um feedback ao usuário
+    const botaoSalvar = form.querySelector('button[type="submit"]');
+    botaoSalvar.textContent = 'Salvando...';
+    botaoSalvar.disabled = true;
 
-    } catch (error) {
-      console.error("Erro ao cadastrar serviço:", error);
-      alert(`Falha ao cadastrar: ${error.message}`);
+    // Envia os dados para o seu back-end de verdade
+    const response = await fetch('/servicos/cadastrar', {
+        method: 'POST',
+        body: formData 
+    });
+
+    // Verifica se o back-end respondeu com sucesso
+    if (response.ok) {
+        // Redireciona para o dashboard se deu tudo certo
+        window.location.href = '/dashboard';
+    } else {
+        // Mostra um erro se o back-end falhou
+        const erro = await response.text();
+        alert(`Falha ao cadastrar: ${erro}`);
+        botaoSalvar.textContent = 'Salvar Serviço';
+        botaoSalvar.disabled = false;
     }
+
+} catch (error) {
+    console.error("Erro de rede:", error);
+    alert(`Ocorreu um erro de comunicação: ${error.message}`);
+    const botaoSalvar = form.querySelector('button[type="submit"]');
+    botaoSalvar.textContent = 'Salvar Serviço';
+    botaoSalvar.disabled = false;
+}
   });
 });

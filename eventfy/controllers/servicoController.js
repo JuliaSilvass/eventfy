@@ -1,5 +1,5 @@
 const { db } = require("../firebase");
-const { doc, getDoc } = require("firebase/firestore");
+const { doc, getDoc, serverTimestamp, collection, addDoc } = require("firebase/firestore");
 
 exports.getServicoForm = async (req, res) => {
   if (!req.user) {
@@ -22,5 +22,40 @@ exports.getServicoForm = async (req, res) => {
   } catch (error) {
     console.error("Erro ao buscar dados do usuário:", error);
     res.redirect("/dashboard");
+  }
+};
+
+
+exports.createServicoPost = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+
+  try {
+    const {nomeServico, categoria, preco, descricao} = req.body;
+
+    console.log("Arquivos recebidos:", req.files);
+  
+
+  const novoServico = {
+    nome: nomeServico,
+    categoria: categoria,
+    preco: Number(preco),
+    descricao: descricao,
+    pretadorID: req.user.uid,
+    criadoEm: serverTimestamp(),
+  };
+
+
+  const servicosCollectionRef = collection(db, "servicos");
+  await addDoc(servicosCollectionRef, novoServico);
+
+  console.log("Serviço cadastrado com sucesso!");
+
+  res.redirect("/dashboard");
+
+} catch (error){
+  console.error("Erro ao cadastrar serviço:", error);
+    res.status(500).send("Ocorreu um erro ao salvar o serviço.");
   }
 };
