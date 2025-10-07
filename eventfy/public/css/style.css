@@ -394,3 +394,16 @@ form {
   transform: scale(1.1);
   background-color: #c0392b;
 }
+
+.botoesContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* duas colunas */
+  gap: 1.2rem; /* espaço entre os botões */
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
