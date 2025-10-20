@@ -1,0 +1,72 @@
+<style>
+  /* Estilos específicos para a lista de serviços */
+  .lista-servicos {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .item-servico {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .item-servico h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+  .item-servico .categoria {
+    background-color: #A7C7E7;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+  }
+  .item-servico .preco {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+   .item-servico p {
+    color: #555;
+    line-height: 1.6;
+   }
+   .sem-servicos {
+    text-align: center;
+    padding: 3rem;
+    background-color: #fff;
+    border-radius: 12px;
+   }
+</style>
+
+<div class="cardPrincipal">
+  <div class="headerLogin">
+    <p class="headerText" style="font-size: 60px;">Serviços</p>
+  </div>
+
+  <div class="lista-servicos">
+    {{#if servicos}}
+      {{#each servicos}}
+        <div class="item-servico">
+          <span class="categoria">{{this.categoria}}</span>
+          <h3>{{this.nome}}</h3>
+          <p class="preco">R$ {{this.preco}}</p>
+          <p>{{this.descricao}}</p>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="sem-servicos">
+        <h3>Nenhum serviço cadastrado ainda.</h3>
+        <p>Seja o primeiro a oferecer um serviço!</p>
+         <a href="/servicos/cadastrar" class="botao botaoConfirmar" style="margin-top: 1.5rem;">Cadastrar Serviço</a>
+      </div>
+    {{/if}}
+  </div>
+</div>

@@ -1,61 +1,67 @@
-const { db } = require("../firebase");
-const { doc, getDoc, serverTimestamp, collection, addDoc } = require("firebase/firestore");
+const { db } = require('../firebaseAdmin'); // usando Admin SDK
+const { FieldValue } = require('firebase-admin/firestore');
 
 exports.getServicoForm = async (req, res) => {
-  if (!req.user) {
-    return res.redirect("/login");
-  }
+  if (!req.user) return res.redirect('/login');
 
   try {
-    const userDocRef = doc(db, "usuarios", req.user.uid);
-    const userDoc = await getDoc(userDocRef);
+    const userDoc = await db.collection('usuarios').doc(req.user.uid).get();
 
-    if (!userDoc.exists()) {
-       return res.status(404).send("Usuário não encontrado no banco de dados.");
-    }
-    
+    if (!userDoc.exists) return res.status(404).send('Usuário não encontrado.');
+
     const userData = userDoc.data();
     const user = { ...req.user, tipo: userData.tipo };
 
-    res.render("servicos/cadastrarServico", { user });
-
+    res.render('servicos/cadastrarServico', { user });
   } catch (error) {
-    console.error("Erro ao buscar dados do usuário:", error);
-    res.redirect("/dashboard");
+    console.error('Erro ao buscar dados do usuário:', error);
+    res.redirect('/dashboard');
   }
 };
 
-
 exports.createServicoPost = async (req, res) => {
-  if (!req.user) {
-    return res.redirect("/login");
-  }
+  if (!req.user) return res.redirect('/login');
 
   try {
-    const {nomeServico, categoria, preco, descricao} = req.body;
+    const { nomeServico, categoria, preco, descricao, disponibilidade } = req.body;
 
-    console.log("Arquivos recebidos:", req.files);
-  
+    const novoServico = {
+      nome: nomeServico,
+      categoria,
+      preco: Number(preco),
+      descricao,
+      prestadorID: req.user.uid,
+      disponibilidade: JSON.parse(disponibilidade || '{}'),
+      imagens: req.files?.map(f => f.originalname) || [],
+      criadoEm: FieldValue.serverTimestamp()
+    };
 
-  const novoServico = {
-    nome: nomeServico,
-    categoria: categoria,
-    preco: Number(preco),
-    descricao: descricao,
-    pretadorID: req.user.uid,
-    criadoEm: serverTimestamp(),
-  };
+    await db.collection('servicos').add(novoServico);
 
+    console.log('Serviço cadastrado com sucesso!');
+    res.redirect('/servicos');
+  } catch (error) {
+    console.error('Erro ao cadastrar serviço:', error);
+    res.status(500).send('Ocorreu um erro ao salvar o serviço.');
+  }
+};
 
-  const servicosCollectionRef = collection(db, "servicos");
-  await addDoc(servicosCollectionRef, novoServico);
+exports.listarServicos = async (req, res) => {
+  if (!req.user) return res.redirect('/login');
 
-  console.log("Serviço cadastrado com sucesso!");
+  try {
+    const querySnapshot = await db.collection('servicos')
+      .orderBy('criadoEm', 'desc')
+      .get();
 
-  res.redirect("/dashboard");
+    const servicos = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
 
-} catch (error){
-  console.error("Erro ao cadastrar serviço:", error);
-    res.status(500).send("Ocorreu um erro ao salvar o serviço.");
+    res.render('servicos/listarServicos', { servicos });
+  } catch (error) {
+    console.error('Erro ao listar serviços:', error);
+    res.render('servicos/listarServicos', { servicos: [] });
   }
 };
