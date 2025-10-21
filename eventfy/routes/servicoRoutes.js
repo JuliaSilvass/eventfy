@@ -10,7 +10,11 @@ router.get('/cadastrar', servicoController.getServicoForm);
 //Receber dados do formulário
 router.post('/cadastrar', upload.any(), servicoController.createServicoPost);
 
-// Listar serviços
+//Listar serviços
 router.get('/', servicoController.listarServicos);
+
+// Rota para apagar serviço
+router.delete('/apagar/:id', servicoController.apagarServico);
+
 
 module.exports = router;

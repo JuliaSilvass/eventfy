@@ -1,5 +1,4 @@
 <style>
-  /* Estilos específicos para a lista de serviços */
   .lista-servicos {
     display: flex;
     flex-direction: column;
@@ -34,16 +33,37 @@
     color: #333;
     margin-bottom: 1rem;
   }
-   .item-servico p {
+  .item-servico p {
     color: #555;
     line-height: 1.6;
-   }
-   .sem-servicos {
+  }
+  .botoes-servico {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .botaoEditar {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .botaoApagar {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sem-servicos {
     text-align: center;
     padding: 3rem;
     background-color: #fff;
     border-radius: 12px;
-   }
+  }
 </style>
 
 <div class="cardPrincipal">
@@ -52,21 +72,26 @@
   </div>
 
   <div class="lista-servicos">
-    {{#if servicos}}
+    {{#if servicos.length}}
       {{#each servicos}}
         <div class="item-servico">
           <span class="categoria">{{this.categoria}}</span>
-          <h3>{{this.nome}}</h3>
+          <h3>{{this.titulo}}</h3>
           <p class="preco">R$ {{this.preco}}</p>
           <p>{{this.descricao}}</p>
+          <div class="botoes-servico">
+            <button class="botaoEditar" type="button">Editar</button>
+            <button class="botaoApagar" type="button" onclick="apagarServico('{{this.id}}')">Apagar</button>
+          </div>
         </div>
       {{/each}}
     {{else}}
       <div class="sem-servicos">
         <h3>Nenhum serviço cadastrado ainda.</h3>
         <p>Seja o primeiro a oferecer um serviço!</p>
-         <a href="/servicos/cadastrar" class="botao botaoConfirmar" style="margin-top: 1.5rem;">Cadastrar Serviço</a>
+        <a href="/servicos/cadastrar" class="botao botaoConfirmar" style="margin-top: 1.5rem;">Cadastrar Serviço</a>
       </div>
     {{/if}}
   </div>
 </div>
+

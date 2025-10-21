@@ -65,3 +65,33 @@ exports.listarServicos = async (req, res) => {
     res.render('servicos/listarServicos', { servicos: [] });
   }
 };
+
+
+exports.apagarServico = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).send('Não autorizado');
+  }
+
+  const { id } = req.params;
+
+  try {
+    const servicoRef = db.collection('servicos').doc(id);
+    const servicoDoc = await servicoRef.get();
+
+    if (!servicoDoc.exists) {
+      return res.status(404).send('Serviço não encontrado');
+    }
+
+    // Só permitir que o dono apague
+    if (servicoDoc.data().prestadorID !== req.user.uid) {
+      return res.status(403).send('Você não pode apagar este serviço');
+    }
+
+    await servicoRef.delete();
+    return res.status(200).send('Serviço apagado com sucesso');
+
+  } catch (error) {
+    console.error('Erro ao apagar serviço:', error);
+    return res.status(500).send('Erro ao apagar serviço');
+  }
+};
