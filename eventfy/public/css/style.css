@@ -395,7 +395,7 @@ form {
   background-color: #c0392b;
 }
 
-.botoesContainer {
+.botoesContainerNav {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* duas colunas */
   gap: 1.2rem; /* espaço entre os botões */

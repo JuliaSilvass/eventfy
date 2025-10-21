@@ -1,5 +1,5 @@
 const { auth, db } = require("../firebase");
-const { doc, setDoc } = require("firebase/firestore");
+const { doc, setDoc, getDoc } = require("firebase/firestore");
 const { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword 
@@ -43,16 +43,34 @@ exports.login = async (req, res) => {
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+    const uid = userCredential.user.uid;
     const token = await userCredential.user.getIdToken();
+
+    //Busca dados do usuário no Firestore
+    const userDocRef = doc(db, "usuarios", uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (!userDocSnap.exists()) {
+      return res.status(404).json({ erro: "Usuário não encontrado" });
+    }
+
+    const userData = userDocSnap.data();
 
     res.cookie('authToken', token, {
     httpOnly: true, 
-    secure: true,
-    maxAge: 3 * 24 * 60 * 60 * 1000 // Validade de 7 dias
+    secure: false,
+    maxAge: 3 * 24 * 60 * 60 * 1000 // Validade de 3 dias
     });
-    
-    res.status(200).json({ message: "Login realizado com sucesso" });
 
+    res.status(200).json({
+      message: "Login realizado com sucesso",
+      user: {
+        uid,
+        email: userData.email,
+        tipo: userData.tipo,
+        nome: userData.nome
+      }})
+    
   } 
   catch (error) {
     let mensagemErro = "Email ou senha inválidos.";

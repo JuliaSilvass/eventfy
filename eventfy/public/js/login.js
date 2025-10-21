@@ -22,16 +22,21 @@ document.addEventListener("DOMContentLoaded", () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, senha }),
+        credentials: 'include',
       });
 
       const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.erro || 'Email ou senha incorretos.');
-      }
-
+      console.log("RESULTADO:", result);
+      
+      if (result.user) {
+        localStorage.setItem('userType', result.user.tipo);
+        console.log("DEVE IR PARA A PROXIMA PAGINA")
         window.location.href = '/dashboard';
-
+        console.log("foi ???")
+      } else {
+        throw new Error(result.erro || 'Email ou senha incorretos.');
+    }
 
     } catch (error) {
       console.error("Falha no login:", error);

@@ -9,17 +9,28 @@ const admin = require('firebase-admin');
 const authRoutes = require('./routes/authRoutes');
 const servicoRoutes = require('./routes/servicoRoutes');
 
+
 const app = express();
 //tem que gerar essa chave lá no firebase
 //o caminho é: configurações > contas de serviço.
 //se precisar de ajuda pra fazer essa merda funcionar, chama no led zeppelin
-const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+const serviceAccountPath = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+let serviceAccount;
+try {
+  serviceAccount = require(serviceAccountPath);
+} catch (err) {
+  console.error("❌ Erro ao carregar credenciais do Firebase Admin:", err.message);
+}
+
 
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
   });
 }
+
+const db = admin.firestore();
+
 
 // Handlebars 
 const hbs = exphbs.create({
@@ -45,15 +56,34 @@ app.use(cookieParser());
 const checkAuth = async (req, res, next) => {
   const token = req.cookies.authToken;
   if (!token) {
+    req.user = null;
     return next();
   }
+
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
-    req.user = decodedToken;
+    const uid = decodedToken.uid;
+
+    const userDocSnap = await db.collection("usuarios").doc(uid).get();
+
+    if (!userDocSnap.exists) {
+      res.clearCookie("authToken");
+      req.user = null;
+      return next();
+    }
+
+    req.user = {
+      uid,
+      email: decodedToken.email,
+      ...userDocSnap.data(),
+    };
+
     next();
   } catch (error) {
-    res.clearCookie('authToken');
-    return next();
+    console.error("Erro na verificação do token:", error.message);
+    res.clearCookie("authToken");
+    req.user = null;
+    next();
   }
 };
 
@@ -78,6 +108,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/dashboard", checkAuth, (req, res) => {
+  console.log("Usuário autenticado:", req.user);
   if (!req.user) {
     return res.redirect('/login');
   }
