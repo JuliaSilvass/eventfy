@@ -1,20 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const servicoController = require('../controllers/servicoController');
-const multer = require('multer');
-const upload = multer();
 
-//Formulário de cadastro
-router.get('/cadastrar', servicoController.getServicoForm);
+const ensureUpload = (req, res, next) => {
+  if (!req._upload) {
+    const multer = require('multer');
+    const path = require('path');
+    req._upload = multer({ dest: path.join(__dirname, '..', 'public', 'uploads') });
+  }
+  next();
+};
 
-//Receber dados do formulário
-router.post('/cadastrar', upload.any(), servicoController.createServicoPost);
-
-//Listar serviços
 router.get('/', servicoController.listarServicos);
-
-// Rota para apagar serviço
+router.get('/cadastrar', servicoController.getServicoForm);
+router.post('/cadastrar', ensureUpload, (req, res, next) => req._upload.array('imagens', 5)(req, res, next), servicoController.createServicoPost);
 router.delete('/apagar/:id', servicoController.apagarServico);
-
 
 module.exports = router;

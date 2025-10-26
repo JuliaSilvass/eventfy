@@ -398,7 +398,7 @@ form {
 .botoesContainerNav {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* duas colunas */
-  gap: 1.2rem; /* espaço entre os botões */
+  gap: 1.2rem; 
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
@@ -406,4 +406,112 @@ form {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.tituloPagina {
+  font-size: 60px;
+  text-align: center;
+}
+
+.tituloUsuario {
+  text-align: center;
+  margin-top: 2rem;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.listaServicos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.itemServico {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.itemServico h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.categoriaServico {
+  background-color: #A7C7E7;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+.precoServico {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.itemServico p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.botoesServico {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.botaoEditar {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.botaoApagar {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.semServicos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;          
+  text-align: center;
+  padding: 4rem 2rem;     
+  min-height: 300px;     
+}
+
+.semServicos .botao {
+  margin-top: 1.2rem;    
+  align-self: center;    
+}
+
+.semServicos h3 {
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.semServicos p {
+  margin-top: 1rem;
+  color: #555;
+  font-size: 1.1rem;
 }
