@@ -20,3 +20,6 @@ async function apagarServico(id) {
     alert('Erro de conexão ao tentar apagar o serviço.');
   }
 }
+function editarServico(id) {
+  window.location.href = `/servicos/editar/${id}`;
+}

@@ -16,7 +16,7 @@
           <p class="precoServico">R$ {{this.preco}}</p>
           <p>{{this.descricao}}</p>
           <div class="botoesServico">
-            <button class="botaoEditar" type="button">Editar</button>
+            <button class="botaoEditar" type="button" onclick="editarServico('{{this.id}}')">Editar</button>
             <button class="botaoApagar" type="button" onclick="apagarServico('{{this.id}}')">Apagar</button>
           </div>
         </div>

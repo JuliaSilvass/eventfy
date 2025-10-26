@@ -100,3 +100,57 @@ exports.apagarServico = async (req, res) => {
     return res.status(500).send('Erro ao apagar serviço');
   }
 };
+
+exports.getEditarServico = async (req, res) => {
+  if (!req.user) return res.redirect("/login");
+  const { id } = req.params;
+
+  try {
+    const doc = await db.collection("servicos").doc(id).get();
+    if (!doc.exists) return res.status(404).send("Serviço não encontrado");
+
+    const servico = { id: doc.id, ...doc.data() };
+
+        console.log("Serviço carregado:", servico); // 👈 debug pra ver no terminal
+
+    if (servico.prestadorID !== req.user.uid) {
+      return res.status(403).send("Acesso negado");
+    }
+
+    res.render("servicos/editarServico", { servico });
+  } catch (error) {
+    console.error("Erro ao carregar serviço:", error);
+    res.status(500).send("Erro ao carregar página de edição");
+  }
+};
+
+
+exports.editarServicoPost = async (req, res) => {
+  const { id } = req.params;
+  const { nomeServico, categoria, preco, descricao } = req.body;
+
+  try {
+    const servicoRef = db.collection("servicos").doc(id);
+    const servicoDoc = await servicoRef.get();
+
+    if (!servicoDoc.exists) return res.status(404).send("Serviço não encontrado");
+    if (servicoDoc.data().prestadorID !== req.user.uid) {
+      return res.status(403).send("Acesso negado");
+    }
+
+    const updates = {
+      nome: nomeServico,
+      categoria,
+      preco: Number(preco),
+      descricao,
+      atualizadoEm: new Date()
+    };
+
+    await servicoRef.update(updates);
+    res.redirect("/servicos");
+  } catch (error) {
+    console.error("Erro ao atualizar serviço:", error);
+    res.status(500).send("Erro ao salvar alterações");
+  }
+};
+
