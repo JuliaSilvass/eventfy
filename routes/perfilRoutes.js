@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 const perfilController = require("../controllers/perfilController");
 
+router.get("/", perfilController.getMeuPerfil);
 
-router.get("/", perfilController.getPerfilOrganizador);
+router.get("/editar", perfilController.getEditarPerfilForm);
+router.post("/editar", perfilController.updatePerfil);
+
+router.post("/descricao", perfilController.updateDescricao);
+
 
 module.exports = router;
