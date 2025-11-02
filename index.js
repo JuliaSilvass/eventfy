@@ -77,15 +77,18 @@ app.get("/", checkAuth, (req, res) => {
   res.render("home", { user: req.user });
 });
 
+app.get("/dashboard", checkAuth, (req, res) => {
+  if (!req.user) return res.redirect("/login");
+  res.render("dashboard", { user: req.user });
+});
+
 app.get("/cadastro", (req, res) => res.render("auth/cadastro"));
 app.get("/login", (req, res) => res.render("auth/login"));
 
-// Rotas externas
 app.use("/", authRoutes);
 app.use("/servicos", checkAuth, servicoRoutes);
 app.use("/eventos", checkAuth, eventoRoutes);
 app.use("/perfil", checkAuth, perfilRoutes);
-
 
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");

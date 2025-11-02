@@ -1,53 +1,57 @@
-<div class="container" style="max-width: 900px; margin: 40px auto; font-family: Arial;">
-  <h2 style="margin-bottom: 20px;">Criar novo evento</h2>
+<style>
+  body {
+    background-color: #f7f5f3;
+  }
+</style>
 
-  <!-- Adicionei id e action -->
-  <form id="eventForm" action="/eventos/novo" method="POST" style="display: flex; justify-content: space-between; gap: 40px;">
-    <div style="flex: 1;">
-      <label>Nome do evento</label><br>
-      <input type="text" name="nome" required style="width:100%; margin-bottom: 10px;"><br>
+<div class="container-novo-evento">
+  <h2 class="titulo-novo-evento">Criar novo evento</h2>
 
-      <div style="display:flex; gap:10px;">
+  <form id="eventForm" action="/eventos/novo" method="POST" class="form-novo-evento">
+    <div class="coluna-esquerda">
+      <label for="nome">Nome do evento</label><br>
+      <input type="text" id="nome" name="nome" required><br>
+
+      <div class="grupo-duplo">
         <div>
-          <label>Data de início</label><br>
-          <input type="date" name="dataInicio" required style="width:100%;">
+          <label for="dataInicio">Data de início</label><br>
+          <input type="date" id="dataInicio" name="dataInicio" required>
         </div>
         <div>
-          <label>Data de fim</label><br>
-          <input type="date" name="dataFim" required style="width:100%;">
-        </div>
-      </div><br>
-
-      <div style="display:flex; gap:10px;">
-        <div>
-          <label>Horário de início</label><br>
-          <input type="time" name="horarioInicio" required style="width:100%;">
-        </div>
-        <div>
-          <label>Horário de fim</label><br>
-          <input type="time" name="horarioFim" required style="width:100%;">
+          <label for="dataFim">Data de fim</label><br>
+          <input type="date" id="dataFim" name="dataFim" required>
         </div>
       </div><br>
 
-      <label>Ícone</label><br>
-      <select name="icone" required style="width:100%; margin-bottom:10px;">
-        <option value="🎉">🎉 Festa</option>
-        <option value="🎓">🎓 Workshop</option>
-        <option value="🎭">🎭 Teatro</option>
-        <option value="🏃">🏃 Corrida</option>
+      <div class="grupo-duplo">
+        <div>
+          <label for="horarioInicio">Horário de início</label><br>
+          <input type="time" id="horarioInicio" name="horarioInicio" required>
+        </div>
+        <div>
+          <label for="horarioFim">Horário de fim</label><br>
+          <input type="time" id="horarioFim" name="horarioFim" required>
+        </div>
+      </div><br>
+
+      <label for="icone">Ícone</label><br>
+      <select id="icone" name="icone" required>
+        <option value="aniversario">Aniversário</option>
+        <option value="workshop">Workshop</option>
+        <option value="casamento">Casamento</option>
+        <option value="festa">Festa</option>
+        <option value="outros">Outros</option>
       </select>
     </div>
 
-    <div style="flex:1;">
-      <label>Sobre o evento</label><br>
-      <textarea name="descricao" rows="10" style="width:100%;" placeholder="Descreva o evento..."></textarea>
+    <div class="coluna-direita">
+      <label for="descricao">Sobre o evento</label><br>
+      <textarea id="descricao" name="descricao" rows="10" placeholder="Descreva o evento..."></textarea>
     </div>
 
-    <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px; width:100%;">
-      <a href="/perfil" style="text-decoration:none; color:black;">Cancelar</a>
-      <button type="submit" style="background-color:#aac9ee; border:none; padding:8px 16px; cursor:pointer;">
-        Confirmar
-      </button>
+    <div class="botoes-novo-evento">
+      <a href="/perfil" class="botao-cancelar">Cancelar</a>
+      <button type="submit" class="botao-confirmar">Confirmar</button>
     </div>
   </form>
 </div>
