@@ -4,7 +4,7 @@
       {{#if usuario.photoURL}}
         <img src="{{usuario.photoURL}}" alt="Foto do usuário" />
       {{else}}
-        <img src="/public/images/default.jpg" alt="Foto padrão" />
+        <img src="/assets/default-user.png" alt="Foto padrão" />
       {{/if}}
     </div>
 
@@ -12,15 +12,23 @@
       <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
     </div>
 
-    <div class="stats">
-      <div>
-        <p><strong>Avaliação</strong></p>
-        <p>{{#if usuario.avaliacao}}{{usuario.avaliacao}}{{else}}—{{/if}}</p>
+    <div class="perfil-meta-container">
+      
+      <div class="stats">
+        <div>
+          <p><strong>Avaliação</strong></p>
+          <p>{{#if usuario.avaliacao}}{{usuario.avaliacao}}{{else}}—{{/if}}</p>
+        </div>
+        <div>
+          <p><strong>Eventos Realizados</strong></p>
+          <p>{{#if usuario.eventosRealizados}}{{usuario.eventosRealizados}}{{else}}—{{/if}}</p>
+        </div>
       </div>
-      <div>
-        <p><strong>Eventos Realizados</strong></p>
-        <p>{{#if usuario.eventosRealizados}}{{usuario.eventosRealizados}}{{else}}—{{/if}}</p>
+
+      <div class="perfil-editar-btn-container">
+        <a href="/perfil/editar" class="btn btn-editar-perfil">Editar Perfil</a>
       </div>
+
     </div>
   </section>
 
