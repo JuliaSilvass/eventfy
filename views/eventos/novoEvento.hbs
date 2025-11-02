@@ -1,0 +1,53 @@
+<div class="container" style="max-width: 900px; margin: 40px auto; font-family: Arial;">
+  <h2 style="margin-bottom: 20px;">Criar novo evento</h2>
+
+  <!-- Adicionei id e action -->
+  <form id="eventForm" action="/eventos/novo" method="POST" style="display: flex; justify-content: space-between; gap: 40px;">
+    <div style="flex: 1;">
+      <label>Nome do evento</label><br>
+      <input type="text" name="nome" required style="width:100%; margin-bottom: 10px;"><br>
+
+      <div style="display:flex; gap:10px;">
+        <div>
+          <label>Data de início</label><br>
+          <input type="date" name="dataInicio" required style="width:100%;">
+        </div>
+        <div>
+          <label>Data de fim</label><br>
+          <input type="date" name="dataFim" required style="width:100%;">
+        </div>
+      </div><br>
+
+      <div style="display:flex; gap:10px;">
+        <div>
+          <label>Horário de início</label><br>
+          <input type="time" name="horarioInicio" required style="width:100%;">
+        </div>
+        <div>
+          <label>Horário de fim</label><br>
+          <input type="time" name="horarioFim" required style="width:100%;">
+        </div>
+      </div><br>
+
+      <label>Ícone</label><br>
+      <select name="icone" required style="width:100%; margin-bottom:10px;">
+        <option value="🎉">🎉 Festa</option>
+        <option value="🎓">🎓 Workshop</option>
+        <option value="🎭">🎭 Teatro</option>
+        <option value="🏃">🏃 Corrida</option>
+      </select>
+    </div>
+
+    <div style="flex:1;">
+      <label>Sobre o evento</label><br>
+      <textarea name="descricao" rows="10" style="width:100%;" placeholder="Descreva o evento..."></textarea>
+    </div>
+
+    <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px; width:100%;">
+      <a href="/perfil" style="text-decoration:none; color:black;">Cancelar</a>
+      <button type="submit" style="background-color:#aac9ee; border:none; padding:8px 16px; cursor:pointer;">
+        Confirmar
+      </button>
+    </div>
+  </form>
+</div>

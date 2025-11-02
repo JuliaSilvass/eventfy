@@ -1,0 +1,68 @@
+<style>
+  body {
+    background-color: #f7f5f3;
+  }
+</style>
+
+<div class="pagina-servico">
+  <h1 class="titulo-pagina">Editar Serviço</h1>
+
+  <form id="form-servico" enctype="multipart/form-data">
+    <input type="hidden" id="servico-id" value="{{servico.id}}">
+
+    <div class="inputFormulario larguraTotal">
+      <label for="nome-servico">Nome do Serviço</label>
+      <input type="text" id="nome-servico" name="nomeServico" value="{{servico.nome}}">
+    </div>
+
+    <div class="inputFormulario">
+      <label for="categoria">Categoria</label>
+      <select id="categoria" name="categoria">
+        <option value="" disabled>Selecione uma categoria</option>
+        <option value="fotografia" {{#if (eq servico.categoria "fotografia")}}selected{{/if}}>Fotografia e Vídeo</option>
+        <option value="buffet" {{#if (eq servico.categoria "buffet")}}selected{{/if}}>Buffet e Alimentação</option>
+        <option value="decoracao" {{#if (eq servico.categoria "decoracao")}}selected{{/if}}>Decoração</option>
+        <option value="musica" {{#if (eq servico.categoria "musica")}}selected{{/if}}>Música e Entretenimento</option>
+        <option value="local" {{#if (eq servico.categoria "local")}}selected{{/if}}>Local e Espaço</option>
+        <option value="outro" {{#if (eq servico.categoria "outro")}}selected{{/if}}>Outro</option>
+      </select>
+    </div>
+
+    <div class="inputFormulario">
+      <label for="preco">Preço (R$)</label>
+      <input type="number" id="preco" name="preco" step="0.01" value="{{servico.preco}}">
+    </div>
+
+    <div class="inputFormulario larguraTotal">
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" name="descricao" rows="5">{{servico.descricao}}</textarea>
+    </div>
+
+    <div class="inputFormulario larguraTotal">
+      <label>Fotos atuais</label>
+      <div id="imagens-atuais" class="previa-imagens-container">
+        {{#each servico.imagens}}
+          <div class="previa-item">
+            <img src="{{this}}" class="previa-imagem" alt="Imagem atual">
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="inputFormulario larguraTotal">
+      <label>Adicionar novas imagens (até 5)</label>
+      <div class="area-upload" id="area-upload">
+        <p>Arraste e solte as imagens aqui ou clique para selecionar</p>
+      </div>
+      <input type="file" id="input-arquivo" multiple accept="image/*" style="display: none;">
+      <div id="previa-imagens" class="previa-imagens-container"></div>
+    </div>
+
+    <div class="botoesContainer">
+      <button type="submit" class="botao botaoConfirmar">Salvar Alterações</button>
+      <a href="/servicos" class="botao botaoCancelar">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<script src="/js/editarservico.js"></script>
