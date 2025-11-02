@@ -337,7 +337,7 @@ form {
   color: white;
 }
 .botao-cancelar {
-  padding: 8px 16px; /* Específico */
+  padding: 8px 16px; 
 }
 .botao-cancelar:hover {
   background: #ccc;
@@ -348,7 +348,7 @@ form {
   color: #000000;
 }
 .botao-confirmar {
-  padding: 8px 16px; /* Específico */
+  padding: 8px 16px; 
 }
 .botaoConfirmar:hover, .botao-confirmar:hover {
   filter: brightness(0.9);
@@ -369,7 +369,7 @@ form {
 .btn {
   background: #a5c7f5;
   color: #000;
-  padding: 8px 12px; /* Específico */
+  padding: 8px 12px; 
 }
 .btn:hover {
   background: #91b5e1;
@@ -698,6 +698,36 @@ body:has(.container-novo-evento) {
   transform: translateY(-1px);
 }
 
+.perfil-favoritar-btn-container {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-favorito {
+  background-color: #f7f5f3 !important; 
+  color: #333 !important; 
+  border: 1px solid #ccc !important; 
+}
+
+.btn-favorito.botaoConfirmar { 
+  color: #333 !important;
+  border-color: #ccc !important;
+}
+
+.btn-favorito.botaoCancelar { 
+  color: #A7C7E7 !important;
+  border-color: #A7C7E7 !important;
+  background-color: transparent !important; 
+}
+
+.btn-favorito:hover {
+  background-color: #e9e9e9 !important; 
+  transform: translateY(-1px);
+}
+/* === FIM NOVO ESTILO === */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -793,6 +823,7 @@ body:has(.container-novo-evento) {
   text-align: left;
 }
 
+
 @media (max-width: 768px) {
   body {
     padding: 1rem 0.5rem;
@@ -826,7 +857,8 @@ body:has(.container-novo-evento) {
     padding: 0;
   }
   
-  .perfil-editar-btn-container {
+  .perfil-editar-btn-container,
+  .perfil-favoritar-btn-container { 
       position: static; 
       transform: none;
       margin-top: 15px; 

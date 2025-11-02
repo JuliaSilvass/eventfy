@@ -1,0 +1,34 @@
+<div class="cardPrincipal">
+  <div class="headerLogin">
+    <p class="headerText tituloPagina">Empresas</p>
+  </div>
+
+  {{#if user}}
+    <p class="tituloUsuario">
+      Fornecedores cadastrados na <strong>Eventfy</strong>:
+    </p>
+  {{/if}}
+
+  {{#if empresas.length}}
+    <div class="listaServicos"> 
+      {{#each empresas}}
+        <div class="itemServico"> 
+          <h3>{{this.nome}}</h3>
+          <p><strong>Email:</strong> {{this.email}}</p>
+          <p><strong>Telefone:</strong> {{this.telefone}}</p>
+          
+          <div class="botoesServico" style="margin-top: 1.5rem;">
+            <a href="/fornecedor/{{this.id}}" class="botao botaoConfirmar" style="padding: 10px 20px;">
+              Ver Perfil
+            </a>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="semServicos">
+      <h3>Nenhuma empresa encontrada</h3>
+      <p>Ainda não há fornecedores (empresas) cadastrados na plataforma.</p>
+    </div>
+  {{/if}}
+</div>

@@ -17,14 +17,18 @@
         Escolha uma das opções abaixo 👇
       </p>
 
-      <!-- 🔹 Botões principais -->
       <div class="botoesContainerNav">
-        {{!-- Em todos os botões tem que tratar para o tipo de usuáro --}}
         <a href="/perfil" class="botao botaoConfirmar ">👤 Perfil</a>
         <a href="/eventos" class="botao botaoConfirmar">🎉 Eventos</a>
-        <a href="/servicos" class="botao botaoConfirmar">🛠️Serviços</a>
+        
+        {{#if (eq user.tipo "organizador")}}
+          <a href="/empresas" class="botao botaoConfirmar">🛠️ Empresas</a>
+        {{else}}
+          <a href="/servicos" class="botao botaoConfirmar">🛠️ Serviços</a>
+        {{/if}}
+
         <a href="/historico" class="botao botaoConfirmar">📜 Histórico</a>
-        {{!-- Somente para o organizador --}}
+        
         {{#if (eq user.tipo "organizador")}}
           <a href="/favoritos" class="botao botaoConfirmar">⭐ Favoritos</a>
           <a href="/avaliacoes" class="botao botaoConfirmar">📝 Avaliações</a>

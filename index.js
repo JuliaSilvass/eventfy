@@ -10,6 +10,8 @@ const authRoutes = require("./routes/authRoutes");
 const servicoRoutes = require("./routes/servicoRoutes");
 const eventoRoutes = require("./routes/eventoRoutes");
 const perfilRoutes = require("./routes/perfilRoutes");
+// --- NOVO ---
+const empresaRoutes = require("./routes/empresaRoutes");
 
 const app = express();
 
@@ -89,6 +91,13 @@ app.use("/", authRoutes);
 app.use("/servicos", checkAuth, servicoRoutes);
 app.use("/eventos", checkAuth, eventoRoutes);
 app.use("/perfil", checkAuth, perfilRoutes);
+app.use("/empresas", checkAuth, empresaRoutes);
+
+app.get(
+  "/fornecedor/:id",
+  checkAuth,
+  require("./controllers/perfilController").getFornecedorPublico
+);
 
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");

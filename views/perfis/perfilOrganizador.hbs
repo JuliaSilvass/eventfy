@@ -13,7 +13,6 @@
     </div>
 
     <div class="perfil-meta-container">
-      
       <div class="stats">
         <div>
           <p><strong>Avaliação</strong></p>
@@ -28,7 +27,6 @@
       <div class="perfil-editar-btn-container">
         <a href="/perfil/editar" class="btn btn-editar-perfil">Editar Perfil</a>
       </div>
-
     </div>
   </section>
 
@@ -58,17 +56,20 @@
     <hr>
 
     <section class="secao">
-      <h2>Empresas favoritas</h2>
+      <h2>Empresas Favoritas</h2>
       <div class="cards">
-        {{#each empresas}}
-          <div class="card card-empresa"></div>
-        {{/each}}
-        {{#unless empresas}}
-          <p>Nenhuma empresa favorita</p>
-        {{/unless}}
+        {{#if favoritos.length}}
+          {{#each favoritos}}
+            <a href="/fornecedor/{{this.id}}" class="card card-empresa">
+              {{this.nome}}
+            </a>
+          {{/each}}
+        {{else}}
+          <p>Nenhuma empresa favorita ainda.</p>
+        {{/if}}
       </div>
       <div class="botoes">
-        <button class="btn">Ver Tudo</button>
+        <a href="/empresas" class="btn">Ver Todas Empresas</a>
       </div>
     </section>
   </div>
