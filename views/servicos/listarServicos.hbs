@@ -1,34 +1,56 @@
-<div class="cardPrincipal">
-  <div class="headerLogin">
-    <p class="headerText tituloPagina">Serviços</p>
+<div class="listaServicos">
+{{#each servicos}}
+  <div class="itemServico">
+
+    {{!-- FOTO (opcional) --}}
+    {{#if this.imagens}}
+      {{#if this.imagens.[0]}}
+        <img src="{{this.imagens.[0]}}" class="imgServicoLista" alt="Imagem do serviço">
+      {{else}}
+        <div class="imgServicoPlaceholder">Sem imagem</div>
+      {{/if}}
+    {{else}}
+      <div class="imgServicoPlaceholder">Sem imagem</div>
+    {{/if}}
+
+    <span class="categoriaServico">{{this.categoria}}</span>
+    <h3>{{this.nome}}</h3>
+    <p class="precoServico">R$ {{this.preco}}</p>
+    <p>{{this.descricao}}</p>
+
+    {{!-- DISPONIBILIDADE --}}
+    {{#if this.disponibilidade}}
+      <div class="servicoDisponibilidade">
+        <strong>Disponibilidade:</strong>
+        <ul>
+        {{#each this.disponibilidade}}
+          <li>
+            <strong>{{@key}}:</strong>
+            {{#each this}}
+              {{inicio}} às {{fim}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+          </li>
+        {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{!-- INFO DO FORNECEDOR PARA ORGANIZADOR --}}
+    {{#if (eq ../user.tipo "organizador")}}
+      <div class="fornecedorInfo">
+        <p><strong>Fornecedor:</strong> {{this.fornecedorNome}}</p>
+        <p><strong>Contato:</strong> {{this.fornecedorEmail}} {{#if this.fornecedorTelefone}}| {{this.fornecedorTelefone}}{{/if}}</p>
+      </div>
+    {{/if}}
+
+    {{!-- BOTÕES SOMENTE PARA FORNECEDOR --}}
+    {{#if (eq ../user.tipo "fornecedor")}}
+      <div class="botoesServico">
+        <button class="botaoEditar" onclick="editarServico('{{this.id}}')">Editar</button>
+        <button class="botaoApagar" onclick="apagarServico('{{this.id}}')">Apagar</button>
+      </div>
+    {{/if}}
+
   </div>
-
-  {{#if servicos.length}}
-    <p class="tituloUsuario">
-      Serviços cadastrados por <strong>{{user.nome}}</strong>:
-    </p>
-
-    <div class="listaServicos">
-      {{#each servicos}}
-        <div class="itemServico">
-          <span class="categoriaServico">{{this.categoria}}</span>
-          <h3>{{this.nome}}</h3>
-          <p class="precoServico">R$ {{this.preco}}</p>
-          <p>{{this.descricao}}</p>
-          <div class="botoesServico">
-            <button class="botaoEditar" type="button" onclick="editarServico('{{this.id}}')">Editar</button>
-            <button class="botaoApagar" type="button" onclick="apagarServico('{{this.id}}')">Apagar</button>
-          </div>
-        </div>
-      {{/each}}
-    </div>
-  {{else}}
-    <div class="semServicos">
-      <h3>Olá, {{user.nome}} 👋</h3>
-      <p>Você ainda não possui serviços cadastrados.</p>
-      <a href="/servicos/cadastrar" class="botao botaoConfirmar">Cadastrar meu primeiro serviço</a>
-    </div>
-  {{/if}}
+{{/each}}
 </div>
-
-<script src="/js/main.js"></script>

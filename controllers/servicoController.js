@@ -50,32 +50,83 @@ exports.createServicoPost = async (req, res) => {
 exports.listarServicos = async (req, res) => {
   if (!req.user) return res.redirect('/login');
 
-  console.log('Usuário logado no listarServicos:', req.user);
-
-
   try {
-    const querySnapshot = await db.collection('servicos')
-      .where('prestadorID', '==', req.user.uid)
-      .orderBy('criadoEm', 'desc')
-      .get();
+    // 1) Buscar tipo do usuário
+    const userDoc = await db.collection('usuarios').doc(req.user.uid).get();
+    if (!userDoc.exists) return res.status(404).send('Usuário não encontrado.');
+    const userData = userDoc.data();
+    const user = { ...req.user, tipo: userData.tipo };  // garante user.tipo aqui
 
-    const servicos = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    // 2) Buscar serviços conforme o tipo
+    let servicosSnapshot;
+    if (user.tipo === 'fornecedor') {
+      // Lista apenas serviços do fornecedor logado
+      servicosSnapshot = await db
+        .collection('servicos')
+        .where('prestadorID', '==', user.uid) // <-- usa prestadorID e uid corretos
+        .get();
+    } else if (user.tipo === 'organizador') {
+      // Lista TODOS os serviços
+      servicosSnapshot = await db.collection('servicos').get();
+    } else {
+      // fallback: se o tipo for desconhecido, não mostra nada
+      servicosSnapshot = { empty: true, docs: [] };
+    }
 
-    res.render('servicos/listarServicos', {
+    // 3) Montar a lista e, se organizador, enriquecer com dados do fornecedor
+    const servicos = [];
+
+    if (!servicosSnapshot.empty) {
+      const docs = servicosSnapshot.docs;
+
+      if (user.tipo === 'organizador') {
+        // Buscar dados do fornecedor (usuarios/{prestadorID}) para cada serviço
+        // Fazendo em paralelo para ficar mais rápido
+        const enriquecidos = await Promise.all(
+          docs.map(async (d) => {
+            const s = { id: d.id, ...d.data() };
+
+            let fornecedorNome = '';
+            let fornecedorEmail = '';
+            let fornecedorTelefone = '';
+
+            if (s.prestadorID) {
+              const fornDoc = await db.collection('usuarios').doc(s.prestadorID).get();
+              if (fornDoc.exists) {
+                const forn = fornDoc.data();
+                fornecedorNome = forn.nome || '';
+                fornecedorEmail = forn.email || '';
+                fornecedorTelefone = forn.telefone || '';
+              }
+            }
+
+            return {
+              ...s,
+              fornecedorNome,
+              fornecedorEmail,
+              fornecedorTelefone,
+            };
+          })
+        );
+
+        servicos.push(...enriquecidos);
+      } else {
+        // fornecedor: mantém dados como estão
+        docs.forEach((d) => servicos.push({ id: d.id, ...d.data() }));
+      }
+    }
+
+    // 4) Render
+    return res.render('servicos/listarServicos', {
+      user,
       servicos,
-      user: req.user
     });
   } catch (error) {
     console.error('Erro ao listar serviços:', error);
-    res.render('servicos/listarServicos', {
-      servicos: [],
-      user: req.user
-    });
+    return res.status(500).send('Erro ao carregar serviços');
   }
 };
+
 
 exports.apagarServico = async (req, res) => {
   if (!req.user) return res.status(401).send('Não autorizado');
