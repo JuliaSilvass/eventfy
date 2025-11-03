@@ -51,37 +51,40 @@ exports.listarServicos = async (req, res) => {
   if (!req.user) return res.redirect('/login');
 
   try {
-    // 1) Buscar tipo do usuário
+    // 1) Buscar dados do usuário (tipo e nome)
     const userDoc = await db.collection('usuarios').doc(req.user.uid).get();
     if (!userDoc.exists) return res.status(404).send('Usuário não encontrado.');
     const userData = userDoc.data();
-    const user = { ...req.user, tipo: userData.tipo };  // garante user.tipo aqui
+    const user = {
+      ...req.user,
+      tipo: userData.tipo,
+      nome: userData.nome || req.user.displayName || req.user.email // ajuda na view
+    };
 
     // 2) Buscar serviços conforme o tipo
     let servicosSnapshot;
     if (user.tipo === 'fornecedor') {
-      // Lista apenas serviços do fornecedor logado
       servicosSnapshot = await db
         .collection('servicos')
-        .where('prestadorID', '==', user.uid) // <-- usa prestadorID e uid corretos
+        .where('prestadorID', '==', user.uid)
         .get();
+
+      // ✅ Se não tem nenhum serviço, manda direto para cadastrar
+      if (servicosSnapshot.empty && user.tipo === 'fornecedor') {
+        return res.render('servicos/listarServicos', { user, servicos: [], ctaCadastrar: true });
+      }
     } else if (user.tipo === 'organizador') {
-      // Lista TODOS os serviços
       servicosSnapshot = await db.collection('servicos').get();
     } else {
-      // fallback: se o tipo for desconhecido, não mostra nada
       servicosSnapshot = { empty: true, docs: [] };
     }
 
-    // 3) Montar a lista e, se organizador, enriquecer com dados do fornecedor
+    // 3) Montar a lista; enriquecer fornecedor para organizador
     const servicos = [];
-
     if (!servicosSnapshot.empty) {
       const docs = servicosSnapshot.docs;
 
       if (user.tipo === 'organizador') {
-        // Buscar dados do fornecedor (usuarios/{prestadorID}) para cada serviço
-        // Fazendo em paralelo para ficar mais rápido
         const enriquecidos = await Promise.all(
           docs.map(async (d) => {
             const s = { id: d.id, ...d.data() };
@@ -108,15 +111,13 @@ exports.listarServicos = async (req, res) => {
             };
           })
         );
-
         servicos.push(...enriquecidos);
       } else {
-        // fornecedor: mantém dados como estão
         docs.forEach((d) => servicos.push({ id: d.id, ...d.data() }));
       }
     }
 
-    // 4) Render
+    // 4) Render final
     return res.render('servicos/listarServicos', {
       user,
       servicos,
@@ -126,6 +127,7 @@ exports.listarServicos = async (req, res) => {
     return res.status(500).send('Erro ao carregar serviços');
   }
 };
+
 
 
 exports.apagarServico = async (req, res) => {

@@ -52,5 +52,21 @@
     {{/if}}
 
   </div>
+{{else}}
+
+{{!-- CASO NÃO HAJA SERVIÇOS --}}
+{{#if (eq user.tipo "fornecedor")}}
+  <div class="semServicos semServicos--fornecedor">
+    <h3>Você não tem nenhum serviço cadastrado.</h3>
+    <p>Cadastre seu primeiro serviço para começar a ser encontrado.</p>
+    <a href="/servicos/cadastrar" class="botao botaoConfirmar">Cadastrar serviço</a>
+  </div>
+{{else}}
+  <div class="semServicos">
+    <h3>Nenhum serviço disponível no momento.</h3>
+  </div>
+{{/if}}
+
+
 {{/each}}
 </div>
