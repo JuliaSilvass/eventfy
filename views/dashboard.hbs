@@ -19,9 +19,9 @@
 
       <div class="botoesContainerNav">
         <a href="/perfil" class="botao botaoConfirmar ">👤 Perfil</a>
-        <a href="/eventos" class="botao botaoConfirmar">🎉 Eventos</a>
         
         {{#if (eq user.tipo "organizador")}}
+          <a href="/eventos" class="botao botaoConfirmar">🎉 Eventos</a>
           <a href="/empresas" class="botao botaoConfirmar">🛠️ Empresas</a>
           <a href="/servicos" class="botao botaoConfirmar">🎥 Serviços</a>
         {{else}}
@@ -32,7 +32,7 @@
         
         {{#if (eq user.tipo "organizador")}}
           {{!-- <a href="/favoritos" class="botao botaoConfirmar">⭐ Favoritos</a> --}}
-          <a href="/avaliacoes" class="botao botaoConfirmar">📝 Avaliações</a>
+          {{!-- <a href="/avaliacoes" class="botao botaoConfirmar">📝 Avaliações</a> --}}
         {{/if}}
       </div>
 

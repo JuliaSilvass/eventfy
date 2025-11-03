@@ -1,0 +1,54 @@
+<div class="container-novo-evento">
+  <h2 class="titulo-novo-evento">Editar Evento</h2>
+
+  <form action="/eventos/editar/{{evento.id}}" method="POST" class="form-novo-evento">
+
+    <div class="coluna-esquerda">
+      <label>Nome do evento</label>
+      <input type="text" name="nome" value="{{evento.nome}}" required>
+
+      <div class="grupo-duplo">
+        <div>
+          <label>Data de início</label>
+          <input type="date" name="dataInicio" value="{{evento.dataInicio}}" required>
+        </div>
+
+        <div>
+          <label>Data de fim</label>
+          <input type="date" name="dataFim" value="{{evento.dataFim}}" required>
+        </div>
+      </div><br>
+
+      <div class="grupo-duplo">
+        <div>
+          <label>Horário de início</label>
+          <input type="time" name="horarioInicio" value="{{evento.horarioInicio}}" required>
+        </div>
+
+        <div>
+          <label>Horário de fim</label>
+          <input type="time" name="horarioFim" value="{{evento.horarioFim}}" required>
+        </div>
+      </div><br>
+
+      <label>Ícone</label>
+      <select name="icone" required>
+        <option value="aniversario" {{#if (eq evento.icone "aniversario")}}selected{{/if}}>Aniversário</option>
+        <option value="workshop" {{#if (eq evento.icone "workshop")}}selected{{/if}}>Workshop</option>
+        <option value="casamento" {{#if (eq evento.icone "casamento")}}selected{{/if}}>Casamento</option>
+        <option value="festa" {{#if (eq evento.icone "festa")}}selected{{/if}}>Festa</option>
+        <option value="outros" {{#if (eq evento.icone "outros")}}selected{{/if}}>Outros</option>
+      </select>
+    </div>
+
+    <div class="coluna-direita">
+      <label>Descrição</label>
+      <textarea name="descricao">{{evento.descricao}}</textarea>
+    </div>
+
+    <div class="botoes-novo-evento">
+      <a href="/eventos" class="botao-cancelar">Cancelar</a>
+      <button type="submit" class="botao-confirmar">Salvar</button>
+    </div>
+  </form>
+</div>

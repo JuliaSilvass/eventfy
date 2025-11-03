@@ -1,0 +1,56 @@
+<div class="cardPrincipal">
+  <div class="headerLogin">
+    <img src="/assets/logo.PNG" alt="Logo Eventfy" class="logoHeader">
+    <p class="headerText tituloPagina">Eventos</p>
+  </div>
+
+  <h2 class="tituloUsuario">Eventos criados por <strong>{{user.nome}}</strong></h2>
+
+  <div class="listaServicos">
+    {{#each eventos}}
+      <div class="itemServico">
+
+        <span class="categoriaServico">{{this.icone}}</span>
+
+        <h3>
+          {{this.nome}}
+        </h3>
+
+        <p class="precoServico">
+          {{this.dataInicio}} às {{this.horarioInicio}}
+        </p>
+
+        <p>{{this.descricao}}</p>
+
+        <div class="botoesServico">
+          <a class="botaoEditar" href="/eventos/editar/{{this.id}}">Editar</a>
+          <button class="botaoApagar" onclick="excluirEvento('{{this.id}}')">Excluir</button>
+        </div>
+
+      </div>
+    {{else}}
+
+      <div class="semServicos semServicos--fornecedor">
+        <h3>Você ainda não criou nenhum evento.</h3>
+        <p>Comece criando seu primeiro evento!</p>
+        <a href="/eventos/novo" class="botao botaoConfirmar">Criar evento</a>
+      </div>
+
+    {{/each}}
+  </div>
+</div>
+
+<script>
+async function excluirEvento(id) {
+  if (!confirm("Tem certeza que deseja excluir este evento?")) return;
+
+  const res = await fetch(`/eventos/excluir/${id}`, { method: "DELETE" });
+
+  if (res.ok) {
+    alert("Evento excluído com sucesso");
+    location.reload();
+  } else {
+    alert("Erro ao excluir evento");
+  }
+}
+</script>
