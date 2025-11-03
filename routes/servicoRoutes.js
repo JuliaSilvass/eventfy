@@ -24,5 +24,7 @@ router.post("/cadastrar", checkAuth, upload.array("imagens", 5), servicoControll
 router.get("/editar/:id", checkAuth, servicoController.getEditarServico);
 router.post("/editar/:id", checkAuth, upload.array("imagens", 5), servicoController.editarServicoPost);
 router.delete("/apagar/:id", checkAuth, servicoController.apagarServico);
+router.get("/:id", checkAuth, servicoController.getViewServico);
+
 
 module.exports = router;

@@ -207,3 +207,22 @@ exports.editarServicoPost = async (req, res) => {
   }
 };
 
+
+exports.getViewServico = async (req, res) => {
+  if (!req.user) return res.redirect("/login");
+  const { id } = req.params;
+
+  try {
+    const doc = await db.collection("servicos").doc(id).get();
+    if (!doc.exists) return res.status(404).send("Serviço não encontrado");
+
+    const servico = { id: doc.id, ...doc.data() };
+
+    // Organizador ou qualquer usuário pode visualizar
+    return res.render("servicos/visualizarServico", { servico });
+  } catch (error) {
+    console.error("Erro ao visualizar serviço:", error);
+    res.status(500).send("Erro ao carregar serviço");
+  }
+};
+

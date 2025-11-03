@@ -1,0 +1,39 @@
+<style>
+  body {
+    background-color: #f7f5f3;
+  }
+</style>
+
+<div class="pagina-servico">
+  <h1 class="titulo-pagina">{{servico.nome}}</h1>
+
+  <div class="inputFormulario larguraTotal">
+    <label>Categoria</label>
+    <input type="text" value="{{servico.categoria}}" disabled>
+  </div>
+
+  <div class="inputFormulario">
+    <label>Preço (R$)</label>
+    <input type="number" value="{{servico.preco}}" disabled>
+  </div>
+
+  <div class="inputFormulario larguraTotal">
+    <label>Descrição</label>
+    <textarea rows="5" disabled>{{servico.descricao}}</textarea>
+  </div>
+
+  <div class="inputFormulario larguraTotal">
+    <label>Fotos</label>
+    <div class="previa-imagens-container">
+      {{#each servico.imagens}}
+        <div class="previa-item">
+          <img src="{{this}}" class="previa-imagem" alt="Imagem do serviço">
+        </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="botoesContainer">
+    <a href="/perfil" class="botao botaoCancelar">Voltar</a>
+  </div>
+</div>
