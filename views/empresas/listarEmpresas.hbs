@@ -9,11 +9,19 @@
     </p>
   {{/if}}
 
+  <input 
+    type="text" 
+    id="campoBuscaEmpresas"
+    placeholder="Buscar empresa..." 
+    class="inputBusca"
+    autocomplete="off"
+  />
+
   {{#if empresas.length}}
     <div class="listaServicos"> 
       {{#each empresas}}
         <div class="itemServico"> 
-          <h3>{{this.nome}}</h3>
+          <h3 class="nomeEmpresa">{{this.nome}}</h3>
           <p><strong>Email:</strong> {{this.email}}</p>
           <p><strong>Telefone:</strong> {{this.telefone}}</p>
           
@@ -28,7 +36,9 @@
   {{else}}
     <div class="semServicos">
       <h3>Nenhuma empresa encontrada</h3>
-      <p>Ainda não há fornecedores (empresas) cadastrados na plataforma.</p>
+      <p>Ainda não há fornecedores cadastrados na plataforma.</p>
     </div>
   {{/if}}
 </div>
+
+<script src="/js/busca.js"></script>

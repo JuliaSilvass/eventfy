@@ -1,9 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const empresaController = require("../controllers/empresaController");
+const empresasController = require('../controllers/empresaController');
 
-router.get("/", empresaController.listarEmpresas);
+router.get('/', empresasController.listarEmpresas);
 
-router.post("/favorito", empresaController.toggleFavorito);
+router.get('/empresas/buscar', empresasController.buscarEmpresas);
+
+router.post('/empresas/favorito', empresasController.toggleFavorito);
 
 module.exports = router;
