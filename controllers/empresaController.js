@@ -14,8 +14,8 @@ exports.listarEmpresas = async (req, res) => {
     }));
 
     res.render('empresas/listarEmpresas', {
-      empresas: empresas,
-      user: req.user 
+      empresas,
+      user: req.user
     });
   } catch (error) {
     console.error('Erro ao listar empresas:', error);
@@ -27,12 +27,38 @@ exports.listarEmpresas = async (req, res) => {
   }
 };
 
+exports.buscarEmpresas = async (req, res) => {
+  const termo = req.query.q ? req.query.q.toLowerCase() : "";
+
+  try {
+    const querySnapshot = await db.collection('usuarios')
+      .where('tipo', '==', 'fornecedor')
+      .get();
+
+    let empresas = querySnapshot.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    }));
+
+    if (termo) {
+      empresas = empresas.filter(e =>
+        e.nome && e.nome.toLowerCase().includes(termo)
+      );
+    }
+
+    res.json(empresas);
+  } catch (error) {
+    console.error("Erro na busca:", error);
+    res.status(500).json({ erro: "Erro ao buscar empresas" });
+  }
+};
+
 exports.toggleFavorito = async (req, res) => {
   if (!req.user || req.user.tipo !== 'organizador') {
     return res.status(403).json({ erro: 'Ação não permitida' });
   }
 
-  const { fornecedorId, nomeEmpresa } = req.body; 
+  const { fornecedorId, nomeEmpresa } = req.body;
   const organizadorId = req.user.uid;
 
   if (!fornecedorId) {
@@ -41,13 +67,12 @@ exports.toggleFavorito = async (req, res) => {
 
   try {
     const favoritoRef = db.collection('usuarios').doc(organizadorId)
-                          .collection('favoritos').doc(fornecedorId);
-    
+      .collection('favoritos').doc(fornecedorId);
+
     const fornecedorRef = db.collection('usuarios').doc(fornecedorId);
 
     await db.runTransaction(async (transaction) => {
       const favoritoDoc = await transaction.get(favoritoRef);
-      const fornecedorDoc = await transaction.get(fornecedorRef);
 
       if (favoritoDoc.exists) {
         transaction.delete(favoritoRef);
@@ -61,12 +86,11 @@ exports.toggleFavorito = async (req, res) => {
         });
         transaction.update(fornecedorRef, {
           favoritosCount: admin.firestore.FieldValue.increment(1)
-        }, { merge: true }); 
+        }, { merge: true });
       }
     });
 
     res.status(200).json({ sucesso: true });
-
   } catch (error) {
     console.error('Erro ao favoritar:', error);
     res.status(500).json({ erro: 'Erro no servidor' });
