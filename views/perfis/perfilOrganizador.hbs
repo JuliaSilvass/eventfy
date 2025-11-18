@@ -39,7 +39,8 @@
         {{#if eventos.length}}
           {{#each eventos}}
             <a href="/eventos/editar/{{this.id}}" class="card card-evento">
-              {{this.nome}}
+
+              <p class="card-evento-nome">{{this.nome}}</p>
             </a>
           {{/each}}
         {{else}}
@@ -60,7 +61,19 @@
         {{#if favoritos.length}}
           {{#each favoritos}}
             <a href="/fornecedor/{{this.id}}" class="card card-empresa">
-              {{this.nome}}
+
+              {{!-- Foto da empresa (primeira imagem se existir) --}}
+              {{#if this.imagens}}
+                {{#if this.imagens.[0]}}
+                  <img src="{{this.imagens.[0]}}" class="card-empresa-foto" alt="Imagem da empresa">
+                {{else}}
+                  <div class="card-empresa-placeholder">Sem imagem</div>
+                {{/if}}
+              {{else}}
+                <div class="card-empresa-placeholder">Sem imagem</div>
+              {{/if}}
+
+              <p class="card-empresa-nome">{{this.nome}}</p>
             </a>
           {{/each}}
         {{else}}

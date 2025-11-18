@@ -712,14 +712,23 @@ body:has(.container-novo-evento) {
 }
 
 .btn-favorito.botaoConfirmar { 
-  color: #333 !important;
+  border-color: #7DA7CF !important;
+  color: #0A1A2F !important;
   border-color: #ccc !important;
 }
 
+.btn-favorito.botaoConfirmar:hover {
+  background-color: #94B6D6 !important;
+}
+
 .btn-favorito.botaoCancelar { 
-  color: #A7C7E7 !important;
+  color: #0A1A2F !important;
   border-color: #A7C7E7 !important;
-  background-color: transparent !important; 
+
+}
+
+.btn-favorito.botaoCancelar:hover {
+  background-color: #C0392B !important;
 }
 
 .btn-favorito:hover {
@@ -991,4 +1000,94 @@ body:has(.container-novo-evento) {
   .secao {
     padding: 0 3%;
   }
+}
+.tituloServicos {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 900;
+  color: #222;
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+}
+
+
+/* ===== CARDS DE EVENTOS ===== */
+.card-evento {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #A7C7E7;
+  color: #0D1B2A;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 600;
+  width: 130px;
+  height: 130px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-evento:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card-evento-icone {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.card-evento-nome {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* ===== CARDS DE EMPRESAS FAVORITAS ===== */
+.card-empresa {
+ display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #A7C7E7;
+  color: #0D1B2A;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 600;
+  width: 130px;
+  height: 130px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-empresa:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card-empresa-foto {
+  width: 100%;
+  height: 90px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.card-empresa-placeholder {
+  width: 100%;
+  height: 90px;
+  background: linear-gradient(135deg, #eee, #ddd);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+}
+
+.card-empresa-nome {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
 }

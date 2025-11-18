@@ -30,6 +30,9 @@ document.querySelectorAll('.btn-favorito').forEach(button => {
         btn.classList.remove('botaoCancelar');
         btn.classList.add('botaoConfirmar');
       }
+      
+      // RECARREGA A PÁGINA DEPOIS DE ATUALIZAR
+      window.location.reload();
 
     } catch (err) {
       console.error(err);
