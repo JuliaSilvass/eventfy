@@ -92,6 +92,7 @@ app.use("/servicos", checkAuth, servicoRoutes);
 app.use("/eventos", checkAuth, eventoRoutes);
 app.use("/perfil", checkAuth, perfilRoutes);
 app.use("/empresas", checkAuth, empresaRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get(
   "/fornecedor/:id",
@@ -102,3 +103,4 @@ app.get(
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");
 });
+

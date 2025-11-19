@@ -1,36 +1,36 @@
+
 <div class="app app--perfil">
   <section class="perfil-header">
-    <div class="foto-perfil">
-      {{#if usuario.photoURL}}
-        <img src="{{usuario.photoURL}}" alt="Foto do usuário" />
-      {{else}}
-        <img src="/assets/default-user.png" alt="Foto padrão" />
-      {{/if}}
-    </div>
+
+    <form id="formFoto" action="/perfil/upload-foto" method="POST" enctype="multipart/form-data">
+      <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="document.getElementById('formFoto').submit()">
+    </form>
+
+<div class="foto-perfil">
+  {{#if usuario.photoURL}}
+  <img id="fotoExibida" src="{{usuario.photoURL}}" onerror="this.src='/assets/rosa.jpg'" />
+{{else}}
+  <img id="fotoExibida" src="/assets/editar_foto_perfil.png" />
+  <div class="editar-texto">Clique para editar</div>
+{{/if}}
+
+
+  <div class="editar-texto">Clique para editar</div>
+</div>
+
+
+
+    <script>
+      document.getElementById("fotoExibida").addEventListener("click", () => {
+        document.getElementById("inputFoto").click();
+      });
+    </script>
 
     <div class="info-usuario">
-      <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
+      <h3>{{usuario.nome}}</h3>
     </div>
 
-    <div class="perfil-meta-container">
-      <div class="stats">
-        <div>
-          <p><strong>Avaliação</strong></p>
-          <p>{{#if usuario.avaliacao}}{{usuario.avaliacao}}{{else}}—{{/if}}</p>
-        </div>
-        <div>
-          <p><strong>Eventos Realizados</strong></p>
-          <p>{{#if usuario.eventosRealizados}}{{usuario.eventosRealizados}}{{else}}—{{/if}}</p>
-        </div>
-      </div>
-
-      <div class="perfil-editar-btn-container">
-        <a href="/perfil/editar" class="btn btn-editar-perfil">Editar Perfil</a>
-      </div>
-    </div>
-  </section>
-
-  <hr>
+  </section> 
 
   <div class="container-secoes">
     <section class="secao">
@@ -85,4 +85,5 @@
       </div>
     </section>
   </div>
+</div>
 </div>

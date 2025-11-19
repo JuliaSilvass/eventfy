@@ -8,6 +8,9 @@ router.get("/editar", perfilController.getEditarPerfilForm);
 router.post("/editar", perfilController.updatePerfil);
 
 router.post("/descricao", perfilController.updateDescricao);
-
-
+router.post(
+  "/upload-foto",
+  perfilController.uploadMiddleware,
+  perfilController.uploadFotoPerfil
+);
 module.exports = router;

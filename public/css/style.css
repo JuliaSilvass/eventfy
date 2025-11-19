@@ -565,6 +565,9 @@ form {
   object-fit: cover;
   display: block;
 }
+.foto-perfil:hover img {
+  opacity: 0.5; /* 50% */
+}
 .info-usuario {
   margin-top: 12px;
 }
@@ -1110,4 +1113,10 @@ body:has(.container-novo-evento) {
 .inputBusca:focus {
   border-color: #6C63FF;
   box-shadow: 0 0 4px rgba(108, 99, 255, 0.4);
+}
+
+.foto-perfil .editar-texto {
+  margin-top: 1000em;         /* Espaço de 2 linhas abaixo da imagem */
+  font-size: 0.9em;
+  color: #555;
 }
