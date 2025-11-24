@@ -1,36 +1,18 @@
+<form id="formFoto" action="/perfil/upload-foto" method="POST" enctype="multipart/form-data">
+  <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="this.form.submit()">
+</form>
 
-<div class="app app--perfil">
-  <section class="perfil-header">
-
-    <form id="formFoto" action="/perfil/upload-foto" method="POST" enctype="multipart/form-data">
-      <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="document.getElementById('formFoto').submit()">
-    </form>
-
-<div class="foto-perfil">
+<div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
   {{#if usuario.photoURL}}
-  <img id="fotoExibida" src="{{usuario.photoURL}}" onerror="this.src='/assets/rosa.jpg'" />
-{{else}}
-  <img id="fotoExibida" src="/assets/editar_foto_perfil.png" />
-  <div class="editar-texto">Clique para editar</div>
-{{/if}}
-
-
+    <img id="fotoExibida" src="{{usuario.photoURL}}" onerror="this.src='/assets/rosa.jpg'" />
+  {{else}}
+    <img id="fotoExibida" src="/assets/editar_foto_perfil.png" />
+  {{/if}}
   <div class="editar-texto">Clique para editar</div>
 </div>
 
 
 
-    <script>
-      document.getElementById("fotoExibida").addEventListener("click", () => {
-        document.getElementById("inputFoto").click();
-      });
-    </script>
-
-    <div class="info-usuario">
-      <h3>{{usuario.nome}}</h3>
-    </div>
-
-  </section> 
 
   <div class="container-secoes">
     <section class="secao">

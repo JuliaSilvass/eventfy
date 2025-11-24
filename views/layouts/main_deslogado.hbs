@@ -76,26 +76,6 @@
 
 
 <body>
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <img src="/assets/logo.png" alt="Logo Eventfy">
-      <h2>Eventfy</h2>
-    </div>
-
-    <a href="/">🏠 Home</a>
-
-
-    {{#if (eq user.tipo "fornecedor")}}
-      <a href="/servicos">🛠 Meus Serviços</a>
-    {{/if}}
-
-    <a href="/perfil">👤 Perfil</a>
-    <a href="/empresas">🏢 Empresas</a>
-
-    <button id="logoutBtn" class="botao botaoConfirmar" style="margin-top: auto; margin-bottom: 15px;">Sair</button>
-
-
-  </div>
 
   <div class="content">
     {{{body}}}

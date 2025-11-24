@@ -5,16 +5,9 @@ const path = require("path");
 
 
 // ---------------- CONFIGURAÇÃO DO MULTER ---------------- //// multer config (ajuste se já tiver)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, "../uploads")),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${req.user.uid}_perfil${ext}`);
-  }
-});
 const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB máximo para Firestore
   fileFilter: (req, file, cb) => {
     const allowed = ["image/png", "image/jpg", "image/jpeg"];
     if (!allowed.includes(file.mimetype)) return cb(new Error("Tipo de arquivo inválido"));
@@ -22,39 +15,48 @@ const upload = multer({
   }
 });
 
-exports.uploadMiddleware = upload.single("fotoPerfil"); // nome do campo: "fotoPerfil"
+exports.uploadMiddleware = upload.single("fotoPerfil");
 
 exports.uploadFotoPerfil = async (req, res) => {
   try {
-    // segurança: checkAuth já setou req.user, rota usa checkAuth
+   
+
     if (!req.user || !req.user.uid) {
-      console.error("uploadFotoPerfil: usuário não autenticado");
+   
       return res.redirect("/login");
     }
+   
 
     if (!req.file) {
-      console.error("uploadFotoPerfil: nenhum arquivo enviado");
+      
       return res.redirect("/perfil?erro=semArquivo");
     }
 
-    const fotoPath = `/uploads/${req.file.filename}`;
+    // converte buffer para base64
+    const base64 = req.file.buffer.toString("base64");
+    const contentType = req.file.mimetype;
 
-    // **USE O db IMPORTADO DO firebaseAdmin**
-    await db.collection("usuarios").doc(req.user.uid).update({
-      photoURL: fotoPath
+    // salva no Firestore na collection "imagens"
+    const docRef = db.collection("imagens").doc(req.user.uid);
+    await docRef.set({
+      foto: base64,
+      contentType,
+      updatedAt: new Date()
     });
 
-    console.log("📸 Foto salva em:", fotoPath);
+    // cria URL para exibir no front (data URL)
+    const photoURL = `data:${contentType};base64,${base64}`;
 
-    // redireciona para /perfil — checkAuth vai recarregar req.user a partir do banco
+    // atualiza campo do usuário
+    await db.collection("usuarios").doc(req.user.uid).update({ photoURL });
+    
+
     return res.redirect("/perfil");
   } catch (error) {
-    console.error("Erro ao salvar foto:", error);
-    // redireciona sempre (não devolve página de erro)
+   
     return res.redirect("/perfil?erroUpload=true");
   }
 };
-
 
 // export para o route
 exports.uploadMiddleware = upload.single("fotoPerfil");

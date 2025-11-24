@@ -1,4 +1,60 @@
 const { db, admin } = require('../firebaseAdmin');
+const multer = require("multer");
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB máximo para Firestore
+  fileFilter: (req, file, cb) => {
+    const allowed = ["image/png", "image/jpg", "image/jpeg"];
+    if (!allowed.includes(file.mimetype)) return cb(new Error("Tipo de arquivo inválido"));
+    cb(null, true);
+  }
+});
+
+
+exports.uploadMiddleware = upload.single("fotoPerfil");
+
+exports.uploadFotoPerfil = async (req, res) => {
+  try {
+    
+
+    if (!req.user || !req.user.uid) {
+      
+      return res.redirect("/login");
+    }
+    
+
+    if (!req.file) {
+      
+      return res.redirect("/perfil?erro=semArquivo");
+    }
+
+    // converte buffer para base64
+    const base64 = req.file.buffer.toString("base64");
+    const contentType = req.file.mimetype;
+
+    // salva na collection "imagens"
+    const docRef = db.collection("imagens").doc(req.user.uid);
+    await docRef.set({
+      foto: base64,
+      contentType,
+      updatedAt: new Date()
+    });
+
+    // cria URL para exibir no front
+    const photoURL = `data:${contentType};base64,${base64}`;
+
+    // atualiza o campo do usuário
+    await db.collection("usuarios").doc(req.user.uid).update({ photoURL });
+    
+
+    return res.redirect("/perfil");
+  } catch (error) {
+    
+    return res.redirect("/perfil?erroUpload=true");
+  }
+};
+
 
 exports.listarEmpresas = async (req, res) => {
   if (!req.user) return res.redirect('/login');

@@ -84,8 +84,8 @@ app.get("/dashboard", checkAuth, (req, res) => {
   res.render("dashboard", { user: req.user });
 });
 
-app.get("/cadastro", (req, res) => res.render("auth/cadastro"));
-app.get("/login", (req, res) => res.render("auth/login"));
+app.get("/cadastro", (req, res) => res.render("auth/cadastro", { layout: "main_deslogado" }));
+app.get("/login", (req, res) => res.render("auth/login", { layout: "main_deslogado" }));
 
 app.use("/", authRoutes);
 app.use("/servicos", checkAuth, servicoRoutes);
