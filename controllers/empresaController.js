@@ -55,7 +55,6 @@ exports.uploadFotoPerfil = async (req, res) => {
   }
 };
 
-
 exports.listarEmpresas = async (req, res) => {
   if (!req.user) return res.redirect('/login');
 

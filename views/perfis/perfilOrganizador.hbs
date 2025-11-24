@@ -10,7 +10,9 @@
   {{/if}}
   <div class="editar-texto">Clique para editar</div>
 </div>
-  <div class="info-usuario">
+
+
+    <div class="info-usuario">
       <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
     </div>
 
@@ -21,168 +23,70 @@
           <p>{{#if usuario.avaliacao}}{{usuario.avaliacao}}{{else}}—{{/if}}</p>
         </div>
         <div>
-          <p><strong>Serviços Prestados</strong></p>
-          <p>{{#if usuario.servicosPrestados}}{{usuario.servicosPrestados}}{{else}}—{{/if}}</p>
-        </div>
-        <div>
-          <p><strong>Favoritos</strong></p>
-          <p>{{#if usuario.favoritosCount}}{{usuario.favoritosCount}}{{else}}0{{/if}}</p>
+          <p><strong>Eventos Realizados</strong></p>
+          <p>{{#if usuario.eventosRealizados}}{{usuario.eventosRealizados}}{{else}}—{{/if}}</p>
         </div>
       </div>
 
-      {{#if isOwner}}
-        <div class="perfil-editar-btn-container">
-          <a href="/perfil/editar" class="btn btn-editar-perfil">Editar Perfil</a>
-        </div>
-      {{/if}}
-
-      {{#if (eq visitante.tipo "organizador")}}
-        {{#unless isOwner}}
-          <div class="perfil-favoritar-btn-container">
-            <button 
-                type="button" 
-                class="btn btn-favorito {{#if isFavorito}}botaoCancelar{{else}}botaoConfirmar{{/if}}"
-                data-id="{{usuario.id}}"
-                data-nome="{{usuario.nome}}"
-                style="padding: 8px 12px;"
-              >
-                {{#if isFavorito}}
-                  ⭐ Remover Favorito
-                {{else}}
-                  ⭐ Adicionar Favorito
-                {{/if}}
-              </button>
-          </div>
-        {{/unless}}
-      {{/if}}
-
+      <div class="perfil-editar-btn-container">
+        <a href="/perfil/editar" class="btn btn-editar-perfil">Editar Perfil</a>
+      </div>
     </div>
   </section>
 
   <hr>
 
   <div class="container-secoes">
-
-    <section class="secao secao-sobre-nos">
-      <h2>Sobre Nós</h2>
-      {{#if usuario.sobreNos}}
-        <p id="descricao-sobre-nos">{{usuario.sobreNos}}</p>
-      {{else}}
-        <p id="descricao-sobre-nos">Este fornecedor ainda não escreveu sobre si.</p>
-      {{/if}}
-
-      {{#if isOwner}}
-        <div class="botoes">
-          <button id="btn-abrir-modal-descricao" type="button" class="botao botaoConfirmar" style="padding: 8px 16px; font-size: 14px;">
-            Alterar Descrição
-          </button>
-        </div>
-      {{/if}}
-    </section>
-
-    <hr>
-
     <section class="secao">
-      <h2>Serviços (Produtos)</h2>
+      <h2>Meus Eventos</h2>
       <div class="cards">
-        {{#if servicos.length}}
-          {{#each servicos}}
-            {{#if ../isOwner}}
-              <a href="/servicos/editar/{{this.id}}" class="card card-evento">
-                  {{!-- Foto da empresa (primeira imagem se existir) --}}
-                {{#if this.imagens}}
-                  {{#if this.imagens.[0]}}
-                    <img src="{{this.imagens.[0]}}" class="card-empresa-foto" alt="Imagem da empresa">
-                  {{else}}
-                    <div class="card-empresa-placeholder">Sem imagem</div>
-                  {{/if}}
-                {{else}}
-                  <div class="card-empresa-placeholder">Sem imagem</div>
-                {{/if}}
-                <p class="card-empresa-nome">{{this.nome}}</p>
-              </a>
-            {{else}}
-              <a href="/servicos/{{this.id}}" class="card card-evento">
-                {{!-- Foto da empresa (primeira imagem se existir) --}}
-                {{#if this.imagens}}
-                  {{#if this.imagens.[0]}}
-                    <img src="{{this.imagens.[0]}}" class="card-empresa-foto" alt="Imagem da empresa">
-                  {{else}}
-                    <div class="card-empresa-placeholder">Sem imagem</div>
-                  {{/if}}
-                {{else}}
-                  <div class="card-empresa-placeholder">Sem imagem</div>
-                {{/if}}
-                <p class="card-empresa-nome">{{this.nome}}</p>
-              </a>
-            {{/if}}
-          {{/each}}
-        {{else}}
-          <div class="semServicos" style="padding: 1rem; min-height: 100px;">
-            <p>Nenhum serviço cadastrado ainda.</p>
-          </div>
-        {{/if}}
-      </div>
+        {{#if eventos.length}}
+          {{#each eventos}}
+            <a href="/eventos/editar/{{this.id}}" class="card card-evento">
 
-      {{#if isOwner}}
-        <div class="botoes">
-          <a href="/servicos/cadastrar" class="btn">Cadastrar Serviço</a>
-        </div>
-      {{/if}}
-    </section>
-
-    <hr>
-
-    <section class="secao">
-      <h2>Fotos de Eventos (Portfólio)</h2>
-      <div class="cards">
-        {{#if fotos.length}}
-          {{#each fotos}}
-            <a href="{{this.url}}" class="card card-foto" target="_blank">
-               <img src="{{this.url}}" alt="Foto do portfólio">
+              <p class="card-evento-nome">{{this.nome}}</p>
             </a>
           {{/each}}
         {{else}}
-           <div class="semServicos" style="padding: 1rem; min-height: 100px;">
-            <p>Nenhuma foto de portfólio cadastrada.</p>
-          </div>
+          <p>Nenhum evento ainda</p>
         {{/if}}
       </div>
 
-      {{#if isOwner}}
-        <div class="botoes">
-          <button class="btn">Adicionar Fotos</button>
-        </div>
-      {{/if}}
+      <div class="botoes">
+        <a href="/eventos/novo" class="btn">Criar evento</a>
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="secao">
+      <h2>Empresas Favoritas</h2>
+      <div class="cards">
+        {{#if favoritos.length}}
+          {{#each favoritos}}
+            <a href="/fornecedor/{{this.id}}" class="card card-empresa">
+
+              {{!-- Foto da empresa (primeira imagem se existir) --}}
+              {{#if this.imagens}}
+                {{#if this.imagens.[0]}}
+                  <img src="{{this.imagens.[0]}}" class="card-empresa-foto" alt="Imagem da empresa">
+                {{else}}
+                  <div class="card-empresa-placeholder">Sem imagem</div>
+                {{/if}}
+              {{else}}
+                <div class="card-empresa-placeholder">Sem imagem</div>
+              {{/if}}
+
+              <p class="card-empresa-nome">{{this.nome}}</p>
+            </a>
+          {{/each}}
+        {{else}}
+          <p>Nenhuma empresa favorita ainda.</p>
+        {{/if}}
+      </div>
+      <div class="botoes">
+        <a href="/empresas" class="btn">Ver Todas Empresas</a>
+      </div>
     </section>
   </div>
 </div>
-
-{{#if isOwner}}
-  <div id="modal-descricao" class="modal-overlay hidden">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2>Editar "Sobre Nós"</h2>
-        <button id="modal-btn-fechar" class="modal-fechar-btn">&times;</button>
-      </div>
-      <form id="form-modal-descricao">
-        <div class="modal-body">
-          <textarea id="modal-textarea-descricao" rows="8"></textarea>
-          <div id="modal-erro-msg" class="modal-erro"></div>
-        </div>
-        <div class="modal-footer">
-          <button id="modal-btn-cancelar" type="button" class="botao botaoCancelar">Cancelar</button>
-          <button type="submit" class="botao botaoConfirmar">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="/js/perfilFornecedor.js"></script>
-{{/if}}
-
-{{#if (eq visitante.tipo "organizador")}}
-  {{#unless isOwner}}
-    <script src="/js/favoritos.js"></script>
-  {{/unless}}
-{{/if}}

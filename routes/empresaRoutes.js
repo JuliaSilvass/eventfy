@@ -6,6 +6,6 @@ router.get('/', empresasController.listarEmpresas);
 
 router.get('/empresas/buscar', empresasController.buscarEmpresas);
 
-router.post('/empresas/favorito', empresasController.toggleFavorito);
+router.post('/favorito', empresasController.toggleFavorito);
 
 module.exports = router;

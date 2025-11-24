@@ -61,6 +61,7 @@ exports.uploadFotoPerfil = async (req, res) => {
 // export para o route
 exports.uploadMiddleware = upload.single("fotoPerfil");
 
+
 exports.getMeuPerfil = async (req, res) => {
   if (!req.user) return res.redirect("/login");
 
