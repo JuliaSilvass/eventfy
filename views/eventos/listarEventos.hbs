@@ -6,16 +6,13 @@
 
   <h2 class="tituloUsuario">Eventos criados por <strong>{{user.nome}}</strong></h2>
 
-  {{!-- INÍCIO: Barra de Busca Nova --}}
   <input 
     type="text" 
     id="campoBuscaEventos"
     placeholder="Buscar evento..." 
     class="inputBusca"
     autocomplete="off"
-    style="margin-bottom: 2rem;" 
   />
-  {{!-- FIM: Barra de Busca Nova --}}
 
   <div class="listaServicos">
     {{#each eventos}}
@@ -49,7 +46,6 @@
   </div>
 </div>
 
-{{!-- Script existente para excluir evento --}}
 <script>
 async function excluirEvento(id) {
   if (!confirm("Tem certeza que deseja excluir este evento?")) return;
@@ -63,5 +59,4 @@ async function excluirEvento(id) {
   }
 }
 </script>
-
 <script src="/js/busca.js"></script>

@@ -1,8 +1,12 @@
-<div class="listaServicos cardPrincipal">
+<div class="cardPrincipal">
   <div class="headerLogin">
     <img src="/assets/logo.PNG" alt="Logo Eventfy" class="logoHeader">
     <p class="headerText tituloPagina">Serviços</p>
   </div>
+
+  <h2 class="tituloUsuario">
+    Serviços cadastrados na <strong>Eventfy</strong>:
+  </h2>
 
   <input 
     type="text" 
@@ -10,72 +14,75 @@
     placeholder="Buscar serviço..." 
     class="inputBusca"
     autocomplete="off"
-    style="margin-bottom: 2rem;" 
   />
 
-{{#each servicos}}
-  <div class="itemServico">
-    {{#if this.imagens}}
-      {{#if this.imagens.[0]}}
-        <img src="{{this.imagens.[0]}}" class="imgServicoLista" alt="Imagem do serviço">
-      {{else}}
-        <div class="imgServicoPlaceholder">Sem imagem</div>
-      {{/if}}
-    {{else}}
-      <div class="imgServicoPlaceholder">Sem imagem</div>
-    {{/if}}
+  <div class="listaServicos">
+    {{#each servicos}}
+      <div class="itemServico">
 
-    <span class="categoriaServico">{{this.categoria}}</span>
-    <h3>{{this.nome}}</h3>
-    <p class="precoServico">R$ {{this.preco}}</p>
-    <p>{{this.descricao}}</p>
+        {{#if this.imagens}}
+          {{#if this.imagens.[0]}}
+            <img src="{{this.imagens.[0]}}" class="imgServicoLista" alt="Imagem do serviço">
+          {{else}}
+            <div class="imgServicoPlaceholder">Sem imagem</div>
+          {{/if}}
+        {{else}}
+          <div class="imgServicoPlaceholder">Sem imagem</div>
+        {{/if}}
 
-    {{#if this.disponibilidade}}
-      <div class="servicoDisponibilidade">
-        <strong>Disponibilidade:</strong>
-        <ul>
-        {{#each this.disponibilidade}}
-          <li>
-            <strong>{{@key}}:</strong>
-            {{#each this}}
-              {{inicio}} às {{fim}}{{#unless @last}}, {{/unless}}
+        <span class="categoriaServico">{{this.categoria}}</span>
+        <h3>{{this.nome}}</h3>
+        <p class="precoServico">R$ {{this.preco}}</p>
+        <p>{{this.descricao}}</p>
+
+        {{#if this.disponibilidade}}
+          <div class="servicoDisponibilidade">
+            <strong>Disponibilidade:</strong>
+            <ul>
+            {{#each this.disponibilidade}}
+              <li>
+                <strong>{{@key}}:</strong>
+                {{#each this}}
+                  {{inicio}} às {{fim}}{{#unless @last}}, {{/unless}}
+                {{/each}}
+              </li>
             {{/each}}
-          </li>
-        {{/each}}
-        </ul>
+            </ul>
+          </div>
+        {{/if}}
+
+        {{#if (eq ../user.tipo "organizador")}}
+          <div class="fornecedorInfo">
+            <p><strong>Fornecedor:</strong> {{this.fornecedorNome}}</p>
+            <p><strong>Contato:</strong> {{this.fornecedorEmail}} {{#if this.fornecedorTelefone}}| {{this.fornecedorTelefone}}{{/if}}</p>
+          </div>
+        {{/if}}
+
+        {{#if (eq ../user.tipo "fornecedor")}}
+          <div class="botoesServico">
+            <button class="botaoEditar" onclick="editarServico('{{this.id}}')">Editar</button>
+            <button class="botaoApagar" onclick="apagarServico('{{this.id}}')">Apagar</button>
+          </div>
+        {{/if}}
+
       </div>
-    {{/if}}
+    {{else}}
 
-    {{#if (eq ../user.tipo "organizador")}}
-      <div class="fornecedorInfo">
-        <p><strong>Fornecedor:</strong> {{this.fornecedorNome}}</p>
-        <p><strong>Contato:</strong> {{this.fornecedorEmail}} {{#if this.fornecedorTelefone}}| {{this.fornecedorTelefone}}{{/if}}</p>
-      </div>
-    {{/if}}
+      {{#if (eq user.tipo "fornecedor")}}
+        <div class="semServicos semServicos--fornecedor">
+          <h3>Você não tem nenhum serviço cadastrado.</h3>
+          <p>Cadastre seu primeiro serviço para começar a ser encontrado.</p>
+          <a href="/servicos/cadastrar" class="botao botaoConfirmar">Cadastrar serviço</a>
+        </div>
+      {{else}}
+        <div class="semServicos">
+          <h3>Nenhum serviço disponível no momento.</h3>
+        </div>
+      {{/if}}
 
-    {{#if (eq ../user.tipo "fornecedor")}}
-      <div class="botoesServico">
-        <button class="botaoEditar" onclick="editarServico('{{this.id}}')">Editar</button>
-        <button class="botaoApagar" onclick="apagarServico('{{this.id}}')">Apagar</button>
-      </div>
-    {{/if}}
-
+    {{/each}}
   </div>
-{{else}}
 
-{{#if (eq user.tipo "fornecedor")}}
-  <div class="semServicos semServicos--fornecedor">
-    <h3>Você não tem nenhum serviço cadastrado.</h3>
-    <p>Cadastre seu primeiro serviço para começar a ser encontrado.</p>
-    <a href="/servicos/cadastrar" class="botao botaoConfirmar">Cadastrar serviço</a>
-  </div>
-{{else}}
-  <div class="semServicos">
-    <h3>Nenhum serviço disponível no momento.</h3>
-  </div>
-{{/if}}
-
-{{/each}}
-</div>
+</div> 
 
 <script src="/js/busca.js"></script>
