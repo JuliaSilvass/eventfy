@@ -3,9 +3,17 @@
   <section class="titulo-evento">
     <a href="/eventos" class="btn-voltar-topo">← Voltar</a>
     <h1>{{nomeEvento}}</h1>
-    
-    <a href="/eventos/editar/{{evento.id}}" class="btn-editar-topo">Editar Evento</a>
+
+    {{#if (eq evento.status "planejado")}}
+      <a href="/eventos/editar/{{evento.id}}" class="btn-editar-topo">Editar Evento</a>
+    {{else}}
+      <a class="btn-editar-topo" 
+        style="opacity: .35; cursor: not-allowed; pointer-events: none;">
+        Editar Evento
+      </a>
+    {{/if}}
   </section>
+
 
   <section class="servicos-visualizacao">
 

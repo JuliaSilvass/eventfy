@@ -32,10 +32,42 @@
         <p>{{this.descricao}}</p>
 
         <div class="botoesServico">
-          <a class="botao botaoConfirmar" href="/eventos/visualizar/{{this.id}}" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Serviços</a>
-          
-          <a class="botaoEditar" href="/eventos/editar/{{this.id}}">Editar</a>
-          <button class="botaoApagar" onclick="excluirEvento('{{this.id}}')">Excluir</button>
+
+          {{!-- SEMPRE pode ver serviços --}}
+          <a class="botao botaoConfirmar"
+             href="/eventos/visualizar/{{this.id}}"
+             style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+             Ver Serviços
+          </a>
+
+          {{!-- ============================
+               EDITAR — só PLANEJADO
+             ============================ --}}
+          {{#if (eq this.status "planejado")}}
+            <a class="botaoEditar" href="/eventos/editar/{{this.id}}">Editar</a>
+          {{else}}
+            <a class="botaoEditar"
+               style="opacity: .35; cursor: not-allowed; pointer-events: none;">
+               Editar
+            </a>
+          {{/if}}
+
+          {{!-- ============================
+               EXCLUIR — PLANEJADO ou FINALIZADO
+               (andamento NÃO pode)
+             ============================ --}}
+          {{#unless (eq this.status "andamento")}}
+            <button class="botaoApagar" onclick="excluirEvento('{{this.id}}')">
+              Excluir
+            </button>
+          {{else}}
+            <button class="botaoApagar"
+                    style="opacity: .35; cursor: not-allowed;"
+                    disabled>
+              Excluir
+            </button>
+          {{/unless}}
+
         </div>
 
       </div>
@@ -64,4 +96,5 @@ async function excluirEvento(id) {
   }
 }
 </script>
+
 <script src="/js/busca.js"></script>
