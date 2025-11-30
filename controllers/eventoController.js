@@ -243,37 +243,48 @@ exports.visualizarEvento = async (req, res) => {
   try {
     if (!req.user) return res.redirect("/login");
     const { id } = req.params;
-    
+
     const eventoRef = db.collection("usuarios").doc(req.user.uid).collection("eventos").doc(id);
     const eventoDoc = await eventoRef.get();
     if (!eventoDoc.exists) return res.status(404).send("Evento não encontrado");
+
     const evento = eventoDoc.data();
+
+    const agora = new Date();
+    const inicio = new Date(`${evento.dataInicio}T${evento.horarioInicio}`);
+    const fim = new Date(`${evento.dataFim}T${evento.horarioFim}`);
+    const eventoFinalizado = agora > fim;
 
     const servicosSnapshot = await eventoRef.collection("meus_servicos").get();
     
     let total = 0;
     const servicos = servicosSnapshot.docs.map(doc => {
       const data = doc.data();
-      total += (Number(data.preco) || 0);
-      return { 
-        id: doc.id, 
+      total += Number(data.preco) || 0;
+
+      return {
+        id: doc.id,
         ...data,
+        temAvaliacao: !!data.avaliacao,
         categoriaLabel: MAPA_CATEGORIAS[data.categoria] || "Serviço"
       };
     });
 
     res.render("eventos/visualizarEvento", {
       user: req.user,
+      eventoFinalizado,
       evento: { id: eventoDoc.id, ...evento },
       nomeEvento: evento.nome,
       servicos,
-      total: total.toFixed(2),
+      total: total.toFixed(2)
     });
+
   } catch (error) {
     console.error("Erro ao visualizar:", error);
     res.status(500).send("Erro");
   }
 };
+
 
 exports.listarEventos = async (req, res) => {
   if (!req.user) return res.redirect("/login");
@@ -419,4 +430,96 @@ exports.postAvaliacaoServico = async (req, res) => {
     console.error(e);
     res.status(500).send("Erro ao salvar avaliação");
   }
+};
+
+
+exports.verAvaliacao = async (req, res) => {
+  if (!req.user) return res.redirect("/login");
+
+  const { idEvento, idServico } = req.params;
+
+  const ref = db.collection("usuarios")
+    .doc(req.user.uid)
+    .collection("eventos")
+    .doc(idEvento)
+    .collection("meus_servicos")
+    .doc(idServico);
+
+  const doc = await ref.get();
+  if (!doc.exists) return res.status(404).send("Serviço não encontrado");
+
+  const servico = doc.data();
+
+  res.render("eventos/verAvaliacao", {
+    user: req.user,
+    eventoId: idEvento,
+    servicoId: idServico,
+    servico
+  });
+};
+
+
+exports.getEditarAvaliacao = async (req, res) => {
+  if (!req.user) return res.redirect("/login");
+
+  const { idEvento, idServico } = req.params;
+
+  const ref = db.collection("usuarios")
+    .doc(req.user.uid)
+    .collection("eventos")
+    .doc(idEvento)
+    .collection("meus_servicos")
+    .doc(idServico);
+
+  const doc = await ref.get();
+  if (!doc.exists) return res.status(404).send("Serviço não encontrado");
+
+  const servico = doc.data();
+
+  res.render("eventos/editarAvaliacao", {
+    user: req.user,
+    eventoId: idEvento,
+    servicoId: idServico,
+    avaliacao: servico.avaliacao,
+    servico
+  });
+};
+
+
+exports.postEditarAvaliacao = async (req, res) => {
+  const { idEvento, idServico } = req.params;
+  const { nota, comentario } = req.body;
+
+  await db.collection("usuarios")
+    .doc(req.user.uid)
+    .collection("eventos")
+    .doc(idEvento)
+    .collection("meus_servicos")
+    .doc(idServico)
+    .update({
+      avaliacao: {
+        nota: Number(nota),
+        comentario,
+        data: new Date()
+      }
+    });
+
+  res.redirect(`/eventos/visualizar/${idEvento}`);
+};
+
+
+exports.excluirAvaliacao = async (req, res) => {
+  const { idEvento, idServico } = req.params;
+
+  await db.collection("usuarios")
+    .doc(req.user.uid)
+    .collection("eventos")
+    .doc(idEvento)
+    .collection("meus_servicos")
+    .doc(idServico)
+    .update({
+      avaliacao: admin.firestore.FieldValue.delete()
+    });
+
+  res.redirect(`/eventos/visualizar/${idEvento}`);
 };

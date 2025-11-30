@@ -59,23 +59,30 @@
         <div class="servico-direita">
           <span>R$ {{this.preco}}</span>
 
-          {{!-- remover só se permitido (já fizemos antes) --}}
+          {{#if ../eventoFinalizado}}
+            
+            {{#if this.temAvaliacao}}
+              <a class="btn-avaliacao" href="/eventos/{{../evento.id}}/avaliacao/ver/{{this.id}}">
+                Ver Avaliação
+              </a>
 
-          {{#unless (eq ../evento.status "andamento")}}
-            <button class="delete-btn" title="Remover (Não implementado)">🗑️</button>
-          {{/unless}}
+              <a class="btn-editar" href="/eventos/{{../evento.id}}/avaliacao/editar/{{this.id}}">
+                Editar
+              </a>
 
-          {{!-- ===============================
-              BOTÃO AVALIAR — somente FINALIZADO
-            =============================== --}}
-          {{#if (eq ../evento.status "finalizado")}}
-            <a href="/eventos/{{../evento.id}}/avaliar/{{this.id}}" 
-              class="btn-avaliar"
-              style="margin-left:10px; padding:6px 10px; background:#4CAF50; color:white; border-radius:5px;">
-              Avaliar
-            </a>
+              <form action="/eventos/{{../evento.id}}/avaliacao/excluir/{{this.id}}" method="POST" style="display:inline;">
+                <button class="btn-excluir">Excluir Avaliação</button>
+              </form>
+
+            {{else}}
+              <a class="btn-avaliar" href="/eventos/{{../evento.id}}/avaliar/{{this.id}}">
+                Avaliar Serviço
+              </a>
+            {{/if}}
+
           {{/if}}
         </div>
+
 
       </div>
     {{/each}}

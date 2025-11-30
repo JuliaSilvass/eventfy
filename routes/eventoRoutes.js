@@ -19,4 +19,11 @@ router.delete("/excluir/:id", eventoController.excluirEvento);
 router.get("/:idEvento/avaliar/:idServico", eventoController.getAvaliacaoServico);
 router.post("/:idEvento/avaliar/:idServico", eventoController.postAvaliacaoServico);
 
+router.get("/:idEvento/avaliacao/ver/:idServico", eventoController.verAvaliacao);
+router.get("/:idEvento/avaliacao/editar/:idServico", eventoController.getEditarAvaliacao);
+router.post("/:idEvento/avaliacao/editar/:idServico", eventoController.postEditarAvaliacao);
+router.post("/:idEvento/avaliacao/excluir/:idServico", eventoController.excluirAvaliacao);
+
+
+
 module.exports = router;

@@ -1,0 +1,41 @@
+<div class="container-novo-evento">
+  <h2 class="titulo-novo-evento">Editar Avaliação</h2>
+
+  <form action="/eventos/{{eventoId}}/avaliacao/editar/{{servicoId}}" method="POST" class="form-novo-evento">
+
+    <div class="coluna-esquerda">
+      <label>Serviço</label><br>
+      <input type="text" value="{{servico.nome}}" disabled>
+
+      <label>Fornecedor</label><br>
+      <input type="text" value="{{servico.nomeEmpresa}}" disabled>
+
+      <label>Preço</label><br>
+      <input type="text" value="R$ {{servico.preco}}" disabled>
+
+      <label>Nota (1 a 5 estrelas)</label><br>
+      <select name="nota" required>
+        <option value="1" {{#if (eq avaliacao.nota 1)}}selected{{/if}}>⭐</option>
+        <option value="2" {{#if (eq avaliacao.nota 2)}}selected{{/if}}>⭐⭐</option>
+        <option value="3" {{#if (eq avaliacao.nota 3)}}selected{{/if}}>⭐⭐⭐</option>
+        <option value="4" {{#if (eq avaliacao.nota 4)}}selected{{/if}}>⭐⭐⭐⭐</option>
+        <option value="5" {{#if (eq avaliacao.nota 5)}}selected{{/if}}>⭐⭐⭐⭐⭐</option>
+      </select>
+    </div>
+
+    <div class="coluna-direita">
+      <label>Avaliação</label><br>
+      <textarea 
+        name="comentario"
+        rows="10"
+        required
+      >{{avaliacao.comentario}}</textarea>
+    </div>
+
+    <div class="botoes-novo-evento">
+      <a href="/eventos/visualizar/{{eventoId}}" class="botao-cancelar">Cancelar</a>
+      <button type="submit" class="botao-confirmar">Salvar Alterações</button>
+    </div>
+
+  </form>
+</div>

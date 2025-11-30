@@ -1,0 +1,26 @@
+<div class="container-novo-evento">
+  <h2 class="titulo-novo-evento">Avaliação do Serviço</h2>
+
+  <div class="coluna-esquerda">
+    <label>Serviço</label><br>
+    <input type="text" value="{{servico.nome}}" disabled>
+
+    <label>Fornecedor</label><br>
+    <input type="text" value="{{servico.nomeEmpresa}}" disabled>
+
+    <label>Preço</label><br>
+    <input type="text" value="R$ {{servico.preco}}" disabled>
+
+    <label>Nota</label><br>
+    <input type="text" value="{{servico.avaliacao.nota}} estrelas" disabled>
+  </div>
+
+  <div class="coluna-direita">
+    <label>Comentário</label><br>
+    <textarea disabled rows="10">{{servico.avaliacao.comentario}}</textarea>
+  </div>
+
+  <div class="botoes-novo-evento">
+    <a href="/eventos/visualizar/{{eventoId}}" class="botao-cancelar">Voltar</a>
+  </div>
+</div>
