@@ -4,17 +4,19 @@
       <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="this.form.submit()">
     </form>
 
-    <div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
-      {{#if usuario.photoURL}}
-        <img src="{{usuario.photoURL}}" alt="Foto do usuário" />
-      {{else}}
-        <img src="/assets/default-user.png" alt="Foto padrão" />
-      {{/if}}
-      <div class="editar-texto">Clique para editar</div>
-    </div>
+<div class="perfil-container">
+      <div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
+        {{#if usuario.photoURL}}
+          <img src="{{usuario.photoURL}}" alt="Foto do usuário" />
+        {{else}}
+          <img src="/assets/default-user.png" alt="Foto padrão" />
+        {{/if}}
+        <div class="editar-texto">Clique para editar</div>
+      </div>
 
-    <div class="info-usuario">
-      <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
+      <div class="info-usuario">
+        <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
+      </div>
     </div>
 
     <div class="perfil-meta-container">

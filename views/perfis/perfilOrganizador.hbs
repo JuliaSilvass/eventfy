@@ -2,19 +2,21 @@
   <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="this.form.submit()">
 </form>
 
-<div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
-  {{#if usuario.photoURL}}
-    <img id="fotoExibida" src="{{usuario.photoURL}}" onerror="this.src='/assets/rosa.jpg'" />
-  {{else}}
-    <img id="fotoExibida" src="/assets/editar_foto_perfil.png" />
-  {{/if}}
-  <div class="editar-texto">Clique para editar</div>
+<div class="perfil-header">
+  <div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
+    {{#if usuario.photoURL}}
+      <img id="fotoExibida" src="{{usuario.photoURL}}" onerror="this.src='/assets/rosa.jpg'" />
+    {{else}}
+      <img id="fotoExibida" src="/assets/editar_foto_perfil.png" />
+    {{/if}}
+    <div class="editar-texto">Clique para editar</div>
+  </div>
+
+  <div class="info-usuario">
+    <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
+  </div>
 </div>
 
-
-    <div class="info-usuario">
-      <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
-    </div>
 
     <div class="perfil-meta-container">
       <div class="stats" style="display:flex; gap:40px;">
