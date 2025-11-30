@@ -1,208 +1,55 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{nomeEvento}}</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background-color: #fff;
-      color: #000;
-    }
-
-    /* HEADER */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: #d9d9d9;
-      padding: 10px 20px;
-    }
-
-    .logo {
-      width: 25px;
-      height: auto;
-    }
-
-    .search-bar {
-      width: 300px;
-      padding: 8px;
-      border-radius: 20px;
-      border: none;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .perfil-link {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-
-    /* NOME DO EVENTO */
-    .titulo-evento {
-      background-color: #a9c7e7;
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .titulo-evento h1 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    /* SERVIÇOS */
-    .servicos {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      padding: 25px;
-    }
-
-    .servico-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid #ccc;
-      padding: 15px 0;
-    }
-
-    .servico-esquerda {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .servico-img {
-      width: 80px;
-      height: 80px;
-      border-radius: 15px;
-      background-color: #d9d9d9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      color: #000;
-    }
-
-    .servico-info h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .servico-info p {
-      margin: 2px 0;
-      font-size: 12px;
-      color: #555;
-    }
-
-    .servico-direita {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
-    }
-
-    .delete-btn {
-      background: none;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    /* TOTAL */
-    .total-footer {
-      display: flex;
-      justify-content: end;
-      padding: 25px;
-    }
-    /* Remove estilo de link */
-.servico-link {
-  text-decoration: none;
-  display: inline-block; /* necessário para poder aplicar hover */
-}
-
-/* Hover deixa transparente */
-.servico-link:hover .servico-img {
-  opacity: 0.7;
-  transition: opacity 0.3s;
-}
-
-/* Mantém o mesmo tamanho do quadrado */
-.servico-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 15px;
-  background-color: #d9d9d9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  color: #000;
-  cursor: pointer; /* mostra que é clicável */
-}
-
-    .btn-total {
-      background-color: #2d3436;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 12px 25px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-  </style>
-</head>
-
-<body>
-
- 
+<div class="visualizar-evento-container">
 
   <section class="titulo-evento">
-  <h1>{{nomeEvento}}</h1>
-  <a href="/perfil/editar" class="btn-editar-perfil" style="
-    display: inline-block;
-    float: right;
-    margin-top: -30px; /* ajusta verticalmente */
-     margin-right: 20px;
-    background-color: #E9E9E9;
-    text-color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-decoration: none;
-  ">Editar Evento</a>
-</section>
+    <a href="/eventos" class="btn-voltar-topo">← Voltar</a>
+    <h1>{{nomeEvento}}</h1>
+    
+    <a href="/eventos/editar/{{evento.id}}" class="btn-editar-topo">Editar Evento</a>
+  </section>
 
-
-<section class="servicos">
-  {{#each servicos}}
+  <section class="servicos-visualizacao">
+    
     <div class="servico-card">
       <div class="servico-esquerda">
-        <a href="/buscar/servicos" class="servico-link">
-          <div class="servico-img">+</div>
+        <a href="/eventos/{{evento.id}}/adicionar-servicos" class="servico-link">
+          <div class="servico-img" title="Adicionar novos serviços">+</div>
         </a>
         <div class="servico-info">
-          <h2>{{this.nome}}</h2>
-          <p>{{this.descricao}}</p>
+          <h2>Adicionar Serviço</h2>
+          <p>Clique no + para buscar mais opções</p>
         </div>
       </div>
-      <div class="servico-direita">
-        <span>R$ {{this.preco}}</span>
-        <button class="delete-btn">🗑️</button>
-      </div>
     </div>
-  {{/each}}
-  
-</section>
 
+    {{#each servicos}}
+      <div class="servico-card">
+        <div class="servico-esquerda">
+          <div class="servico-img">
+            {{#if this.imagens.[0]}}
+              <img src="{{this.imagens.[0]}}" alt="Foto">
+            {{else}}
+              <span style="font-size:12px; color:#555;">Sem foto</span>
+            {{/if}}
+          </div>
+          <div class="servico-info">
+            {{!-- Identificação da Categoria --}}
+            <span class="categoria-badge">{{this.categoriaLabel}}</span>
+            
+            <h2>{{this.nome}}</h2>
+            <p>{{this.descricao}}</p>
+          </div>
+        </div>
+        <div class="servico-direita">
+          <span>R$ {{this.preco}}</span>
+          <button class="delete-btn" title="Remover (Não implementado)">🗑️</button>
+        </div>
+      </div>
+    {{/each}}
+    
+  </section>
 
   <footer class="total-footer">
     <button class="btn-total">TOTAL R$ {{total}}</button>
   </footer>
 
-</body>
-</html>
+</div>

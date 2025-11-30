@@ -1,0 +1,105 @@
+<div class="cardPrincipal">
+  <div class="headerLogin">
+    <img src="/assets/logo.PNG" alt="Logo Eventfy" class="logoHeader">
+    <p class="headerText tituloPagina">Serviços</p>
+  </div>
+
+  <h2 class="tituloUsuario titulo-selecao">
+    Evento: <strong>{{evento.nome}}</strong>
+  </h2>
+
+  <input 
+    type="text" 
+    id="campoBuscaSelecao" 
+    placeholder="Filtrar serviços disponíveis..." 
+    class="inputBusca"
+    autocomplete="off"
+  />
+
+  {{#each categorias}}
+    <div class="categoria-container">
+      <h2 class="categoria-titulo">{{this.label}}</h2>
+
+      {{#if this.selecionado}}
+        <div class="servico-selecionado-card">
+          <div class="sel-info-esquerda">
+            {{#if this.selecionado.imagens.[0]}}
+              <img src="{{this.selecionado.imagens.[0]}}" class="sel-img">
+            {{else}}
+              <div class="sel-img-placeholder">Sem Foto</div>
+            {{/if}}
+            
+            <div class="sel-detalhes">
+              <h3 class="sel-nome">{{this.selecionado.nome}}</h3>
+              <p class="sel-empresa">Por: {{this.selecionado.nomeEmpresa}}</p>
+            </div>
+          </div>
+
+          <div class="sel-info-direita">
+            <span class="sel-preco">R$ {{this.selecionado.preco}}</span>
+            
+            <button 
+              type="button" 
+              class="btn-remover-pequeno btn-acao-ajax" 
+              data-url="/eventos/{{../evento.id}}/remover/{{this.selecionado.idVinculo}}">
+              Remover
+            </button>
+          </div>
+        </div>
+        
+        <p class="aviso-troca">
+          Deseja trocar? Basta adicionar outro abaixo que este será substituído. 👇
+        </p>
+
+      {{/if}}
+
+      <div class="lista-disponiveis">
+        {{#each this.disponiveis}}
+          <div class="card-disponivel">
+            <div class="disp-img-container">
+              {{#if this.imagens.[0]}}
+                <img src="{{this.imagens.[0]}}" class="disp-img">
+              {{else}}
+                <div class="disp-img-placeholder"></div>
+              {{/if}}
+            </div>
+            
+            <div class="disp-content">
+              <h4>{{this.nome}}</h4>
+              <p class="disp-empresa">{{this.nomeEmpresa}}</p>
+              <p class="disp-preco">R$ {{this.preco}}</p>
+              
+              <button 
+                type="button" 
+                class="btn-adicionar-mini btn-acao-ajax"
+                data-url="/eventos/{{../../evento.id}}/adicionar/{{this.id}}">
+                + Adicionar
+              </button>
+            </div>
+          </div>
+        {{else}}
+          {{#unless this.selecionado}}
+            <p class="aviso-vazio">Nenhum serviço disponível nesta categoria.</p>
+          {{/unless}}
+        {{/each}}
+      </div>
+      
+      <hr class="divisor-categoria">
+    </div>
+  {{/each}}
+
+  <div class="total-display">
+    Total Estimado: R$ {{total}}
+  </div>
+
+  <div class="area-botao-concluir">
+    <a href="/eventos/visualizar/{{evento.id}}" class="botao botaoConfirmar">Concluir e Ver Evento</a>
+    <form action="/eventos/{{evento.id}}/cancelar" method="POST" style="margin: 0; display: inline;">
+      <button type="submit" class="botao botaoCancelar" onclick="return confirm('Tem certeza que deseja cancelar a criação deste evento?');">Cancelar</button>
+    </form>
+  </div>
+
+</div>
+
+<script src="/js/busca.js"></script>
+<script src="/js/selecaoAjax.js"></script>
