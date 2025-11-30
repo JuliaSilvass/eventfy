@@ -16,4 +16,7 @@ router.get("/editar/:id", eventoController.getEditarEvento);
 router.post("/editar/:id", eventoController.editarEventoPost);
 router.delete("/excluir/:id", eventoController.excluirEvento);
 
+router.get("/:idEvento/avaliar/:idServico", eventoController.getAvaliacaoServico);
+router.post("/:idEvento/avaliar/:idServico", eventoController.postAvaliacaoServico);
+
 module.exports = router;

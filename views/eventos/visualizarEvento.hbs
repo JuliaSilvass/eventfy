@@ -59,18 +59,24 @@
         <div class="servico-direita">
           <span>R$ {{this.preco}}</span>
 
-          {{!-- ===================================
-               BOTÃO REMOVER
-               aparece somente se:
-                - planejado  → pode remover
-                - finalizado → você disse que pode remover
-                - andamento  → NÃO aparece
-             =================================== --}}
+          {{!-- remover só se permitido (já fizemos antes) --}}
+
           {{#unless (eq ../evento.status "andamento")}}
             <button class="delete-btn" title="Remover (Não implementado)">🗑️</button>
           {{/unless}}
 
+          {{!-- ===============================
+              BOTÃO AVALIAR — somente FINALIZADO
+            =============================== --}}
+          {{#if (eq ../evento.status "finalizado")}}
+            <a href="/eventos/{{../evento.id}}/avaliar/{{this.id}}" 
+              class="btn-avaliar"
+              style="margin-left:10px; padding:6px 10px; background:#4CAF50; color:white; border-radius:5px;">
+              Avaliar
+            </a>
+          {{/if}}
         </div>
+
       </div>
     {{/each}}
     

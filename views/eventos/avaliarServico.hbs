@@ -1,0 +1,42 @@
+<div class="container-novo-evento">
+  <h2 class="titulo-novo-evento">Avaliar Serviço</h2>
+
+  <form action="/eventos/{{eventoId}}/avaliar/{{servicoId}}" method="POST" class="form-novo-evento">
+
+    <div class="coluna-esquerda">
+      <label>Serviço</label><br>
+      <input type="text" value="{{servico.nome}}" disabled>
+
+      <label>Fornecedor</label><br>
+      <input type="text" value="{{servico.nomeEmpresa}}" disabled>
+
+      <label>Preço</label><br>
+      <input type="text" value="R$ {{servico.preco}}" disabled>
+
+      <label>Nota (1 a 5 estrelas)</label><br>
+      <select name="nota" required>
+        <option value="1">⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+      </select>
+    </div>
+
+    <div class="coluna-direita">
+      <label>Avaliação</label><br>
+      <textarea 
+        name="comentario" 
+        rows="10" 
+        placeholder="Descreva sua experiência..."
+        required
+      ></textarea>
+    </div>
+
+    <div class="botoes-novo-evento">
+      <a href="/eventos/visualizar/{{eventoId}}" class="botao-cancelar">Cancelar</a>
+      <button type="submit" class="botao-confirmar">Enviar Avaliação</button>
+    </div>
+
+  </form>
+</div>

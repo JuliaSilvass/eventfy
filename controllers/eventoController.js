@@ -188,8 +188,17 @@ exports.postAdicionarServicoAoEvento = async (req, res) => {
       await batch.commit();
     }
 
+    let nomeEmpresa = "Fornecedor";
+    if (dadosServico.prestadorID) {
+      const userDoc = await db.collection("usuarios").doc(dadosServico.prestadorID).get();
+      if (userDoc.exists) {
+        nomeEmpresa = userDoc.data().nome || "Fornecedor";
+      }
+    }
+
     await meusServicosRef.add({
       ...dadosServico,
+      nomeEmpresa,
       servicoOriginalId: idServico,
       adicionadoEm: new Date()
     });
@@ -351,3 +360,63 @@ exports.excluirEvento = async (req, res) => {
   res.status(200).send("OK");
 };
 
+exports.getAvaliacaoServico = async (req, res) => {
+  if (!req.user) return res.redirect("/login");
+
+  const { idEvento, idServico } = req.params;
+
+  try {
+    const servicoRef = db.collection("usuarios")
+      .doc(req.user.uid)
+      .collection("eventos")
+      .doc(idEvento)
+      .collection("meus_servicos")
+      .doc(idServico);
+
+    const servicoDoc = await servicoRef.get();
+    if (!servicoDoc.exists) return res.status(404).send("Serviço não encontrado");
+
+    const servico = servicoDoc.data();
+
+    res.render("eventos/avaliarServico", {
+      user: req.user,
+      eventoId: idEvento,
+      servicoId: idServico,
+      servico
+    });
+
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Erro interno");
+  }
+};
+
+exports.postAvaliacaoServico = async (req, res) => {
+  if (!req.user) return res.redirect("/login");
+
+  const { idEvento, idServico } = req.params;
+  const { nota, comentario } = req.body;
+
+  try {
+    const servicoRef = db.collection("usuarios")
+      .doc(req.user.uid)
+      .collection("eventos")
+      .doc(idEvento)
+      .collection("meus_servicos")
+      .doc(idServico);
+
+    await servicoRef.update({
+      avaliacao: {
+        nota: Number(nota),
+        comentario,
+        data: new Date()
+      }
+    });
+
+    res.redirect(`/eventos/visualizar/${idEvento}`);
+
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Erro ao salvar avaliação");
+  }
+};
