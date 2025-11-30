@@ -18,17 +18,22 @@
     {{#each eventos}}
       <div class="itemServico">
 
-        <span class="categoriaServico">{{this.icone}}</span>
+        <div style="display: flex; justify-content: space-between; align-items: start;">
+           <span class="categoriaServico">{{this.icone}}</span>
+           <span class="status-badge {{this.statusClasse}}">{{this.statusTexto}}</span>
+        </div>
 
         <h3>{{this.nome}}</h3>
 
         <p class="precoServico">
-          {{this.dataInicio}} às {{this.horarioInicio}}
+           {{this.dataInicio}} às {{this.horarioInicio}}
         </p>
 
         <p>{{this.descricao}}</p>
 
         <div class="botoesServico">
+          <a class="botao botaoConfirmar" href="/eventos/visualizar/{{this.id}}" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Serviços</a>
+          
           <a class="botaoEditar" href="/eventos/editar/{{this.id}}">Editar</a>
           <button class="botaoApagar" onclick="excluirEvento('{{this.id}}')">Excluir</button>
         </div>

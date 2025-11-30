@@ -1335,3 +1335,27 @@ body:has(.container-novo-evento) {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-planejado {
+  background-color: #3498db; 
+}
+
+.status-andamento {
+  background-color: #f1c40f; 
+  color: #333; 
+}
+
+.status-finalizado {
+  background-color: #95a5a6; 
+}

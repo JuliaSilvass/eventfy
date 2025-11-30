@@ -1,18 +1,19 @@
 <div class="app app--perfil">
   <section class="perfil-header">
     <form id="formFoto" action="/perfil/upload-foto" method="POST" enctype="multipart/form-data">
-    <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="this.form.submit()">
-  </form>
+      <input type="file" id="inputFoto" name="fotoPerfil" style="display:none" onchange="this.form.submit()">
+    </form>
 
-  <div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
-    {{#if usuario.photoURL}}
-      <img src="{{usuario.photoURL}}" alt="Foto do usuário" />
-    {{else}}
-      <img src="/assets/default-user.png" alt="Foto padrão" />
-    {{/if}}
-    <div class="editar-texto">Clique para editar</div>
-  </div>
-<div class="info-usuario">
+    <div class="foto-perfil" onclick="document.getElementById('inputFoto').click()">
+      {{#if usuario.photoURL}}
+        <img src="{{usuario.photoURL}}" alt="Foto do usuário" />
+      {{else}}
+        <img src="/assets/default-user.png" alt="Foto padrão" />
+      {{/if}}
+      <div class="editar-texto">Clique para editar</div>
+    </div>
+
+    <div class="info-usuario">
       <h3>{{#if usuario.nome}}{{usuario.nome}}{{else}}Usuário{{/if}}</h3>
     </div>
 
@@ -46,18 +47,16 @@
                 class="btn btn-favorito {{#if isFavorito}}botaoCancelar{{else}}botaoConfirmar{{/if}}"
                 data-id="{{usuario.id}}"
                 data-nome="{{usuario.nome}}"
-                style="padding: 8px 12px;"
-              >
+                style="padding: 8px 12px;">
                 {{#if isFavorito}}
                   ⭐ Remover Favorito
                 {{else}}
                   ⭐ Adicionar Favorito
                 {{/if}}
-              </button>
+            </button>
           </div>
         {{/unless}}
       {{/if}}
-
     </div>
   </section>
 
@@ -91,7 +90,6 @@
           {{#each servicos}}
             {{#if ../isOwner}}
               <a href="/servicos/editar/{{this.id}}" class="card card-evento">
-                  {{!-- Foto da empresa (primeira imagem se existir) --}}
                 {{#if this.imagens}}
                   {{#if this.imagens.[0]}}
                     <img src="{{this.imagens.[0]}}" class="card-empresa-foto" alt="Imagem da empresa">
@@ -105,7 +103,6 @@
               </a>
             {{else}}
               <a href="/servicos/{{this.id}}" class="card card-evento">
-                {{!-- Foto da empresa (primeira imagem se existir) --}}
                 {{#if this.imagens}}
                   {{#if this.imagens.[0]}}
                     <img src="{{this.imagens.[0]}}" class="card-empresa-foto" alt="Imagem da empresa">
@@ -145,7 +142,7 @@
             </a>
           {{/each}}
         {{else}}
-           <div class="semServicos" style="padding: 1rem; min-height: 100px;">
+          <div class="semServicos" style="padding: 1rem; min-height: 100px;">
             <p>Nenhuma foto de portfólio cadastrada.</p>
           </div>
         {{/if}}

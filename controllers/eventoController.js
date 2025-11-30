@@ -248,7 +248,6 @@ exports.visualizarEvento = async (req, res) => {
       return { 
         id: doc.id, 
         ...data,
-        // Adiciona o label bonito da categoria
         categoriaLabel: MAPA_CATEGORIAS[data.categoria] || "Serviço"
       };
     });
@@ -270,9 +269,38 @@ exports.listarEventos = async (req, res) => {
   if (!req.user) return res.redirect("/login");
   try {
     const snapshot = await db.collection("usuarios").doc(req.user.uid).collection("eventos").get();
-    const eventos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    const agora = new Date();
+
+    const eventos = snapshot.docs.map(doc => {
+      const data = doc.data();
+      const id = doc.id;
+
+      const dataInicioObj = new Date(`${data.dataInicio}T${data.horarioInicio}`);
+      const dataFimObj = new Date(`${data.dataFim}T${data.horarioFim}`);
+
+      let statusTexto = "Planejado";
+      let statusClasse = "status-planejado";
+
+      if (agora > dataFimObj) {
+        statusTexto = "Finalizado";
+        statusClasse = "status-finalizado";
+      } else if (agora >= dataInicioObj && agora <= dataFimObj) {
+        statusTexto = "Em andamento";
+        statusClasse = "status-andamento";
+      }
+
+      return { 
+        id, 
+        ...data,
+        statusTexto,
+        statusClasse 
+      };
+    });
+
     res.render("eventos/listarEventos", { user: req.user, eventos });
   } catch (error) {
+    console.error(error);
     res.status(500).send("Erro");
   }
 };
