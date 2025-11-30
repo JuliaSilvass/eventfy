@@ -1,0 +1,13 @@
+{{#if notificacoes.length}}
+  {{#each notificacoes}}
+    <div class="notification-item {{#unless this.lida}}unread{{/unless}}" onclick="marcarLida('{{this.id}}', this)">
+      <div style="margin-bottom: 4px;">
+        <span class="notification-date">{{this.dataFormatada}}</span>
+        <span class="notification-title">{{#if this.titulo}}{{this.titulo}}{{else}}Nova Notificação{{/if}}</span>
+      </div>
+      <div class="notification-message">{{this.mensagem}}</div>
+    </div>
+  {{/each}}
+{{else}}
+  <div class="notification-empty">Nenhuma notificação nova.</div>
+{{/if}}
