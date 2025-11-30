@@ -25,4 +25,19 @@ document.addEventListener("DOMContentLoaded", () => {
       item => item.querySelector(".nomeEmpresa").innerText
     );
   }
+
+  if (document.querySelector("#campoBuscaServicos")) {
+    aplicarBuscaGenerica(
+      "#campoBuscaServicos",
+      ".itemServico",
+      item => item.querySelector("h3").innerText
+    );
+  }
+  if (document.querySelector("#campoBuscaEventos")) {
+    aplicarBuscaGenerica(
+      "#campoBuscaEventos",
+      ".itemServico",
+      item => item.querySelector("h3").innerText
+    );
+  }
 });

@@ -6,15 +6,24 @@
 
   <h2 class="tituloUsuario">Eventos criados por <strong>{{user.nome}}</strong></h2>
 
+  {{!-- INÍCIO: Barra de Busca Nova --}}
+  <input 
+    type="text" 
+    id="campoBuscaEventos"
+    placeholder="Buscar evento..." 
+    class="inputBusca"
+    autocomplete="off"
+    style="margin-bottom: 2rem;" 
+  />
+  {{!-- FIM: Barra de Busca Nova --}}
+
   <div class="listaServicos">
     {{#each eventos}}
       <div class="itemServico">
 
         <span class="categoriaServico">{{this.icone}}</span>
 
-        <h3>
-          {{this.nome}}
-        </h3>
+        <h3>{{this.nome}}</h3>
 
         <p class="precoServico">
           {{this.dataInicio}} às {{this.horarioInicio}}
@@ -40,10 +49,10 @@
   </div>
 </div>
 
+{{!-- Script existente para excluir evento --}}
 <script>
 async function excluirEvento(id) {
   if (!confirm("Tem certeza que deseja excluir este evento?")) return;
-
   const res = await fetch(`/eventos/excluir/${id}`, { method: "DELETE" });
 
   if (res.ok) {
@@ -54,3 +63,5 @@ async function excluirEvento(id) {
   }
 }
 </script>
+
+<script src="/js/busca.js"></script>

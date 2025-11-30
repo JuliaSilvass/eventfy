@@ -4,10 +4,17 @@
     <p class="headerText tituloPagina">Serviços</p>
   </div>
 
+  <input 
+    type="text" 
+    id="campoBuscaServicos"
+    placeholder="Buscar serviço..." 
+    class="inputBusca"
+    autocomplete="off"
+    style="margin-bottom: 2rem;" 
+  />
+
 {{#each servicos}}
   <div class="itemServico">
-
-    {{!-- FOTO (opcional) --}}
     {{#if this.imagens}}
       {{#if this.imagens.[0]}}
         <img src="{{this.imagens.[0]}}" class="imgServicoLista" alt="Imagem do serviço">
@@ -23,7 +30,6 @@
     <p class="precoServico">R$ {{this.preco}}</p>
     <p>{{this.descricao}}</p>
 
-    {{!-- DISPONIBILIDADE --}}
     {{#if this.disponibilidade}}
       <div class="servicoDisponibilidade">
         <strong>Disponibilidade:</strong>
@@ -40,7 +46,6 @@
       </div>
     {{/if}}
 
-    {{!-- INFO DO FORNECEDOR PARA ORGANIZADOR --}}
     {{#if (eq ../user.tipo "organizador")}}
       <div class="fornecedorInfo">
         <p><strong>Fornecedor:</strong> {{this.fornecedorNome}}</p>
@@ -48,7 +53,6 @@
       </div>
     {{/if}}
 
-    {{!-- BOTÕES SOMENTE PARA FORNECEDOR --}}
     {{#if (eq ../user.tipo "fornecedor")}}
       <div class="botoesServico">
         <button class="botaoEditar" onclick="editarServico('{{this.id}}')">Editar</button>
@@ -59,7 +63,6 @@
   </div>
 {{else}}
 
-{{!-- CASO NÃO HAJA SERVIÇOS --}}
 {{#if (eq user.tipo "fornecedor")}}
   <div class="semServicos semServicos--fornecedor">
     <h3>Você não tem nenhum serviço cadastrado.</h3>
@@ -72,6 +75,7 @@
   </div>
 {{/if}}
 
-
 {{/each}}
 </div>
+
+<script src="/js/busca.js"></script>
