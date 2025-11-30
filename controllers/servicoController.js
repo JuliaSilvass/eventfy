@@ -9,7 +9,7 @@ exports.getServicoForm = async (req, res) => {
     if (!userDoc.exists) return res.status(404).send('Usuário não encontrado.');
     const userData = userDoc.data();
     const user = { ...req.user, tipo: userData.tipo };
-    res.render('servicos/cadastrarServico', { user }); // nome do arquivo .hbs no singular
+    res.render('servicos/cadastrarServico', { user }); 
   } catch (error) {
     console.error('Erro ao buscar dados do usuário:', error);
     res.redirect('/dashboard');
@@ -69,7 +69,7 @@ exports.listarServicos = async (req, res) => {
         .where('prestadorID', '==', user.uid)
         .get();
 
-      // ✅ Se não tem nenhum serviço, manda direto para cadastrar
+      // Se não tem nenhum serviço, manda direto para cadastrar
       if (servicosSnapshot.empty && user.tipo === 'fornecedor') {
         return res.render('servicos/listarServicos', { user, servicos: [], ctaCadastrar: true });
       }
@@ -164,7 +164,7 @@ exports.getEditarServico = async (req, res) => {
 
     const servico = { id: doc.id, ...doc.data() };
 
-        console.log("Serviço carregado:", servico); // 👈 debug pra ver no terminal
+        console.log("Serviço carregado:", servico);
 
     if (servico.prestadorID !== req.user.uid) {
       return res.status(403).send("Acesso negado");

@@ -81,6 +81,7 @@ exports.createNovoEvento = async (req, res) => {
       descricao: descricaoLimpa,
       criadoEm: new Date(),
       userId: req.user.uid,
+      status: "planejado",
     };
 
     const docRef = await db.collection("usuarios").doc(req.user.uid).collection("eventos").add(eventoData);
@@ -268,9 +269,14 @@ exports.visualizarEvento = async (req, res) => {
 exports.listarEventos = async (req, res) => {
   if (!req.user) return res.redirect("/login");
   try {
-    const snapshot = await db.collection("usuarios").doc(req.user.uid).collection("eventos").get();
+    const snapshot = await db
+      .collection("usuarios")
+      .doc(req.user.uid)
+      .collection("eventos")
+      .get();
     
     const agora = new Date();
+    const batch = db.batch(); 
 
     const eventos = snapshot.docs.map(doc => {
       const data = doc.data();
@@ -279,24 +285,37 @@ exports.listarEventos = async (req, res) => {
       const dataInicioObj = new Date(`${data.dataInicio}T${data.horarioInicio}`);
       const dataFimObj = new Date(`${data.dataFim}T${data.horarioFim}`);
 
+      // valores padrão
+      let status = "planejado";
       let statusTexto = "Planejado";
       let statusClasse = "status-planejado";
 
       if (agora > dataFimObj) {
+        status = "finalizado";
         statusTexto = "Finalizado";
         statusClasse = "status-finalizado";
       } else if (agora >= dataInicioObj && agora <= dataFimObj) {
+        status = "andamento";
         statusTexto = "Em andamento";
         statusClasse = "status-andamento";
+      }
+
+      // Se o status no banco for diferente, atualiza
+      if (data.status !== status) {
+        batch.update(doc.ref, { status }); 
       }
 
       return { 
         id, 
         ...data,
+        status,        
         statusTexto,
         statusClasse 
       };
     });
+
+    // Efetiva as atualizações de status no banco
+    await batch.commit(); 
 
     res.render("eventos/listarEventos", { user: req.user, eventos });
   } catch (error) {
@@ -304,6 +323,8 @@ exports.listarEventos = async (req, res) => {
     res.status(500).send("Erro");
   }
 };
+
+
 
 exports.getEditarEvento = async (req, res) => {
   if (!req.user) return res.redirect("/login");
@@ -329,3 +350,4 @@ exports.excluirEvento = async (req, res) => {
   await db.collection("usuarios").doc(req.user.uid).collection("eventos").doc(req.params.id).delete();
   res.status(200).send("OK");
 };
+

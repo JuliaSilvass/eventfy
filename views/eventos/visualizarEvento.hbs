@@ -8,19 +8,28 @@
   </section>
 
   <section class="servicos-visualizacao">
-    
-    <div class="servico-card">
-      <div class="servico-esquerda">
-        <a href="/eventos/{{evento.id}}/adicionar-servicos" class="servico-link">
-          <div class="servico-img" title="Adicionar novos serviços">+</div>
-        </a>
-        <div class="servico-info">
-          <h2>Adicionar Serviço</h2>
-          <p>Clique no + para buscar mais opções</p>
+
+    {{!-- ================================
+         BOTÃO ADICIONAR SERVIÇO
+         aparece somente se status = planejado
+       ================================= --}}
+    {{#if (eq evento.status "planejado")}}
+      <div class="servico-card">
+        <div class="servico-esquerda">
+          <a href="/eventos/{{evento.id}}/adicionar-servicos" class="servico-link">
+            <div class="servico-img" title="Adicionar novos serviços">+</div>
+          </a>
+          <div class="servico-info">
+            <h2>Adicionar Serviço</h2>
+            <p>Clique no + para buscar mais opções</p>
+          </div>
         </div>
       </div>
-    </div>
+    {{/if}}
 
+    {{!-- =================================
+         LISTA DOS SERVIÇOS DO EVENTO
+       ================================= --}}
     {{#each servicos}}
       <div class="servico-card">
         <div class="servico-esquerda">
@@ -31,16 +40,28 @@
               <span style="font-size:12px; color:#555;">Sem foto</span>
             {{/if}}
           </div>
+
           <div class="servico-info">
             <span class="categoria-badge">{{this.categoriaLabel}}</span>
-            
             <h2>{{this.nome}}</h2>
             <p>{{this.descricao}}</p>
           </div>
         </div>
+
         <div class="servico-direita">
           <span>R$ {{this.preco}}</span>
-          <button class="delete-btn" title="Remover (Não implementado)">🗑️</button>
+
+          {{!-- ===================================
+               BOTÃO REMOVER
+               aparece somente se:
+                - planejado  → pode remover
+                - finalizado → você disse que pode remover
+                - andamento  → NÃO aparece
+             =================================== --}}
+          {{#unless (eq ../evento.status "andamento")}}
+            <button class="delete-btn" title="Remover (Não implementado)">🗑️</button>
+          {{/unless}}
+
         </div>
       </div>
     {{/each}}

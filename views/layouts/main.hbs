@@ -71,6 +71,11 @@
       padding: 20px;
       margin-left: 240px; /* compensa a sidebar fixa */
     }
+    .sidebar-header a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
   </style>
 </head>
 
@@ -78,11 +83,13 @@
 <body>
   <div class="sidebar">
     <div class="sidebar-header">
-      <img src="/assets/logo.png" alt="Logo Eventfy">
-      <h2>Eventfy</h2>
+      <a href="/">
+        <img src="/assets/logo.png" alt="Logo Eventfy">
+        <h2> Eventfy</h2>
+      </a>
     </div>
-
-    <a href="/">🏠 Home</a>
+  
+    <a href="/dashboard">🏠 Home</a>
 
 
     {{#if (eq user.tipo "fornecedor")}}
