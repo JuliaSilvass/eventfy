@@ -80,46 +80,86 @@ exports.getPerfilOrganizador = async (req, res) => {
   try {
     const uid = req.user.uid;
 
-    const eventosSnapshot = await db
-      .collection("usuarios")
-      .doc(uid)
-      .collection("eventos")
-      .get();
+    const userRef = db.collection("usuarios").doc(uid);
+
+    // ==============================
+    // BUSCA EVENTOS
+    // ==============================
+    const eventosSnapshot = await userRef.collection("eventos").get();
+
     const eventos = eventosSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
 
-    const favoritosSnapshot = await db
-      .collection("usuarios")
-      .doc(uid)
+    // QUANTIDADE DE EVENTOS FINALIZADOS
+    let eventosFinalizados = 0;
+
+    for (const evt of eventos) {
+      if (evt.status === "finalizado") {
+        eventosFinalizados++;
+      }
+    }
+
+    // ==============================
+    // CONTAR AVALIAÇÕES FEITAS
+    // ==============================
+    let totalAvaliacoesFeitas = 0;
+
+    for (const evt of eventos) {
+      const servicosSnap = await userRef
+        .collection("eventos")
+        .doc(evt.id)
+        .collection("meus_servicos")
+        .get();
+
+      servicosSnap.forEach((servico) => {
+        const s = servico.data();
+        if (s.avaliacao) totalAvaliacoesFeitas++;
+      });
+    }
+
+    // ==============================
+    // FAVORITOS (DEIXEI COMO ESTAVA)
+    // ==============================
+    const favoritosSnapshot = await userRef
       .collection("favoritos")
       .orderBy("adicionadoEm", "desc")
       .get();
+
     const favoritos = favoritosSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
 
+    // ==============================
+    // RENDERIZA
+    // ==============================
     res.render("perfis/perfilOrganizador", {
       usuario: req.user,
       eventos,
-      favoritos: favoritos, 
+      favoritos,
+      eventosRealizados: eventosFinalizados,
+      avaliacaoOrganizador: totalAvaliacoesFeitas,
       isOwner: true,
       visitante: req.user
     });
+
   } catch (err) {
     console.error("Erro ao carregar dados do organizador:", err);
     res.render("perfis/perfilOrganizador", {
       usuario: req.user,
       eventos: [],
       favoritos: [],
+      eventosRealizados: 0,
+      avaliacaoOrganizador: 0,
       erro: "Erro ao carregar dados",
       isOwner: true,
       visitante: req.user
     });
   }
 };
+
 
 exports.getPerfilFornecedor = async (req, res) => {
   try {

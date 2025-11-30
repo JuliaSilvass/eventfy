@@ -1421,3 +1421,25 @@ body:has(.container-novo-evento) {
 .btn-excluir:hover {
   background: #c0392b;
 }
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 10px;
+}
+
+.stats div {
+  width: 150px; /* força mesma largura */
+  text-align: center; 
+}
+
+.stats div p:first-child {
+  white-space: nowrap; /* evita quebra feia */
+}
+
+.stats div p:last-child {
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 18px;
+}

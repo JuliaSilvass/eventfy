@@ -17,14 +17,15 @@
     </div>
 
     <div class="perfil-meta-container">
-      <div class="stats">
-        <div>
-          <p><strong>Avaliação</strong></p>
-          <p>{{#if usuario.avaliacao}}{{usuario.avaliacao}}{{else}}—{{/if}}</p>
+      <div class="stats" style="display:flex; gap:40px;">
+        <div style="width:150px;">
+          <p><strong>Avaliações feitas</strong></p>
+          <p style="text-align:center; font-weight:bold; font-size:18px;">{{avaliacaoOrganizador}}</p>
         </div>
-        <div>
+
+        <div style="width:150px;">
           <p><strong>Eventos Realizados</strong></p>
-          <p>{{#if usuario.eventosRealizados}}{{usuario.eventosRealizados}}{{else}}—{{/if}}</p>
+          <p style="text-align:center; font-weight:bold; font-size:18px;">{{eventosRealizados}}</p>
         </div>
       </div>
 
