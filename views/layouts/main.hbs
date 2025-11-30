@@ -92,20 +92,9 @@
     <a href="/dashboard">🏠 Home</a>
 
 
-    {{#if (eq usuario.tipo "fornecedor")}}
-      <a href="/servicos">🛠 Meus Serviços</a>
-    {{else if (eq user.tipo "fornecedor")}}
-      <a href="/servicos">🛠 Meus Serviços</a>
-    {{/if}}
-
-
-
-
    {{#if (eq usuario.tipo "organizador")}}
-  <a href="/eventos">🎉 Eventos</a>
-{{else if (eq user.tipo "organizador")}}
-  <a href="/eventos">🎉 Eventos</a>
-{{/if}}
+    <a href="/eventos">🎉 Eventos</a>
+  {{/if}}
 
 
     <a href="/perfil">👤 Perfil</a>
