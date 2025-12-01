@@ -353,13 +353,54 @@ exports.getFornecedorPublico = async (req, res) => {
       isFavorito = favoritoDoc.exists;
     }
 
+    // ============================
+    // ➤ CÁLCULOS QUE ESTAVAM FALTANDO
+    // ============================
+    let totalAvaliacoes = 0;
+    let eventosFinalizadosUsados = new Set();
+
+    const usuariosSnapshot = await db.collection("usuarios").get();
+
+    for (const usuarioDoc of usuariosSnapshot.docs) {
+      const eventosSnapshot = await usuarioDoc.ref.collection("eventos").get();
+
+      for (const eventoDoc of eventosSnapshot.docs) {
+        const evento = eventoDoc.data();
+
+        const fimEvento = new Date(`${evento.dataFim}T${evento.horarioFim}`);
+        const finalizado = new Date() > fimEvento;
+
+        const servicosUsados = await eventoDoc.ref.collection("meus_servicos").get();
+
+        for (const serv of servicosUsados.docs) {
+          const s = serv.data();
+
+          if (s.prestadorID === fornecedorId) {
+
+            if (finalizado) {
+              eventosFinalizadosUsados.add(eventoDoc.id);
+            }
+
+            if (s.avaliacao) {
+              totalAvaliacoes++;
+            }
+          }
+        }
+      }
+    }
+    // ============================
+
     res.render("perfis/perfilFornecedor", {
       usuario: fornecedorData, 
-      servicos: servicos,
+      servicos,
       fotos: fotosPortfolio,
       isOwner: isOwner,
       visitante: req.user,
-      isFavorito: isFavorito
+      isFavorito: isFavorito,
+
+      // ➤ agora funciona para visitantes também
+      servicosPrestados: eventosFinalizadosUsados.size,
+      avaliacaoFornecedor: totalAvaliacoes
     });
 
   } catch (err) {
@@ -367,6 +408,7 @@ exports.getFornecedorPublico = async (req, res) => {
     res.status(500).send("Erro ao carregar página.");
   }
 };
+
 
 
 exports.getAvaliacoesFornecedor = async (req, res) => {
