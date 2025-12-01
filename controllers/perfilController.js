@@ -212,7 +212,7 @@ exports.getPerfilFornecedor = async (req, res) => {
     }
 
     res.render("perfis/perfilFornecedor", {
-      usuario: req.user,
+      usuario: { id: uid, ...req.user },   
       servicos,
       fotos: [],
       isOwner: true,
@@ -220,6 +220,7 @@ exports.getPerfilFornecedor = async (req, res) => {
       servicosPrestados: eventosFinalizadosUsados.size,
       avaliacaoFornecedor: totalAvaliacoes
     });
+
 
   } catch (err) {
     console.error("Erro ao carregar perfil fornecedor:", err);
