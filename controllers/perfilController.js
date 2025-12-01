@@ -165,38 +165,77 @@ exports.getPerfilFornecedor = async (req, res) => {
   try {
     const uid = req.user.uid;
 
-    const servicosSnapshot = await db.collection('servicos')
-      .where('prestadorID', '==', uid)
-      .orderBy('criadoEm', 'desc')
+    // Buscar serviços criados pelo fornecedor
+    const servicosSnapshot = await db.collection("servicos")
+      .where("prestadorID", "==", uid)
       .get();
 
     const servicos = servicosSnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
-    
-    const fotosPortfolio = []; 
+
+    // ====== CONTAR SERVIÇOS PRESTADOS E AVALIAÇÕES ======
+    let totalAvaliacoes = 0;
+    let eventosFinalizadosUsados = new Set();
+
+    // Buscar todos usuários
+    const usuariosSnapshot = await db.collection("usuarios").get();
+
+    for (const usuarioDoc of usuariosSnapshot.docs) {
+      const eventosSnapshot = await usuarioDoc.ref.collection("eventos").get();
+
+      for (const eventoDoc of eventosSnapshot.docs) {
+        const evento = eventoDoc.data();
+
+        const fimEvento = new Date(`${evento.dataFim}T${evento.horarioFim}`);
+        const finalizado = new Date() > fimEvento;
+
+        const servicosUsados = await eventoDoc.ref.collection("meus_servicos").get();
+
+        for (const serv of servicosUsados.docs) {
+          const s = serv.data();
+
+          // Se este serviço pertence ao fornecedor
+          if (s.prestadorID === uid) {
+
+            if (finalizado) {
+              eventosFinalizadosUsados.add(eventoDoc.id);
+            }
+
+            if (s.avaliacao) {
+              totalAvaliacoes++;
+            }
+          }
+        }
+      }
+    }
 
     res.render("perfis/perfilFornecedor", {
-      usuario: req.user, 
-      servicos: servicos,
-      fotos: fotosPortfolio,
+      usuario: req.user,
+      servicos,
+      fotos: [],
       isOwner: true,
-      visitante: req.user
+      visitante: req.user,
+      servicosPrestados: eventosFinalizadosUsados.size,
+      avaliacaoFornecedor: totalAvaliacoes
     });
 
   } catch (err) {
-    console.error("Erro ao carregar perfil do fornecedor:", err);
+    console.error("Erro ao carregar perfil fornecedor:", err);
     res.render("perfis/perfilFornecedor", {
       usuario: req.user,
       servicos: [],
       fotos: [],
-      erro: "Erro ao carregar dados do perfil",
       isOwner: true,
-      visitante: req.user
+      visitante: req.user,
+      servicosPrestados: 0,
+      avaliacaoFornecedor: 0,
+      erro: "Erro ao carregar dados"
     });
   }
 };
+
 
 
 exports.getEditarPerfilForm = async (req, res) => {
@@ -326,5 +365,57 @@ exports.getFornecedorPublico = async (req, res) => {
   } catch (err) {
     console.error("Erro ao carregar perfil público do fornecedor:", err);
     res.status(500).send("Erro ao carregar página.");
+  }
+};
+
+
+exports.getAvaliacoesFornecedor = async (req, res) => {
+  try {
+    const fornecedorId = req.params.id;
+
+    // VERIFICA SE O FORNECEDOR EXISTE
+    const fornecedorDoc = await db.collection("usuarios").doc(fornecedorId).get();
+    if (!fornecedorDoc.exists || fornecedorDoc.data().tipo !== "fornecedor") {
+      return res.status(404).send("Fornecedor não encontrado");
+    }
+
+    const fornecedor = { id: fornecedorDoc.id, ...fornecedorDoc.data() };
+
+    let avaliacoes = [];
+
+    // BUSCA EM TODOS OS USUÁRIOS -> EVENTOS -> MEUS_SERVICOS
+    const usuariosSnap = await db.collection("usuarios").get();
+
+    for (const user of usuariosSnap.docs) {
+      const eventosSnap = await user.ref.collection("eventos").get();
+
+      for (const evento of eventosSnap.docs) {
+        const servicosSnap = await evento.ref.collection("meus_servicos").get();
+
+        servicosSnap.forEach(serv => {
+          const s = serv.data();
+
+          if (s.prestadorID === fornecedorId && s.avaliacao) {
+            avaliacoes.push({
+              nota: s.avaliacao.nota,
+              comentario: s.avaliacao.comentario,
+              data: s.avaliacao.data.toDate().toLocaleString("pt-BR"),
+              servico: s.nome,
+              organizador: user.data().nome || "Organizador"
+            });
+          }
+        });
+      }
+    }
+
+    res.render("perfis/avaliacoesFornecedor", {
+      fornecedor,
+      avaliacoes,
+      visitante: req.user
+    });
+
+  } catch (err) {
+    console.error("Erro ao listar avaliações:", err);
+    res.status(500).send("Erro interno");
   }
 };

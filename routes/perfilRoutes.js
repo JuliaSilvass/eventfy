@@ -13,4 +13,8 @@ router.post(
   perfilController.uploadMiddleware,
   perfilController.uploadFotoPerfil
 );
+
+router.get("/fornecedor/:id/avaliacoes", perfilController.getAvaliacoesFornecedor);
+
+
 module.exports = router;

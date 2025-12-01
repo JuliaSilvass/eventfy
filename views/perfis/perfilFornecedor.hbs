@@ -23,11 +23,11 @@
       <div class="stats">
         <div>
           <p><strong>Avaliação</strong></p>
-          <p>{{#if usuario.avaliacao}}{{usuario.avaliacao}}{{else}}—{{/if}}</p>
+          <p>{{avaliacaoFornecedor}}</p>
         </div>
         <div>
           <p><strong>Serviços Prestados</strong></p>
-          <p>{{#if usuario.servicosPrestados}}{{usuario.servicosPrestados}}{{else}}—{{/if}}</p>
+          <p>{{servicosPrestados}}</p>
         </div>
         <div>
           <p><strong>Favoritos</strong></p>
@@ -37,6 +37,7 @@
 
       {{#if isOwner}}
         <div class="perfil-editar-btn-container">
+          <a href="/perfil/fornecedor/{{usuario.id}}/avaliacoes" class="btn btn-editar-perfil">Ver Avaliações</a>
           <a href="/perfil/editar" class="btn btn-editar-perfil">Editar Perfil</a>
         </div>
       {{/if}}

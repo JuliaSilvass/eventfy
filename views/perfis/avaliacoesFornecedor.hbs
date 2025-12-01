@@ -1,0 +1,23 @@
+<div class="avaliacoes-container">
+
+  <h2>Avaliações de {{fornecedor.nome}}</h2>
+
+  <a href="/fornecedor/{{fornecedor.id}}" class="btn" style="margin-bottom: 20px;">
+    ← Voltar ao perfil
+  </a>
+
+  {{#if avaliacoes.length}}
+    {{#each avaliacoes}}
+      <div class="avaliacao-card">
+        <h3>{{this.servico}}</h3>
+        <p><strong>Nota:</strong> {{this.nota}} ⭐</p>
+        <p><strong>Comentário:</strong> {{this.comentario}}</p>
+        <p><strong>Organizador:</strong> {{this.organizador}}</p>
+        <p class="data">{{this.data}}</p>
+      </div>
+    {{/each}}
+  {{else}}
+    <p>Nenhuma avaliação ainda.</p>
+  {{/if}}
+
+</div>
